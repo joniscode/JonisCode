@@ -8,8 +8,8 @@ import ScrollScenes from '@/components/ScrollScenes'
 import ExperienceSection from '@/components/ExperienceSection'
 import { EXPERIENCES } from '@/data/experience'
 
-const stacksGrid = ['css','javascript','sass','angular','react','vue']
-const ringItems  = [...stacksGrid, 'typescript','html','github']
+const stacksGrid: string[] = ['css','javascript','sass','angular','react','vue']
+const ringItems: string[]  = [...stacksGrid, 'typescript','html','github']
 
 export default function Home() {
   return (
@@ -17,7 +17,7 @@ export default function Home() {
       <ConstellationBackground />
       <ScrollScenes />
 
-      {/* SECTION 1 (ABOUT) con título y timeline fijos */}
+      {/* SECTION 1 (ABOUT) */}
       <ExperienceSection items={EXPERIENCES} />
 
       <SectionDivider duration={5200} />
@@ -29,7 +29,7 @@ export default function Home() {
             <span className="text-gradient-gpt">¡Tecnologias!</span> 🖥️
           </h1>
           <p className="hero-paragraph text-lg opacity-80">
-            Pincha en una card y descubre proyectos de estudio según tecnologías…
+            Pincha en una card's y descubre proyectos de estudio, segun tecnologias…
           </p>
         </header>
 
@@ -50,6 +50,8 @@ export default function Home() {
           <TechRing items={ringItems} />
         </div>
       </section>
+
+      
     </main>
   )
 }
