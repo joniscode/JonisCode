@@ -29,6 +29,7 @@ export default function ScrollScenes() {
           end: () => `+=${window.innerWidth * (slides.length - 1)}`,
           scrub: 1,
           pin: true,
+          pinSpacing: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,
           snap: {

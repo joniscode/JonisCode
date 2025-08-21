@@ -9,7 +9,7 @@ import ExperienceSection from '@/components/ExperienceSection'
 import { EXPERIENCES } from '@/data/experience'
 
 const stacksGrid = ['css','javascript','sass','angular','react','vue']
-const ringItems  = [...stacksGrid, 'typescript','html','github']
+const ringItems  = [...stacksGrid, 'typescript','html','github','postman','magento','liferay','mysql','tailwind','vite']
 
 export default function Home() {
   return (
@@ -23,7 +23,7 @@ export default function Home() {
       <SectionDivider duration={5200} />
 
       {/* SECTION 2 (Tecnologías) */}
-      <section id="hero" className="relative z-10 container mx-auto px-4 py-20">
+      <section id="hero" className="relative z-10 min-h-[100svh] grid place-items-center overflow-hidden">
         <header className="space-y-4 max-w-3xl will-change-transform">
           <h1 className="hero-title text-4xl font-bold">
             <span className="text-gradient-gpt">¡Tecnologias!</span> 🖥️
@@ -45,7 +45,7 @@ export default function Home() {
       <SectionDivider duration={5200} delay={2500} />
 
       {/* SECTION 3 (RING) */}
-      <section id="tech-ring" className="relative z-10 py-24">
+      <section id="tech-ring" className="relative z-10 min-h-[100svh] py-24">
         <div className="ring-wrap container mx-auto px-4">
           <TechRing items={ringItems} />
         </div>

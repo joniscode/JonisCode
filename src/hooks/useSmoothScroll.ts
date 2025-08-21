@@ -11,7 +11,7 @@ export function useSmoothScroll() {
       duration: 1.1,
       easing: (t: number) => 1 - Math.pow(1 - t, 3),
       smoothWheel: true,
-      smoothTouch: false,
+      smoothTouch: true,
     })
     lenis.on('scroll', ScrollTrigger.update)
     const raf = (t: number) => { lenis.raf(t * 1000); requestAnimationFrame(raf) }

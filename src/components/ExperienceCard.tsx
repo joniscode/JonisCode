@@ -14,14 +14,19 @@ type Props = {
   linkLabel?: string
 }
 
+// Pequeño helper para juntar clases (sustituye a clsx)
+function cn(...classes: Array<string | false | null | undefined>) {
+  return classes.filter(Boolean).join(' ')
+}
+
 export default function ExperienceCard({
   className,
   icon, title, roleLine, companyLine, tags = [],
   description, achievements = [], period, linkHref, linkLabel,
 }: Props) {
   return (
-    <div className={`relative pl-10 ${className ?? ''}`}>
-      {/* línea vertical del ítem */}
+    <div className={cn('relative pl-10', className)}>
+      {/* línea vertical tipo timeline */}
       <div className="absolute left-4 top-0 bottom-0 w-px bg-white/10" />
 
       {/* nodo */}
@@ -34,7 +39,14 @@ export default function ExperienceCard({
       </div>
 
       {/* card */}
-      <article className="rounded-xl border border-white/10 bg-black/30 dark:bg-white/5 backdrop-blur p-6 shadow-xl">
+      <article
+        className="
+          mx-auto max-w-[820px]           /* ← límite de ancho y centrado */
+          rounded-xl border border-white/10
+          bg-black/30 dark:bg-white/5 backdrop-blur
+          p-6 shadow-xl
+        "
+      >
         <h3 className="text-xl font-semibold">{title}</h3>
         <p className="mt-1 opacity-80">{roleLine}</p>
         {companyLine && <p className="mt-3 opacity-80">{companyLine}</p>}
@@ -72,6 +84,5 @@ export default function ExperienceCard({
         )}
       </article>
     </div>
-    
   )
 }

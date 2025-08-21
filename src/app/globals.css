@@ -101,6 +101,7 @@
     color: transparent;
     -webkit-text-fill-color: transparent; /* Safari */
   }
+  .scrollbar-gutter-stable { scrollbar-gutter: stable both-edges; }
 }
 
 .no-scrollbar::-webkit-scrollbar { display: none; }

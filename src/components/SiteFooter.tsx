@@ -1,7 +1,7 @@
 'use client'
 import { usePathname } from 'next/navigation'
 
-const HIDDEN_ON = ['/']; // si tu portada está en /home, agrega '/home' aquí
+const HIDDEN_ON = ['']; // si tu portada está en /home, agrega '/home' aquí
 
 export default function SiteFooter() {
   const pathname = usePathname()
