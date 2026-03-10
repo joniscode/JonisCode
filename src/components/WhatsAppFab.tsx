@@ -4,7 +4,7 @@ import Image from 'next/image'
 import PUBLIC_ENV from '@/config/publicEnv'
 
 const HIDE_ON = ['']                  // ocúltalo solo en portada (ajústalo a tu ruta)
-const WA_ICON = '/icons/whatsapp.png'  // cuidado con mayúsculas/minúsculas
+const WA_ICON = '/icons/WhatsApp.png'
 
 export default function WhatsAppFab() {
   const pathname = usePathname() ?? '/'

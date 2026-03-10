@@ -1,5 +1,5 @@
-// components/TechRing.tsx
 'use client'
+
 import { useEffect, useMemo, useRef, useState } from 'react'
 import TechTile from './TechTile'
 
@@ -11,13 +11,13 @@ type Props = {
   autoSpeed?: number
 }
 
-export default function TechRing({ items, tiltDeg = 14, autoSpeed = 0.12 }: Props) {
+export default function TechRing({ items, tiltDeg = 12, autoSpeed = 0.18 }: Props) {
   const ringRef = useRef<HTMLDivElement | null>(null)
   const frameRef = useRef<number | null>(null)
-  const [angle, setAngle] = useState(0)
-  const velRef = useRef(0)
   const dragRef = useRef<{ dragging: boolean; lastX: number } | null>(null)
-  const [radius, setRadius] = useState(360)
+  const velocityRef = useRef(0)
+  const [angle, setAngle] = useState(0)
+  const [radius, setRadius] = useState(260)
 
   const data = useMemo(
     () =>
@@ -30,57 +30,70 @@ export default function TechRing({ items, tiltDeg = 14, autoSpeed = 0.12 }: Prop
   )
 
   const step = 360 / data.length
+  const lift = Math.round(Math.min(64, radius * 0.22))
 
   useEffect(() => {
-    const calc = () => {
+    const updateRadius = () => {
       const w = window.innerWidth
-      const h = window.innerHeight
-      setRadius(Math.round(Math.max(220, Math.min(Math.min(w, h) * 0.32, 520))))
+      if (w < 640) {
+        setRadius(170)
+      } else if (w < 1024) {
+        setRadius(205)
+      } else {
+        setRadius(260)
+      }
     }
-    calc()
-    window.addEventListener('resize', calc)
-    return () => window.removeEventListener('resize', calc)
+
+    updateRadius()
+    window.addEventListener('resize', updateRadius)
+    return () => window.removeEventListener('resize', updateRadius)
   }, [])
 
   useEffect(() => {
-    let last = performance.now()
-    const friction = 0.95
-    const tick = (t: number) => {
-      const dt = Math.min(32, t - last)
-      last = t
+    const tick = () => {
       if (!dragRef.current?.dragging) {
-        velRef.current *= friction
-        setAngle((a) => a + autoSpeed + velRef.current)
+        velocityRef.current *= 0.96
+        setAngle((value) => value + autoSpeed + velocityRef.current)
       } else {
-        setAngle((a) => a + velRef.current)
+        setAngle((value) => value + velocityRef.current)
       }
+
       frameRef.current = requestAnimationFrame(tick)
     }
+
     frameRef.current = requestAnimationFrame(tick)
-    return () => frameRef.current && cancelAnimationFrame(frameRef.current)
+    return () => {
+      if (frameRef.current) cancelAnimationFrame(frameRef.current)
+    }
   }, [autoSpeed])
 
   useEffect(() => {
     const el = ringRef.current
     if (!el) return
-    const onDown = (e: PointerEvent) => {
-      dragRef.current = { dragging: true, lastX: e.clientX }
-      el.setPointerCapture(e.pointerId)
+
+    const onDown = (event: PointerEvent) => {
+      dragRef.current = { dragging: true, lastX: event.clientX }
+      el.setPointerCapture(event.pointerId)
     }
-    const onMove = (e: PointerEvent) => {
-      const s = dragRef.current
-      if (!s?.dragging) return
-      const dx = e.clientX - s.lastX
-      s.lastX = e.clientX
-      velRef.current = dx * 0.5
+
+    const onMove = (event: PointerEvent) => {
+      const state = dragRef.current
+      if (!state?.dragging) return
+
+      const delta = event.clientX - state.lastX
+      state.lastX = event.clientX
+      velocityRef.current = delta * 0.12
     }
-    const onUp = (e: PointerEvent) => {
-      dragRef.current = { dragging: false, lastX: e.clientX }
+
+    const onUp = (event: PointerEvent) => {
+      dragRef.current = { dragging: false, lastX: event.clientX }
     }
+
     el.addEventListener('pointerdown', onDown)
     el.addEventListener('pointermove', onMove)
     el.addEventListener('pointerup', onUp)
     el.addEventListener('pointercancel', onUp)
+
     return () => {
       el.removeEventListener('pointerdown', onDown)
       el.removeEventListener('pointermove', onMove)
@@ -90,45 +103,46 @@ export default function TechRing({ items, tiltDeg = 14, autoSpeed = 0.12 }: Prop
   }, [])
 
   return (
-    <div className="relative mx-auto w-full max-w-6xl py-16">
-      <div className="text-center mb-10">
-        <h2 className="text-3xl sm:text-4xl font-extrabold">
-          <span className="text-gradient-gpt">¡Technologies &amp; Tools!</span> 🛠️
+    <div className="relative mx-auto w-full max-w-6xl py-06 sm:py-04">
+      <div className="mb-10 text-center sm:mb-12">
+        <h2 className="text-3xl font-extrabold sm:text-4xl">
+          <span className="text-gradient-gpt">Technologies &amp; Tools</span> 🛠️
         </h2>
-        <p className="mt-3 text-base opacity-80">
-          Estas son las tecnologías y herramientas con las que he trabajado para crear aplicaciones web
+        <p className="mx-auto mt-3 max-w-3xl text-sm opacity-80 sm:text-base">
+          Estas son las tecnologias y herramientas con las que he trabajado para crear aplicaciones web
           escalables y de alto rendimiento.
         </p>
       </div>
 
-      <div className="relative mx-auto h-[360px] sm:h-[420px] md:h-[480px] lg:h-[520px] [perspective:1200px]">
-        <div
-          className="pointer-events-none absolute left-1/2 bottom-8 -translate-x-1/2 blur-2xl"
-          style={{
-            width: '60%',
-            height: '80px',
-            background:
-              'radial-gradient(ellipse at center, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0) 70%)',
-          }}
-        />
-        <div
-          ref={ringRef}
-          className="absolute inset-0 mx-auto [transform-style:preserve-3d] will-change-transform select-none"
-          style={{ transform: `rotateX(${tiltDeg}deg) rotateY(${angle}deg)`, transition: 'transform 60ms linear' }}
-        >
-          {data.map((it, i) => {
-            const rotate = i * step
-            return (
+      <div className="relative px-4 py-8 sm:px-6 sm:py-10">
+        <div className="relative mx-auto h-[360px] [perspective:1400px] sm:h-[420px] lg:h-[500px]">
+          <div
+            className="pointer-events-none absolute bottom-6 left-1/2 h-20 w-[58%] -translate-x-1/2 blur-2xl"
+            style={{
+              background:
+                'radial-gradient(ellipse at center, rgba(0,0,0,0.42) 0%, rgba(0,0,0,0) 70%)',
+            }}
+          />
+
+          <div
+            ref={ringRef}
+            className="absolute inset-0 mx-auto select-none [transform-style:preserve-3d] will-change-transform"
+            style={{
+              transform: `translateY(-${lift}px) rotateX(${tiltDeg}deg) rotateY(${angle}deg)`,
+            }}
+          >
+            {data.map((item, index) => (
               <div
-                key={it.slug}
+                key={item.slug}
                 className="absolute left-1/2 top-1/2 [transform-style:preserve-3d]"
-                style={{ transform: `translate(-50%, -50%) rotateY(${rotate}deg) translateZ(${radius}px)` }}
+                style={{
+                  transform: `translate(-50%, -50%) rotateY(${index * step}deg) translateZ(${radius}px)`,
+                }}
               >
-                {/* ⬇️ ahora pasamos slug para el fallback y usamos .png por defecto */}
-                <TechTile label={it.label!} slug={it.slug} icon={it.icon ?? `/icons/${it.slug}.png`} />
+                <TechTile label={item.label!} slug={item.slug} icon={item.icon ?? `/icons/${item.slug}.png`} />
               </div>
-            )
-          })}
+            ))}
+          </div>
         </div>
       </div>
     </div>

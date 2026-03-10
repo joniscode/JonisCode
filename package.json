@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@studio-freight/lenis": "^1.0.42",
-    "clsx": "^2.1.1",
     "framer-motion": "^12.23.12",
     "gsap": "^3.13.0",
     "next": "15.3.5",
@@ -28,5 +27,6 @@
     "postcss": "^8.5.6",
     "tailwindcss": "3.4",
     "typescript": "^5"
-  }
+  },
+  "packageManager": "pnpm@9.11.0+sha512.0a203ffaed5a3f63242cd064c8fb5892366c103e328079318f78062f24ea8c9d50bc6a47aa3567cabefd824d170e78fa2745ed1f16b132e16436146b7688f19b"
 }

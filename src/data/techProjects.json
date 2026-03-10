@@ -1,0 +1,146 @@
+[
+  {
+    "slug": "css",
+    "label": "CSS",
+    "projects": [
+      {
+        "name": "Landing CSS",
+        "image": "/images/cover.jpg",
+        "href": "https://example.com/css-landing"
+      },
+      {
+        "name": "UI Components CSS",
+        "image": "/images/cover.jpg",
+        "href": "https://example.com/css-ui"
+      }
+    ]
+  },
+  {
+    "slug": "javascript",
+    "label": "JavaScript",
+    "projects": [
+      {
+        "name": "Dashboard JavaScript",
+        "image": "/images/cover.jpg",
+        "href": "https://example.com/js-dashboard"
+      },
+      {
+        "name": "Catalogo JavaScript",
+        "image": "/images/cover.jpg",
+        "href": "https://example.com/js-catalogo"
+      }
+    ]
+  },
+  {
+    "slug": "sass",
+    "label": "Sass",
+    "projects": [
+      {
+        "name": "Arquitectura Sass",
+        "image": "/images/cover.jpg",
+        "href": "https://example.com/sass-arquitectura"
+      },
+      {
+        "name": "Tema Sass",
+        "image": "/images/cover.jpg",
+        "href": "https://example.com/sass-tema"
+      }
+    ]
+  },
+  {
+    "slug": "angular",
+    "label": "Angular",
+    "projects": [
+      {
+        "name": "Admin Angular",
+        "image": "/images/cover.jpg",
+        "href": "https://example.com/angular-admin"
+      },
+      {
+        "name": "Reportes Angular",
+        "image": "/images/cover.jpg",
+        "href": "https://example.com/angular-reportes"
+      }
+    ]
+  },
+  {
+    "slug": "react",
+    "label": "React",
+    "projects": [
+      {
+        "name": "Experiencia React",
+        "image": "/images/cover.jpg",
+        "href": "https://example.com/react-experiencia"
+      },
+      {
+        "name": "Dashboard React",
+        "image": "/images/cover.jpg",
+        "href": "https://example.com/react-dashboard"
+      }
+    ]
+  },
+  {
+    "slug": "vue",
+    "label": "Vue",
+    "projects": [
+      {
+        "name": "Micrositio Vue",
+        "image": "/images/cover.jpg",
+        "href": "https://example.com/vue-micrositio"
+      },
+      {
+        "name": "Gestion Vue",
+        "image": "/images/cover.jpg",
+        "href": "https://example.com/vue-gestion"
+      }
+    ]
+  },
+  {
+    "slug": "typescript",
+    "label": "TypeScript",
+    "projects": [
+      {
+        "name": "Base TypeScript",
+        "image": "/images/cover.jpg",
+        "href": "https://example.com/typescript-base"
+      },
+      {
+        "name": "Dominio TypeScript",
+        "image": "/images/cover.jpg",
+        "href": "https://example.com/typescript-dominio"
+      }
+    ]
+  },
+  {
+    "slug": "html",
+    "label": "HTML",
+    "projects": [
+      {
+        "name": "Estructura HTML",
+        "image": "/images/cover.jpg",
+        "href": "https://example.com/html-estructura"
+      },
+      {
+        "name": "Contenido HTML",
+        "image": "/images/cover.jpg",
+        "href": "https://example.com/html-contenido"
+      }
+    ]
+  },
+  {
+    "slug": "github",
+    "label": "GitHub",
+    "projects": [
+      {
+        "name": "Workflow GitHub",
+        "image": "/images/cover.jpg",
+        "href": "https://example.com/github-workflow"
+      },
+      {
+        "name": "Deploy GitHub",
+        "image": "/images/cover.jpg",
+        "href": "https://example.com/github-deploy"
+      }
+    ]
+  }
+]

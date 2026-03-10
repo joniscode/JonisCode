@@ -77,9 +77,10 @@ export default function ConstellationBackground() {
     window.addEventListener('pointermove', onMove, { passive: true })
     window.addEventListener('pointerleave', killMouse)
     window.addEventListener('blur', killMouse)
-    document.addEventListener('visibilitychange', () => {
+    const onVisibilityChange = () => {
       if (document.visibilityState !== 'visible') killMouse()
-    })
+    }
+    document.addEventListener('visibilitychange', onVisibilityChange)
 
     const tick = () => {
       ctx.clearRect(0, 0, w, h)
@@ -222,7 +223,7 @@ export default function ConstellationBackground() {
       window.removeEventListener('pointermove', onMove)
       window.removeEventListener('pointerleave', killMouse)
       window.removeEventListener('blur', killMouse)
-      document.removeEventListener('visibilitychange', killMouse as any)
+      document.removeEventListener('visibilitychange', onVisibilityChange)
     }
   }, [])
 
