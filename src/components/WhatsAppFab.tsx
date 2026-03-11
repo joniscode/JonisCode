@@ -3,18 +3,15 @@ import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 import PUBLIC_ENV from '@/config/publicEnv'
 
-const HIDE_ON = ['']                  // ocúltalo solo en portada (ajústalo a tu ruta)
-const WA_ICON = '/icons/WhatsApp.png'
+const HIDE_ON = ['/']
+const WA_ICON = '/icons/whatsapp.png'
 
 export default function WhatsAppFab() {
   const pathname = usePathname() ?? '/'
   if (HIDE_ON.includes(pathname)) return null
 
   const phone = PUBLIC_ENV.WHATSAPP_PHONE?.replace(/\D/g, '')
-  if (!phone) {
-    console.warn('Falta NEXT_PUBLIC_WHATSAPP en .env.local')
-    return null
-  }
+  if (!phone) return null
 
   const href = `https://wa.me/${phone}?text=${encodeURIComponent(
     PUBLIC_ENV.WHATSAPP_DEFAULT_MSG
@@ -31,7 +28,7 @@ export default function WhatsAppFab() {
                  bg-green-500 text-white shadow-lg shadow-green-500/30
                  hover:scale-105 active:scale-95 transition"
     >
-      <Image src={WA_ICON} alt="WhatsApp" width={28} height={28} priority />
+      <Image src={WA_ICON} alt="WhatsApp" width={28} height={28} />
     </a>
   )
 }
