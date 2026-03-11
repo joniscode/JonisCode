@@ -34,7 +34,7 @@ export default function ExperienceCard({
   return (
     <article
       className={cn(
-        'mx-auto max-w-[820px] rounded-2xl border border-white/10 bg-black/30 p-6 shadow-xl backdrop-blur dark:bg-white/5',
+        'mx-auto flex h-full max-w-[820px] flex-col rounded-2xl border border-white/10 bg-black/30 p-6 shadow-xl backdrop-blur dark:bg-white/5',
         className,
       )}
     >
@@ -79,7 +79,7 @@ export default function ExperienceCard({
       )}
 
       {(period || linkHref) && (
-        <div className="mt-4 flex flex-wrap items-center gap-4 opacity-80">
+        <div className="mt-auto flex flex-wrap items-center gap-4 pt-6 opacity-80">
           {period && <span>{period}</span>}
           {linkHref && (
             <a className="underline hover:opacity-100" href={linkHref} target="_blank" rel="noreferrer">

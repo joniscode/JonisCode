@@ -2,18 +2,22 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
 function CoverScreen({ onEnter }: { onEnter: () => void }) {
   return (
     <div
       className="relative min-h-screen w-full overflow-hidden"
-      style={{
-        backgroundImage: 'url(/images/cover.jpg)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
     >
+      <Image
+        src="/images/cover.jpg"
+        alt="Portada de JonisCode"
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover"
+      />
       <div className="absolute inset-0 bg-black/40" />
 
       <div className="relative z-10 flex min-h-screen items-center justify-center">

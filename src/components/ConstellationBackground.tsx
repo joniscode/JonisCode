@@ -20,17 +20,23 @@ export default function ConstellationBackground() {
     let w = (canvas.width = window.innerWidth)
     let h = (canvas.height = window.innerHeight)
 
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches
+
     // === DENSIDAD AUTOMÁTICA (↓ en móvil para ahorrar) ===
     const isMobile = matchMedia('(max-width: 640px)').matches || (navigator.maxTouchPoints ?? 0) > 0
     const baseDensity = Math.floor((w * h) / 25000)                       // base
-    const density = Math.min(140, Math.max(60, Math.floor(baseDensity * (isMobile ? 0.55 : 1)))) // límites
+    const densityFactor = reducedMotion ? 0.4 : isMobile ? 0.55 : 0.82
+    const densityMin = reducedMotion ? 26 : 42
+    const densityMax = reducedMotion ? 58 : 110
+    const density = Math.min(densityMax, Math.max(densityMin, Math.floor(baseDensity * densityFactor))) // limites
 
     let maxDist = Math.min(w, h) * 0.12      // distancia para líneas entre puntos
-    let influence = Math.min(w, h) * 0.28    // radio de influencia del cursor
+    let influence = Math.min(w, h) * (reducedMotion ? 0.18 : 0.28)    // radio de influencia del cursor
     const sepRadius = 26                      // separación entre puntos
     const sepForce = 0.015
-    const wanderJitter = 0.02                 // “ruido” propio
-    const minSpeed = 0.10, maxSpeed = 0.60
+    const wanderJitter = reducedMotion ? 0.008 : 0.02                 // “ruido” propio
+    const minSpeed = reducedMotion ? 0.05 : 0.10
+    const maxSpeed = reducedMotion ? 0.28 : 0.60
 
     // === VIENTO CON DIRECCIÓN CAMBIANTE ===
     const wind = {
@@ -55,7 +61,7 @@ export default function ConstellationBackground() {
       w = canvas.width = window.innerWidth
       h = canvas.height = window.innerHeight
       maxDist = Math.min(w, h) * 0.12
-      influence = Math.min(w, h) * 0.28
+      influence = Math.min(w, h) * (reducedMotion ? 0.18 : 0.28)
       // Nota: mantenemos el mismo número de puntos en tiempo de vida del componente
       // (si quieres re-amostrar densidad al redimensionar, podemos hacerlo también).
     }

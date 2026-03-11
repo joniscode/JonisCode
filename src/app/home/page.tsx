@@ -1,5 +1,3 @@
-'use client'
-
 import TechCard from '@/components/TechCard'
 import ConstellationBackground from '@/components/ConstellationBackground'
 import TechRing from '@/components/TechRing'

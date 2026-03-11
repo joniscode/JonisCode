@@ -93,11 +93,13 @@ export default function ExperienceSection({ items }: { items: ExperienceItem[] }
           <h2 className="text-4xl font-bold">
             <span className="text-gradient-gpt">Experiencia destacada</span>
           </h2>
-          <p className="text-lg opacity-80">Estudios y experiencia en el sector.</p>
+          <p className="text-lg opacity-80">
+            Desarrollador Front-End con experiencia creando interfaces web escalables y de alto rendimiento en entornos corporativos y e-commerce.
+          </p>
         </header>
 
-        <div className="grid gap-6 lg:grid-cols-[160px,1fr] lg:items-start">
-          <aside className="hidden lg:block lg:sticky lg:top-24">
+        <div className="grid gap-6 xl:grid-cols-[160px,minmax(0,1fr)] xl:items-start">
+          <aside className="hidden xl:block xl:sticky xl:top-24">
             <div className="relative mx-auto flex min-h-[440px] w-24 flex-col items-center justify-between py-4">
               <div className="absolute bottom-0 top-0 w-px bg-white/12" />
 
@@ -122,10 +124,10 @@ export default function ExperienceSection({ items }: { items: ExperienceItem[] }
             </div>
           </aside>
 
-          <div className="rounded-2xl border border-white/10 bg-black/10 backdrop-blur dark:bg-white/5">
+          <div className="min-w-0 overflow-hidden rounded-2xl border border-white/10 bg-black/10 backdrop-blur dark:bg-white/5">
             <div
               ref={trackRef}
-              className="flex gap-6 overflow-x-auto overflow-y-hidden px-3 py-6 pr-5 no-scrollbar snap-x snap-mandatory overscroll-x-contain scroll-smooth touch-pan-x"
+              className="flex items-stretch gap-6 overflow-x-auto overflow-y-hidden px-4 py-6 sm:px-6 lg:px-8 xl:px-10 no-scrollbar snap-x snap-mandatory overscroll-x-contain scroll-smooth touch-pan-x"
             >
               {sorted.map((exp, index) => (
                 <article
@@ -133,9 +135,9 @@ export default function ExperienceSection({ items }: { items: ExperienceItem[] }
                   ref={(node) => {
                     cardRefs.current[index] = node
                   }}
-                  className="w-[88vw] max-w-[920px] shrink-0 snap-center space-y-3"
+                  className="flex w-[calc(100%-1rem)] shrink-0 snap-center flex-col space-y-3 sm:w-[calc(100%-1.5rem)] lg:w-[calc(100%-2rem)] xl:max-w-[920px] 2xl:w-[920px]"
                 >
-                  <div className="flex items-center gap-3 lg:hidden">
+                  <div className="flex items-center gap-3 xl:hidden">
                     <div
                       className={[
                         'grid h-10 w-10 place-items-center rounded-full border text-[10px] font-semibold tracking-[0.12em] transition-all duration-300',
@@ -149,7 +151,7 @@ export default function ExperienceSection({ items }: { items: ExperienceItem[] }
                     <span className="text-sm uppercase tracking-[0.2em] text-white/55">Experiencia</span>
                   </div>
 
-                  <ExperienceCard className="mx-auto" {...exp} />
+                  <ExperienceCard className="mx-auto w-full max-w-none" {...exp} />
                 </article>
               ))}
             </div>

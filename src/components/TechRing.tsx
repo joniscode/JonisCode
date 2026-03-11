@@ -16,7 +16,7 @@ export default function TechRing({ items, tiltDeg = 12, autoSpeed = 0.18 }: Prop
   const frameRef = useRef<number | null>(null)
   const dragRef = useRef<{ dragging: boolean; lastX: number } | null>(null)
   const velocityRef = useRef(0)
-  const [angle, setAngle] = useState(0)
+  const angleRef = useRef(0)
   const [radius, setRadius] = useState(260)
 
   const data = useMemo(
@@ -31,6 +31,13 @@ export default function TechRing({ items, tiltDeg = 12, autoSpeed = 0.18 }: Prop
 
   const step = 360 / data.length
   const lift = Math.round(Math.min(64, radius * 0.22))
+
+  useEffect(() => {
+    const el = ringRef.current
+    if (!el) return
+
+    el.style.transform = `translateY(-${lift}px) rotateX(${tiltDeg}deg) rotateY(${angleRef.current}deg)`
+  }, [lift, tiltDeg])
 
   useEffect(() => {
     const updateRadius = () => {
@@ -50,12 +57,24 @@ export default function TechRing({ items, tiltDeg = 12, autoSpeed = 0.18 }: Prop
   }, [])
 
   useEffect(() => {
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+
     const tick = () => {
-      if (!dragRef.current?.dragging) {
+      if (document.visibilityState !== 'visible') {
+        frameRef.current = requestAnimationFrame(tick)
+        return
+      }
+
+      if (!dragRef.current?.dragging && !motionQuery.matches) {
         velocityRef.current *= 0.96
-        setAngle((value) => value + autoSpeed + velocityRef.current)
+        angleRef.current += autoSpeed + velocityRef.current
       } else {
-        setAngle((value) => value + velocityRef.current)
+        angleRef.current += velocityRef.current
+      }
+
+      const el = ringRef.current
+      if (el) {
+        el.style.transform = `translateY(-${lift}px) rotateX(${tiltDeg}deg) rotateY(${angleRef.current}deg)`
       }
 
       frameRef.current = requestAnimationFrame(tick)
@@ -65,7 +84,7 @@ export default function TechRing({ items, tiltDeg = 12, autoSpeed = 0.18 }: Prop
     return () => {
       if (frameRef.current) cancelAnimationFrame(frameRef.current)
     }
-  }, [autoSpeed])
+  }, [autoSpeed, lift, tiltDeg])
 
   useEffect(() => {
     const el = ringRef.current
@@ -103,8 +122,8 @@ export default function TechRing({ items, tiltDeg = 12, autoSpeed = 0.18 }: Prop
   }, [])
 
   return (
-    <div className="relative mx-auto w-full max-w-6xl py-06 sm:py-04">
-      <div className="mb-10 text-center sm:mb-12">
+    <div className="relative mx-auto w-full max-w-6xl pt-6 sm:pt-4">
+      <div className="mb-8 text-center sm:mb-10">
         <h2 className="text-3xl font-extrabold sm:text-4xl">
           <span className="text-gradient-gpt">Technologies &amp; Tools</span> 🛠️
         </h2>
@@ -114,8 +133,8 @@ export default function TechRing({ items, tiltDeg = 12, autoSpeed = 0.18 }: Prop
         </p>
       </div>
 
-      <div className="relative px-4 py-8 sm:px-6 sm:py-10">
-        <div className="relative mx-auto h-[360px] [perspective:1400px] sm:h-[420px] lg:h-[500px]">
+      <div className="relative px-4 pb-0 pt-6 sm:px-6 sm:pb-0 sm:pt-8">
+        <div className="relative mx-auto h-[320px] [perspective:1400px] sm:h-[380px] lg:h-[440px]">
           <div
             className="pointer-events-none absolute bottom-6 left-1/2 h-20 w-[58%] -translate-x-1/2 blur-2xl"
             style={{
@@ -127,9 +146,6 @@ export default function TechRing({ items, tiltDeg = 12, autoSpeed = 0.18 }: Prop
           <div
             ref={ringRef}
             className="absolute inset-0 mx-auto select-none [transform-style:preserve-3d] will-change-transform"
-            style={{
-              transform: `translateY(-${lift}px) rotateX(${tiltDeg}deg) rotateY(${angle}deg)`,
-            }}
           >
             {data.map((item, index) => (
               <div
