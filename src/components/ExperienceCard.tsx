@@ -34,12 +34,12 @@ export default function ExperienceCard({
   return (
     <article
       className={cn(
-        'mx-auto flex h-full max-w-[820px] flex-col rounded-2xl border border-white/10 bg-black/30 p-6 shadow-xl backdrop-blur dark:bg-white/5',
+        'mx-auto flex h-full max-w-[820px] flex-col rounded-2xl border border-slate-200/80 bg-white/80 p-6 text-slate-800 shadow-[0_18px_48px_rgba(15,23,42,0.12)] backdrop-blur dark:border-white/10 dark:bg-slate-950/35 dark:text-slate-100 dark:shadow-[0_18px_48px_rgba(0,0,0,0.24)]',
         className,
       )}
     >
       {icon && (
-        <div className="mb-4 inline-grid h-10 w-10 place-items-center rounded-full border border-white/12 bg-white/5">
+        <div className="mb-4 inline-grid h-10 w-10 place-items-center rounded-full border border-slate-200/80 bg-slate-100/90 dark:border-white/12 dark:bg-white/5">
           <Image
             src={icon}
             alt=""
@@ -58,7 +58,10 @@ export default function ExperienceCard({
       {tags.length > 0 && (
         <div className="mt-3 flex flex-wrap gap-2">
           {tags.map((tag) => (
-            <span key={tag} className="rounded-full border border-white/15 px-3 py-1 text-xs opacity-90">
+            <span
+              key={tag}
+              className="rounded-full border border-slate-200/80 bg-slate-50/80 px-3 py-1 text-xs opacity-90 dark:border-white/15 dark:bg-white/[0.03]"
+            >
               {tag}
             </span>
           ))}

@@ -1,29 +1,45 @@
 'use client'
 
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
+import type { RefObject } from 'react'
+import { useEffect, useRef, useState, startTransition } from 'react'
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
+import BrandLoader from '@/components/BrandLoader'
+import ConstellationBackground from '@/components/ConstellationBackground'
 
-function CoverScreen({ onEnter }: { onEnter: () => void }) {
+const HOME_REVEAL_KEY = 'joniscode-home-reveal'
+const HOME_REVEAL_ORIGIN_KEY = 'joniscode-home-reveal-origin'
+
+function CoverScreen({
+  buttonRef,
+  onEnter,
+  disabled,
+}: {
+  buttonRef: RefObject<HTMLButtonElement | null>
+  onEnter: () => void
+  disabled: boolean
+}) {
   return (
-    <div
-      className="relative min-h-screen w-full overflow-hidden"
-    >
+    <div className="relative min-h-screen w-full overflow-hidden bg-[#050814]">
       <Image
         src="/images/cover.jpg"
-        alt="Portada de JonisCode"
+        alt="Portada de ingreso al portafolio JonisCode"
         fill
         priority
         sizes="100vw"
-        className="object-cover"
+        className="object-cover object-center"
       />
-      <div className="absolute inset-0 bg-black/40" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(19,176,245,0.16),transparent_34%),linear-gradient(180deg,rgba(5,8,20,0.12)_0%,rgba(5,8,20,0.36)_38%,rgba(5,8,20,0.68)_100%)]" />
+      <div className="absolute inset-0 bg-black/22" />
 
       <div className="relative z-10 flex min-h-screen items-center justify-center">
         <button
+          ref={buttonRef}
           onClick={onEnter}
-          className="group inline-flex items-center gap-3 rounded-2xl border border-white/50 bg-white/10 px-8 py-4 text-white backdrop-blur-md transition hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/60"
+          disabled={disabled}
+          aria-busy={disabled}
+          className="group inline-flex items-center gap-3 rounded-2xl border border-white/55 bg-slate-950/30 px-8 py-4 text-white shadow-[0_20px_50px_rgba(5,8,20,0.35)] backdrop-blur-xl transition hover:bg-white/18 hover:shadow-[0_24px_60px_rgba(5,8,20,0.45)] focus:outline-none focus:ring-2 focus:ring-cyan-300/70 disabled:cursor-wait disabled:opacity-80"
         >
           <span className="text-lg font-semibold uppercase tracking-wider">Entrar</span>
           <svg
@@ -51,65 +67,106 @@ function CoverScreen({ onEnter }: { onEnter: () => void }) {
 }
 
 export default function Page() {
-  const [startOpen, setStartOpen] = useState(false)
+  const [isNavigating, setIsNavigating] = useState(false)
+  const buttonRef = useRef<HTMLButtonElement | null>(null)
+  const navigateTimeoutRef = useRef<number | null>(null)
+  const fallbackTimeoutRef = useRef<number | null>(null)
   const router = useRouter()
+  const prefersReducedMotion = useReducedMotion()
 
-  const handleEnter = () => setStartOpen(true)
-  const handleOverlayComplete = () => {
-    if (startOpen) {
-      router.push('/home')
+  useEffect(() => {
+    router.prefetch('/home')
+    return () => {
+      if (navigateTimeoutRef.current !== null) window.clearTimeout(navigateTimeoutRef.current)
+      if (fallbackTimeoutRef.current !== null) window.clearTimeout(fallbackTimeoutRef.current)
     }
+  }, [router])
+
+  const storeRevealOrigin = () => {
+    const rect = buttonRef.current?.getBoundingClientRect()
+    const fallback = { x: window.innerWidth / 2, y: window.innerHeight / 2 }
+    const origin = rect
+      ? { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 }
+      : fallback
+
+    window.sessionStorage.setItem(HOME_REVEAL_KEY, '1')
+    window.sessionStorage.setItem(HOME_REVEAL_ORIGIN_KEY, JSON.stringify(origin))
+  }
+
+  const handleEnter = () => {
+    if (isNavigating) return
+
+    storeRevealOrigin()
+
+    if (prefersReducedMotion) {
+      startTransition(() => {
+        router.replace('/home')
+      })
+
+      fallbackTimeoutRef.current = window.setTimeout(() => {
+        if (window.location.pathname !== '/home') {
+          window.location.assign('/home')
+        }
+      }, 350)
+
+      return
+    }
+
+    setIsNavigating(true)
+
+    navigateTimeoutRef.current = window.setTimeout(() => {
+      startTransition(() => {
+        router.replace('/home')
+      })
+
+      fallbackTimeoutRef.current = window.setTimeout(() => {
+        if (window.location.pathname !== '/home') {
+          window.location.assign('/home')
+        }
+      }, 500)
+    }, 140)
   }
 
   return (
-    <div className="relative min-h-screen">
-      <CoverScreen onEnter={handleEnter} />
+    <div className="relative min-h-screen overflow-hidden bg-slate-100 dark:bg-[#060812]">
+      <motion.div
+        initial={false}
+        animate={
+          isNavigating
+            ? { opacity: 0.18, scale: 1.02, filter: 'blur(5px) brightness(0.78)' }
+            : { opacity: 1, scale: 1, filter: 'blur(0px) brightness(1)' }
+        }
+        transition={{ duration: 0.42, ease: [0.2, 0.8, 0.2, 1] }}
+      >
+        <CoverScreen buttonRef={buttonRef} onEnter={handleEnter} disabled={isNavigating} />
+      </motion.div>
 
       <AnimatePresence>
-        {startOpen && (
+        {isNavigating && (
           <motion.div
-            key="portal"
-            className="pointer-events-none absolute inset-0 z-20"
-            initial={{ clipPath: 'circle(0% at 50% 60%)' }}
-            animate={{ clipPath: 'circle(140% at 50% 60%)' }}
-            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            onAnimationComplete={handleOverlayComplete}
+            className="pointer-events-none absolute inset-0 z-20 overflow-hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.32, ease: 'easeOut' }}
           >
-            <div
-              className="relative h-full w-full"
-              style={{
-                background:
-                  'radial-gradient(ellipse at center, rgba(10,10,20,1) 0%, rgba(0,0,0,1) 70%)',
-                filter: 'brightness(0.9)',
-              }}
-            >
-              {Array.from({ length: 40 }).map((_, i) => (
-                <span
-                  key={i}
-                  className="absolute h-[2px] w-[2px] rounded-full bg-white/90 animate-[twinkle_2s_ease-in-out_infinite]"
-                  style={{
-                    top: `${(i * 53) % 100}%`,
-                    left: `${(i * 37) % 100}%`,
-                    opacity: 0.6 + (i % 5) * 0.08,
-                    animationDelay: `${(i % 10) * 0.15}s`,
-                  }}
-                />
-              ))}
+            <div aria-hidden className="absolute inset-0">
+              <ConstellationBackground interactive={false} quality="lite" />
             </div>
 
-            <style jsx global>{`
-              @keyframes twinkle {
-                0%,
-                100% {
-                  transform: scale(1);
-                  opacity: 0.6;
-                }
-                50% {
-                  transform: scale(1.8);
-                  opacity: 1;
-                }
-              }
-            `}</style>
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  'radial-gradient(circle at center, rgba(19,176,245,0.16) 0%, rgba(10,18,35,0.82) 34%, rgba(4,9,20,0.94) 68%, rgba(4,9,20,1) 100%)',
+              }}
+            />
+
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,9,20,0.34)_0%,rgba(4,9,20,0.08)_28%,rgba(4,9,20,0.22)_65%,rgba(4,9,20,0.68)_100%)]" />
+
+            <div className="relative z-10 flex min-h-screen items-center justify-center">
+              <BrandLoader label="Abriendo vista" size={140} />
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

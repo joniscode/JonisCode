@@ -1,16 +1,61 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import LayoutChrome from '@/components/LayoutChrome'
 import ThemeToggle from '@/components/ThemeToggle'
-import SiteFooter from '@/components/SiteFooter'
-import AppFrame from '@/components/AppFrame'
-import WhatsAppFab from '@/components/WhatsAppFab'
 
 const inter = Inter({ subsets: ['latin'] })
 
+function getMetadataBase() {
+  const rawSiteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL ??
+    (process.env.VERCEL_PROJECT_PRODUCTION_URL
+      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+      : process.env.VERCEL_URL
+        ? `https://${process.env.VERCEL_URL}`
+        : 'http://localhost:3000')
+
+  try {
+    return new URL(rawSiteUrl)
+  } catch {
+    try {
+      return new URL(`https://${rawSiteUrl.replace(/^\/+|\/+$/g, '')}`)
+    } catch {
+      return new URL('http://localhost:3000')
+    }
+  }
+}
+
 export const metadata: Metadata = {
-  title: 'JonisCode',
-  description: 'Proyectos y tecnologias',
+  metadataBase: getMetadataBase(),
+  title: {
+    default: 'JonisCode',
+    template: '%s',
+  },
+  description:
+    'Portafolio de JonisCode con experiencia destacada, tecnologias y proyectos de desarrollo frontend.',
+  applicationName: 'JonisCode',
+  manifest: '/manifest.webmanifest',
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+    apple: '/favicon.ico',
+  },
+  openGraph: {
+    title: 'JonisCode',
+    description:
+      'Portafolio de JonisCode con experiencia destacada, tecnologias y proyectos de desarrollo frontend.',
+    images: ['/images/cover.jpg'],
+    type: 'website',
+    locale: 'es_CO',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'JonisCode',
+    description:
+      'Portafolio de JonisCode con experiencia destacada, tecnologias y proyectos de desarrollo frontend.',
+    images: ['/images/cover.jpg'],
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -40,9 +85,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         `}
       >
         <ThemeToggle />
-        <WhatsAppFab />
-        <AppFrame>{children}</AppFrame>
-        <SiteFooter />
+        <LayoutChrome>{children}</LayoutChrome>
       </body>
     </html>
   )

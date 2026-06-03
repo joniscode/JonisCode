@@ -1,38 +1,64 @@
-// src/components/ThemeToggle.tsx
-'use client';
-import { useEffect, useState } from 'react';
+'use client'
 
-export default function ThemeToggle(){
-  const [mounted, setMounted] = useState(false);
-  const [dark, setDark] = useState(false);
+import { useEffect, useState } from 'react'
 
-  // leer preferencia
+type ThemeMode = 'light' | 'dark'
+
+function readPreferredTheme(): ThemeMode {
+  const saved = localStorage.getItem('theme')
+  if (saved === 'light' || saved === 'dark') return saved
+
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+}
+
+function applyTheme(theme: ThemeMode) {
+  document.documentElement.classList.toggle('dark', theme === 'dark')
+}
+
+export default function ThemeToggle() {
+  const [mounted, setMounted] = useState(false)
+  const [theme, setTheme] = useState<ThemeMode>('light')
+
   useEffect(() => {
-    const ls = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const initialDark = ls ? ls === 'dark' : prefersDark;
-    setDark(initialDark);
-    document.documentElement.classList.toggle('dark', initialDark);
-    setMounted(true);
-  }, []);
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+    const initialTheme = readPreferredTheme()
+
+    setTheme(initialTheme)
+    applyTheme(initialTheme)
+    setMounted(true)
+
+    const onMediaChange = () => {
+      const saved = localStorage.getItem('theme')
+      if (saved === 'light' || saved === 'dark') return
+
+      const nextTheme: ThemeMode = mediaQuery.matches ? 'dark' : 'light'
+      setTheme(nextTheme)
+      applyTheme(nextTheme)
+    }
+
+    mediaQuery.addEventListener('change', onMediaChange)
+    return () => mediaQuery.removeEventListener('change', onMediaChange)
+  }, [])
 
   const toggle = () => {
-    const next = !dark;
-    setDark(next);
-    document.documentElement.classList.toggle('dark', next);
-    localStorage.setItem('theme', next ? 'dark' : 'light');
-  };
+    const nextTheme: ThemeMode = theme === 'dark' ? 'light' : 'dark'
+    setTheme(nextTheme)
+    applyTheme(nextTheme)
+    localStorage.setItem('theme', nextTheme)
+  }
 
-  if(!mounted) return null;
+  if (!mounted) return null
+
+  const isDark = theme === 'dark'
+
   return (
     <button
       onClick={toggle}
-      className="fixed right-4 top-4 z-50 rounded-full border px-3 py-2 text-sm backdrop-blur
-                 bg-white/70 dark:bg-black/40 border-black/20 dark:border-white/20"
-      aria-label="Cambiar tema"
-      title="Cambiar tema"
+      className="fixed right-4 top-4 z-50 rounded-full border border-slate-200/80 bg-white/85 px-3 py-2 text-sm text-slate-800 shadow-[0_10px_30px_rgba(15,23,42,0.12)] backdrop-blur transition hover:bg-white dark:border-white/15 dark:bg-slate-950/65 dark:text-slate-100 dark:shadow-[0_10px_30px_rgba(2,6,23,0.45)]"
+      aria-label={isDark ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'}
+      title={isDark ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'}
     >
-      {dark ? '☀️ Clear' : '🌙 Dark'}
+      {isDark ? '☀ Claro' : '🌙 Oscuro'}
     </button>
-  );
+  )
 }

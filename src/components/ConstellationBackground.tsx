@@ -4,195 +4,327 @@ import { useEffect, useRef } from 'react'
 
 type Dot = { x: number; y: number; vx: number; vy: number; r: number }
 
-export default function ConstellationBackground() {
+type Props = {
+  interactive?: boolean
+  quality?: 'full' | 'lite'
+}
+
+type QualityConfig = {
+  densityDivisor: number
+  mobileDensityFactor: number
+  minDots: number
+  maxDots: number
+  maxDistFactor: number
+  influenceFactor: number
+  wanderJitter: number
+  minSpeed: number
+  maxSpeed: number
+  windScale: number
+  haloRadius: number
+  haloStrength: number
+}
+
+const QUALITY_CONFIG: Record<NonNullable<Props['quality']>, QualityConfig> = {
+  full: {
+    densityDivisor: 42000,
+    mobileDensityFactor: 0.5,
+    minDots: 38,
+    maxDots: 88,
+    maxDistFactor: 0.115,
+    influenceFactor: 0.24,
+    wanderJitter: 0.012,
+    minSpeed: 0.08,
+    maxSpeed: 0.38,
+    windScale: 0.28,
+    haloRadius: 72,
+    haloStrength: 1,
+  },
+  lite: {
+    densityDivisor: 60000,
+    mobileDensityFactor: 0.42,
+    minDots: 24,
+    maxDots: 54,
+    maxDistFactor: 0.1,
+    influenceFactor: 0.18,
+    wanderJitter: 0.008,
+    minSpeed: 0.06,
+    maxSpeed: 0.28,
+    windScale: 0.2,
+    haloRadius: 56,
+    haloStrength: 0.55,
+  },
+}
+
+export default function ConstellationBackground({
+  interactive = true,
+  quality = 'full',
+}: Props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const dotsRef = useRef<Dot[]>([])
   const rafRef = useRef<number | null>(null)
-
-  // cursor con fuerza que decae
   const mouseRef = useRef({
-    x: 0, y: 0, vx: 0, vy: 0, strength: 0, lastMove: 0,
+    x: 0,
+    y: 0,
+    vx: 0,
+    vy: 0,
+    strength: 0,
+    lastMove: 0,
   })
 
   useEffect(() => {
     const canvas = canvasRef.current!
     const ctx = canvas.getContext('2d')!
-    let w = (canvas.width = window.innerWidth)
-    let h = (canvas.height = window.innerHeight)
+    const settings = QUALITY_CONFIG[quality]
+    const root = document.documentElement
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    let w = window.innerWidth
+    let h = window.innerHeight
+    let dpr = 1
+    let maxDist = 0
+    let influence = 0
+    let isDark = root.classList.contains('dark')
+    let isRunning = false
 
-    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches
-
-    // === DENSIDAD AUTOMÁTICA (↓ en móvil para ahorrar) ===
     const isMobile = matchMedia('(max-width: 640px)').matches || (navigator.maxTouchPoints ?? 0) > 0
-    const baseDensity = Math.floor((w * h) / 25000)                       // base
-    const densityFactor = reducedMotion ? 0.4 : isMobile ? 0.55 : 0.82
-    const densityMin = reducedMotion ? 26 : 42
-    const densityMax = reducedMotion ? 58 : 110
-    const density = Math.min(densityMax, Math.max(densityMin, Math.floor(baseDensity * densityFactor))) // limites
+    const densityScale = reducedMotion ? 0.7 : 1
+    const baseDensity = Math.floor((w * h) / settings.densityDivisor)
+    const density = Math.min(
+      settings.maxDots,
+      Math.max(
+        settings.minDots,
+        Math.floor(baseDensity * (isMobile ? settings.mobileDensityFactor : 1) * densityScale)
+      )
+    )
 
-    let maxDist = Math.min(w, h) * 0.12      // distancia para líneas entre puntos
-    let influence = Math.min(w, h) * (reducedMotion ? 0.18 : 0.28)    // radio de influencia del cursor
-    const sepRadius = 26                      // separación entre puntos
+    const sepRadius = quality === 'lite' ? 18 : 22
     const sepForce = 0.015
-    const wanderJitter = reducedMotion ? 0.008 : 0.02                 // “ruido” propio
-    const minSpeed = reducedMotion ? 0.05 : 0.10
-    const maxSpeed = reducedMotion ? 0.28 : 0.60
+    const neighborOffsets = [
+      [0, 0],
+      [1, 0],
+      [0, 1],
+      [1, 1],
+      [-1, 1],
+    ] as const
 
-    // === VIENTO CON DIRECCIÓN CAMBIANTE ===
     const wind = {
       angle: Math.random() * Math.PI * 2,
-      speedBase: 0.018,
-      speedAmp: 0.012,
+      speedBase: quality === 'lite' ? 0.012 : 0.016,
+      speedAmp: quality === 'lite' ? 0.008 : 0.01,
       phase: Math.random() * Math.PI * 2,
-      phaseSpeed: 0.004,            // qué tan rápido cambia la velocidad
-      turnRate: 0.002,              // qué tan rápido gira el viento
+      phaseSpeed: 0.004,
+      turnRate: 0.002,
     }
 
-    // puntos
+    const applyCanvasSize = () => {
+      dpr = Math.min(window.devicePixelRatio || 1, quality === 'lite' ? 1.1 : 1.4)
+      canvas.width = Math.floor(w * dpr)
+      canvas.height = Math.floor(h * dpr)
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+      maxDist = Math.min(w, h) * settings.maxDistFactor
+      influence = Math.min(w, h) * settings.influenceFactor * (reducedMotion ? 0.8 : 1)
+    }
+
     dotsRef.current = Array.from({ length: density }, () => ({
       x: Math.random() * w,
       y: Math.random() * h,
-      vx: (Math.random() - 0.5) * 0.35,
-      vy: (Math.random() - 0.5) * 0.35,
-      r: Math.random() * 1.8 + 0.6,
+      vx: (Math.random() - 0.5) * 0.2,
+      vy: (Math.random() - 0.5) * 0.2,
+      r: Math.random() * (quality === 'lite' ? 1.2 : 1.5) + 0.5,
     }))
+    applyCanvasSize()
 
     const onResize = () => {
-      w = canvas.width = window.innerWidth
-      h = canvas.height = window.innerHeight
-      maxDist = Math.min(w, h) * 0.12
-      influence = Math.min(w, h) * (reducedMotion ? 0.18 : 0.28)
-      // Nota: mantenemos el mismo número de puntos en tiempo de vida del componente
-      // (si quieres re-amostrar densidad al redimensionar, podemos hacerlo también).
+      w = window.innerWidth
+      h = window.innerHeight
+      applyCanvasSize()
     }
 
     const onMove = (e: PointerEvent) => {
+      if (!interactive) return
       const m = mouseRef.current
-      const px = m.x, py = m.y
-      m.x = e.clientX; m.y = e.clientY
-      m.vx = m.x - px; m.vy = m.y - py
+      const px = m.x
+      const py = m.y
+      m.x = e.clientX
+      m.y = e.clientY
+      m.vx = m.x - px
+      m.vy = m.y - py
       m.lastMove = performance.now()
       m.strength = Math.min(1, m.strength + 0.35)
     }
+
     const killMouse = () => {
       const m = mouseRef.current
-      m.strength = 0; m.vx = 0; m.vy = 0
+      m.strength = 0
+      m.vx = 0
+      m.vy = 0
     }
 
+    const themeObserver = new MutationObserver(() => {
+      isDark = root.classList.contains('dark')
+    })
+
     window.addEventListener('resize', onResize)
-    window.addEventListener('pointermove', onMove, { passive: true })
-    window.addEventListener('pointerleave', killMouse)
-    window.addEventListener('blur', killMouse)
-    const onVisibilityChange = () => {
-      if (document.visibilityState !== 'visible') killMouse()
+    if (interactive) {
+      window.addEventListener('pointermove', onMove, { passive: true })
+      window.addEventListener('pointerleave', killMouse)
     }
+    window.addEventListener('blur', killMouse)
+    themeObserver.observe(root, { attributes: true, attributeFilter: ['class'] })
+
+    const stop = () => {
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current)
+        rafRef.current = null
+      }
+      isRunning = false
+    }
+
+    const start = () => {
+      if (isRunning) return
+      isRunning = true
+      rafRef.current = requestAnimationFrame(tick)
+    }
+
+    const onVisibilityChange = () => {
+      if (document.visibilityState !== 'visible') {
+        killMouse()
+        stop()
+        return
+      }
+
+      start()
+    }
+
     document.addEventListener('visibilitychange', onVisibilityChange)
 
     const tick = () => {
+      if (document.visibilityState !== 'visible') {
+        stop()
+        return
+      }
+
       ctx.clearRect(0, 0, w, h)
 
-      const isDark = document.documentElement.classList.contains('dark')
       const dotColor = isDark ? 'rgba(173,186,207,0.65)' : 'rgba(31,41,55,0.55)'
       const lineBase = isDark ? 0.18 : 0.12
-      const lineMax  = isDark ? 0.40 : 0.28
+      const lineMax = isDark ? 0.38 : 0.24
 
       const dots = dotsRef.current
       const m = mouseRef.current
       const now = performance.now()
 
-      // decaimiento del cursor si no se mueve
       if (now - m.lastMove > 120) {
         m.strength *= 0.92
         if (m.strength < 0.01) m.strength = 0
       }
 
-      // === actualizar viento (dirección y magnitud) ===
       wind.phase += wind.phaseSpeed
       wind.angle += wind.turnRate
       const windSpeed = wind.speedBase + Math.sin(wind.phase) * wind.speedAmp
       const wx = Math.cos(wind.angle) * windSpeed
       const wy = Math.sin(wind.angle) * windSpeed
 
-      // 1) separación anti-clúster
-      for (let i = 0; i < dots.length; i++) {
-        for (let j = i + 1; j < dots.length; j++) {
-          const a = dots[i], b = dots[j]
-          const dx = a.x - b.x, dy = a.y - b.y
-          const dist = Math.hypot(dx, dy)
-          if (dist > 0 && dist < sepRadius) {
-            const f = sepForce * (1 - dist / sepRadius)
-            const fx = (dx / dist) * f, fy = (dy / dist) * f
-            a.vx += fx; a.vy += fy
-            b.vx -= fx; b.vy -= fy
-          }
-        }
-      }
-
-      // 2) movimiento: jitter + viento + cursor + límites
       for (const d of dots) {
-        // ruido local
-        d.vx += (Math.random() - 0.5) * wanderJitter
-        d.vy += (Math.random() - 0.5) * wanderJitter
+        d.vx += (Math.random() - 0.5) * settings.wanderJitter
+        d.vy += (Math.random() - 0.5) * settings.wanderJitter
 
-        // viento global (suave, direccional, cambiante)
-        d.vx += wx * 0.35
-        d.vy += wy * 0.35
+        d.vx += wx * settings.windScale
+        d.vy += wy * settings.windScale
 
-        // cursor con falloff cuadrático (sin imán gigante)
-        if (m.strength > 0) {
-          const dx = m.x - d.x, dy = m.y - d.y
+        if (interactive && m.strength > 0) {
+          const dx = m.x - d.x
+          const dy = m.y - d.y
           const dist = Math.hypot(dx, dy)
           if (dist < influence) {
             const fall = 1 - dist / influence
-            const pull = 0.008 * m.strength * (fall * fall)
-            d.vx += dx * pull; d.vy += dy * pull
+            const pull = 0.006 * m.strength * (fall * fall)
+            d.vx += dx * pull
+            d.vy += dy * pull
           }
         }
 
-        // clamp de velocidad
         const speed = Math.hypot(d.vx, d.vy)
-        if (speed > maxSpeed) {
-          d.vx = (d.vx / speed) * maxSpeed
-          d.vy = (d.vy / speed) * maxSpeed
-        } else if (speed < minSpeed) {
-          const boost = (minSpeed - speed) * 0.5
+        if (speed > settings.maxSpeed) {
+          d.vx = (d.vx / speed) * settings.maxSpeed
+          d.vy = (d.vy / speed) * settings.maxSpeed
+        } else if (speed < settings.minSpeed) {
+          const boost = (settings.minSpeed - speed) * 0.45
           const angle = Math.random() * Math.PI * 2
           d.vx += Math.cos(angle) * boost
           d.vy += Math.sin(angle) * boost
         }
 
-        // integrar + wrap en bordes
-        d.x += d.vx; d.y += d.vy
-        if (d.x < 0) d.x += w; if (d.x > w) d.x -= w
-        if (d.y < 0) d.y += h; if (d.y > h) d.y -= h
+        d.x += d.vx
+        d.y += d.vy
+        if (d.x < 0) d.x += w
+        if (d.x > w) d.x -= w
+        if (d.y < 0) d.y += h
+        if (d.y > h) d.y -= h
       }
 
-      // 3) conexiones entre puntos
+      const cellSize = Math.max(maxDist, sepRadius)
+      const cells = new Map<string, number[]>()
+      dots.forEach((dot, index) => {
+        const cellX = Math.floor(dot.x / cellSize)
+        const cellY = Math.floor(dot.y / cellSize)
+        const key = `${cellX}:${cellY}`
+        const bucket = cells.get(key)
+
+        if (bucket) bucket.push(index)
+        else cells.set(key, [index])
+      })
+
       ctx.beginPath()
-      for (let i = 0; i < dots.length; i++) {
-        for (let j = i + 1; j < dots.length; j++) {
-          const dx = dots[i].x - dots[j].x
-          const dy = dots[i].y - dots[j].y
-          const dist = Math.hypot(dx, dy)
-          if (dist < maxDist) {
-            const alpha = lineBase + (1 - dist / maxDist) * lineMax
-            ctx.strokeStyle = `rgba(99,126,172,${alpha.toFixed(2)})`
-            ctx.lineWidth = 1
-            ctx.moveTo(dots[i].x, dots[i].y)
-            ctx.lineTo(dots[j].x, dots[j].y)
+      ctx.lineWidth = 1
+
+      for (const [key, bucket] of cells) {
+        const [cellX, cellY] = key.split(':').map(Number)
+
+        for (const [offsetX, offsetY] of neighborOffsets) {
+          const neighbor = cells.get(`${cellX + offsetX}:${cellY + offsetY}`)
+          if (!neighbor) continue
+
+          for (let i = 0; i < bucket.length; i++) {
+            const startIndex = offsetX === 0 && offsetY === 0 ? i + 1 : 0
+            const a = dots[bucket[i]]
+
+            for (let j = startIndex; j < neighbor.length; j++) {
+              const b = dots[neighbor[j]]
+              const dx = a.x - b.x
+              const dy = a.y - b.y
+              const dist = Math.hypot(dx, dy)
+
+              if (dist > 0 && dist < sepRadius) {
+                const force = sepForce * (1 - dist / sepRadius)
+                const fx = (dx / dist) * force
+                const fy = (dy / dist) * force
+                a.vx += fx
+                a.vy += fy
+                b.vx -= fx
+                b.vy -= fy
+              }
+
+              if (dist < maxDist) {
+                const alpha = lineBase + (1 - dist / maxDist) * lineMax
+                ctx.strokeStyle = `rgba(99,126,172,${alpha.toFixed(2)})`
+                ctx.moveTo(a.x, a.y)
+                ctx.lineTo(b.x, b.y)
+              }
+            }
           }
         }
       }
+
       ctx.stroke()
 
-      // 4) líneas + halo con el cursor si hay fuerza
-      if (m.strength > 0) {
+      if (interactive && m.strength > 0) {
         ctx.beginPath()
         for (const d of dots) {
-          const dx = m.x - d.x, dy = m.y - d.y
+          const dx = m.x - d.x
+          const dy = m.y - d.y
           const dist = Math.hypot(dx, dy)
           if (dist < influence * 0.6) {
-            const alpha = 0.10 + (1 - dist / (influence * 0.6)) * 0.26
+            const alpha = 0.1 + (1 - dist / (influence * 0.6)) * 0.26
             ctx.strokeStyle = `rgba(140,170,220,${alpha.toFixed(2)})`
             ctx.lineWidth = 1
             ctx.moveTo(m.x, m.y)
@@ -201,16 +333,21 @@ export default function ConstellationBackground() {
         }
         ctx.stroke()
 
-        const g = ctx.createRadialGradient(m.x, m.y, 0, m.x, m.y, 80)
-        g.addColorStop(0, isDark ? 'rgba(160,190,255,0.12)' : 'rgba(40,60,100,0.10)')
+        const haloRadius = settings.haloRadius
+        const g = ctx.createRadialGradient(m.x, m.y, 0, m.x, m.y, haloRadius)
+        g.addColorStop(
+          0,
+          isDark
+            ? `rgba(160,190,255,${0.12 * settings.haloStrength})`
+            : `rgba(40,60,100,${0.1 * settings.haloStrength})`
+        )
         g.addColorStop(1, 'rgba(0,0,0,0)')
         ctx.fillStyle = g
         ctx.beginPath()
-        ctx.arc(m.x, m.y, 80, 0, Math.PI * 2)
+        ctx.arc(m.x, m.y, haloRadius, 0, Math.PI * 2)
         ctx.fill()
       }
 
-      // 5) puntos
       for (const d of dots) {
         ctx.beginPath()
         ctx.fillStyle = dotColor
@@ -221,23 +358,20 @@ export default function ConstellationBackground() {
       rafRef.current = requestAnimationFrame(tick)
     }
 
-    tick()
+    start()
 
     return () => {
-      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current)
+      stop()
+      themeObserver.disconnect()
       window.removeEventListener('resize', onResize)
-      window.removeEventListener('pointermove', onMove)
-      window.removeEventListener('pointerleave', killMouse)
+      if (interactive) {
+        window.removeEventListener('pointermove', onMove)
+        window.removeEventListener('pointerleave', killMouse)
+      }
       window.removeEventListener('blur', killMouse)
       document.removeEventListener('visibilitychange', onVisibilityChange)
     }
-  }, [])
+  }, [interactive, quality])
 
-  return (
-    <canvas
-      ref={canvasRef}
-      className="pointer-events-none fixed inset-0 -z-10"
-      aria-hidden
-    />
-  )
+  return <canvas ref={canvasRef} className="pointer-events-none fixed inset-0 -z-10" aria-hidden />
 }

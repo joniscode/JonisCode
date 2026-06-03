@@ -11,13 +11,66 @@ type Props = {
   autoSpeed?: number
 }
 
+type Layout = {
+  radius: number
+  sceneHeight: number
+  tileSize: 'compact' | 'cozy' | 'regular'
+}
+
+function getRingLayout(viewportWidth: number, itemCount: number): Layout {
+  if (viewportWidth < 640) {
+    const tileSize = itemCount >= 13 ? 'compact' : 'cozy'
+    const minArc = itemCount >= 13 ? 76 : 84
+    const radius = Math.min(235, Math.max(185, Math.round((itemCount * minArc) / (2 * Math.PI))))
+
+    return {
+      radius,
+      sceneHeight: Math.min(430, Math.max(360, Math.round(radius * 1.95))),
+      tileSize,
+    }
+  }
+
+  if (viewportWidth < 1024) {
+    const tileSize = itemCount >= 13 ? 'cozy' : 'regular'
+    const minArc = itemCount >= 13 ? 94 : 104
+    const radius = Math.min(300, Math.max(220, Math.round((itemCount * minArc) / (2 * Math.PI))))
+
+    return {
+      radius,
+      sceneHeight: Math.min(500, Math.max(420, Math.round(radius * 1.8))),
+      tileSize,
+    }
+  }
+
+  const tileSize = itemCount >= 13 ? 'cozy' : 'regular'
+  const minArc = itemCount >= 13 ? 110 : 122
+  const radius = Math.min(380, Math.max(270, Math.round((itemCount * minArc) / (2 * Math.PI))))
+
+  return {
+    radius,
+    sceneHeight: Math.min(620, Math.max(500, Math.round(radius * 1.68))),
+    tileSize,
+  }
+}
+
+function setRingTransform(
+  element: HTMLDivElement | null,
+  lift: number,
+  tiltDeg: number,
+  angle: number
+) {
+  if (!element) return
+
+  element.style.transform = `translateY(-${lift}px) rotateX(${tiltDeg}deg) rotateY(${angle}deg)`
+}
+
 export default function TechRing({ items, tiltDeg = 12, autoSpeed = 0.18 }: Props) {
   const ringRef = useRef<HTMLDivElement | null>(null)
   const frameRef = useRef<number | null>(null)
   const dragRef = useRef<{ dragging: boolean; lastX: number } | null>(null)
   const velocityRef = useRef(0)
   const angleRef = useRef(0)
-  const [radius, setRadius] = useState(260)
+  const [layout, setLayout] = useState<Layout>({ radius: 260, sceneHeight: 500, tileSize: 'regular' })
 
   const data = useMemo(
     () =>
@@ -30,31 +83,22 @@ export default function TechRing({ items, tiltDeg = 12, autoSpeed = 0.18 }: Prop
   )
 
   const step = 360 / data.length
-  const lift = Math.round(Math.min(64, radius * 0.22))
+  const { radius, sceneHeight, tileSize } = layout
+  const lift = Math.round(Math.min(72, radius * 0.2))
 
   useEffect(() => {
-    const el = ringRef.current
-    if (!el) return
-
-    el.style.transform = `translateY(-${lift}px) rotateX(${tiltDeg}deg) rotateY(${angleRef.current}deg)`
-  }, [lift, tiltDeg])
-
-  useEffect(() => {
-    const updateRadius = () => {
-      const w = window.innerWidth
-      if (w < 640) {
-        setRadius(170)
-      } else if (w < 1024) {
-        setRadius(205)
-      } else {
-        setRadius(260)
-      }
+    const updateLayout = () => {
+      setLayout(getRingLayout(window.innerWidth, data.length))
     }
 
-    updateRadius()
-    window.addEventListener('resize', updateRadius)
-    return () => window.removeEventListener('resize', updateRadius)
-  }, [])
+    updateLayout()
+    window.addEventListener('resize', updateLayout)
+    return () => window.removeEventListener('resize', updateLayout)
+  }, [data.length])
+
+  useEffect(() => {
+    setRingTransform(ringRef.current, lift, tiltDeg, angleRef.current)
+  }, [lift, tiltDeg])
 
   useEffect(() => {
     const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -72,11 +116,7 @@ export default function TechRing({ items, tiltDeg = 12, autoSpeed = 0.18 }: Prop
         angleRef.current += velocityRef.current
       }
 
-      const el = ringRef.current
-      if (el) {
-        el.style.transform = `translateY(-${lift}px) rotateX(${tiltDeg}deg) rotateY(${angleRef.current}deg)`
-      }
-
+      setRingTransform(ringRef.current, lift, tiltDeg, angleRef.current)
       frameRef.current = requestAnimationFrame(tick)
     }
 
@@ -133,8 +173,11 @@ export default function TechRing({ items, tiltDeg = 12, autoSpeed = 0.18 }: Prop
         </p>
       </div>
 
-      <div className="relative px-4 pb-0 pt-6 sm:px-6 sm:pb-0 sm:pt-8">
-        <div className="relative mx-auto h-[320px] [perspective:1400px] sm:h-[380px] lg:h-[440px]">
+      <div className="relative px-4 py-8 sm:px-6 sm:py-10">
+        <div
+          className="relative mx-auto [perspective:1600px]"
+          style={{ height: `${sceneHeight}px` }}
+        >
           <div
             className="pointer-events-none absolute bottom-6 left-1/2 h-20 w-[58%] -translate-x-1/2 blur-2xl"
             style={{
@@ -155,7 +198,12 @@ export default function TechRing({ items, tiltDeg = 12, autoSpeed = 0.18 }: Prop
                   transform: `translate(-50%, -50%) rotateY(${index * step}deg) translateZ(${radius}px)`,
                 }}
               >
-                <TechTile label={item.label!} slug={item.slug} icon={item.icon ?? `/icons/${item.slug}.png`} />
+                <TechTile
+                  label={item.label!}
+                  slug={item.slug}
+                  icon={item.icon ?? `/icons/${item.slug}.png`}
+                  size={tileSize}
+                />
               </div>
             ))}
           </div>
