@@ -32,6 +32,7 @@ export default function ExperienceSection({ items }: { items: ExperienceItem[] }
   )
   const [activeIndex, setActiveIndex] = useState(0)
   const [isAtStart, setIsAtStart] = useState(true)
+  const [activeCardHeight, setActiveCardHeight] = useState<number | null>(null)
   const trackRef = useRef<HTMLDivElement>(null)
   const cardRefs = useRef<Array<HTMLElement | null>>([])
   const activeIndexRef = useRef(0)
@@ -132,13 +133,28 @@ export default function ExperienceSection({ items }: { items: ExperienceItem[] }
     }
   }, [sorted.length])
 
+  useEffect(() => {
+    const updateActiveHeight = () => {
+      const activeCard = cardRefs.current[activeIndex]
+      if (!activeCard) return
+
+      const verticalPadding = 48
+      const nextHeight = Math.ceil(activeCard.offsetHeight + verticalPadding)
+      setActiveCardHeight((prev) => (prev === nextHeight ? prev : nextHeight))
+    }
+
+    updateActiveHeight()
+    window.addEventListener('resize', updateActiveHeight)
+    return () => window.removeEventListener('resize', updateActiveHeight)
+  }, [activeIndex, sorted.length])
+
   const activeYear = sorted[activeIndex]?.year
   const highlightedYear = isAtStart && years.includes(currentYear) ? currentYear : activeYear
 
   return (
-    <section id="experience" className="relative z-10 pt-16 pb-12">
+    <section id="experience" className="relative z-10 pt-10 pb-10 sm:pt-12 sm:pb-12 lg:pt-16">
       <div className="container mx-auto px-4">
-        <header className="mx-auto mb-10 max-w-3xl space-y-4 text-center">
+        <header className="mx-auto mb-8 max-w-3xl space-y-3 text-center sm:mb-10">
           <h2 className="text-4xl font-bold">
             <span className="text-gradient-gpt">Experiencia destacada</span>
           </h2>
@@ -147,7 +163,7 @@ export default function ExperienceSection({ items }: { items: ExperienceItem[] }
 
         <div className="grid gap-6 lg:grid-cols-[160px,1fr] lg:items-start">
           <aside className="hidden lg:block">
-            <div className="relative mx-auto flex min-h-[440px] w-24 flex-col items-center justify-between py-4">
+              <div className="relative mx-auto flex min-h-[400px] w-24 flex-col items-center justify-between py-4">
               {years.map((year) => {
                 const isActive = year === highlightedYear
 
@@ -169,7 +185,10 @@ export default function ExperienceSection({ items }: { items: ExperienceItem[] }
             </div>
           </aside>
 
-          <div className="relative overflow-hidden">
+          <div
+            className="relative overflow-hidden transition-[height] duration-300 ease-out"
+            style={activeCardHeight ? { height: `${activeCardHeight}px` } : undefined}
+          >
             {isAtStart ? (
               <div className="pointer-events-none absolute right-5 top-1/2 z-10 -translate-y-1/2 lg:hidden">
                 <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-slate-950/70 text-2xl text-white/90 shadow-[0_14px_36px_rgba(2,6,23,0.45)] backdrop-blur-md animate-horizontal-nudge">
@@ -185,14 +204,14 @@ export default function ExperienceSection({ items }: { items: ExperienceItem[] }
               aria-label="Carrusel horizontal de experiencia destacada"
               className="scrollbar-gutter-stable overflow-x-auto overflow-y-hidden px-4 py-6 no-scrollbar snap-x snap-mandatory overscroll-x-contain scroll-smooth touch-pan-x focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/50 md:px-6"
             >
-              <div className="flex min-w-max gap-5 md:gap-6">
+              <div className="flex min-w-max items-start gap-4 md:gap-5">
                 {sorted.map((exp, index) => (
                   <article
                     key={exp.id}
                     ref={(node) => {
                       cardRefs.current[index] = node
                     }}
-                    className="w-[min(92vw,860px)] shrink-0 snap-center md:w-[min(78vw,860px)]"
+                    className="w-[min(88vw,860px)] shrink-0 snap-center sm:w-[min(84vw,860px)] md:w-[min(76vw,860px)]"
                   >
                     <div className="mb-3 flex items-center gap-3 lg:hidden">
                       <div

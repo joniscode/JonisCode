@@ -78,7 +78,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body
         className={`
           ${inter.className}
-          min-h-[100svh]
+          min-h-[100dvh]
           bg-white text-slate-900
           transition-colors duration-300
           dark:bg-[#0b1220] dark:text-slate-100

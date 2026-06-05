@@ -63,7 +63,13 @@ export default function LayoutChrome({ children }: { children: React.ReactNode }
         </a>
       ) : null}
 
-      <div className={isLanding ? 'min-h-[100svh]' : 'min-h-[100svh] md:pb-16'}>{children}</div>
+      <div
+        className={
+          isLanding ? 'min-h-[100dvh]' : isHome ? '' : 'min-h-[100dvh] md:pb-16'
+        }
+      >
+        {children}
+      </div>
 
       {!isLanding ? (
         <footer

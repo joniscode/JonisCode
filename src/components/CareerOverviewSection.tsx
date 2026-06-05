@@ -1,12 +1,20 @@
 'use client'
 
 import Image from 'next/image'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const STATS = [
   { label: 'Horas de estudio', value: 3200, suffix: '+' },
   { label: 'Horas de trabajo', value: 6800, suffix: '+' },
   { label: 'Proyectos culminados', value: 14, suffix: '+' }
+]
+
+const STUDIES = [
+  'Especialización en Transformación Digital - En curso',
+  'Ingeniería de Sistemas - 2025',
+  'Tecnólogo en Análisis y Desarrollo de Sistemas de Información - 2023',
+  'Bootcamp Full Stack Junior Java - En curso',
+  'Bootcamp de Inteligencia Artificial Básico - 2025',
 ]
 
 function useAnimatedValue(target: number, durationMs = 1400) {
@@ -54,77 +62,64 @@ function StatTile({ label, value, suffix }: { label: string; value: number; suff
 }
 
 export default function CareerOverviewSection() {
-  const projectThemes = useMemo(
-    () => [
-      'Microfrontends para flujos de salud y autoadmision.',
-      'Migraciones web con Next.js y arquitectura modular.',
-      'Portales empresariales con foco en rendimiento y escalabilidad.',
-      'Ecommerce e integraciones con plataformas y APIs externas.',
-    ],
-    []
-  )
-
   return (
-    <section id="career-overview" className="relative z-10 container mx-auto px-4 pt-16 pb-16 sm:pt-20 lg:pt-24">
-      <div className="relative overflow-hidden rounded-[2rem] border border-slate-200/80 bg-white/70 p-6 shadow-[0_30px_80px_rgba(15,23,42,0.12)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/30 dark:shadow-[0_30px_80px_rgba(0,0,0,0.28)] sm:p-8 lg:p-10">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-80"
-          style={{
-            background:
-              'radial-gradient(circle at 50% 18%, rgba(174,103,250,0.16), transparent 24%), radial-gradient(circle at 18% 78%, rgba(56,189,248,0.12), transparent 22%), radial-gradient(circle at 84% 68%, rgba(244,152,103,0.12), transparent 26%)',
-          }}
-        />
+    <section id="career-overview" className="relative z-10 container mx-auto px-4 pt-4 pb-10 sm:pt-8 sm:pb-12 lg:pt-12 lg:pb-16">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-80"
+        style={{
+          background:
+            'radial-gradient(circle at 50% 18%, rgba(174,103,250,0.16), transparent 24%), radial-gradient(circle at 18% 78%, rgba(56,189,248,0.12), transparent 22%), radial-gradient(circle at 84% 68%, rgba(244,152,103,0.12), transparent 26%)',
+        }}
+      />
 
-        <div className="relative">
-          <header className="mx-auto max-w-4xl text-center">
-            <h1 className="mt-4 text-4xl font-black leading-tight sm:text-5xl lg:text-6xl">
-              <span className="text-gradient-gpt">Jonis Code</span>
-              <br />
-              <span className="text-2xl font-bold text-slate-900 dark:text-white sm:text-3xl lg:text-4xl">
-                Hola, soy Jonathan Frontend Developer, de Colombia para el mundo
-              </span>
-            </h1>
-          </header>
+      <div className="relative">
+        <header className="mx-auto max-w-4xl text-center">
+          <h1 className="text-2xl font-black leading-[1.08] sm:text-4xl lg:text-5xl xl:text-6xl">
+            <span className="text-gradient-gpt">Jonis Code</span>
+            <br />
+            <span className="text-lg font-bold text-slate-900 dark:text-white sm:text-2xl lg:text-3xl">
+              Hola, soy Jonathan Frontend Developer, de Colombia para el mundo
+            </span>
+          </h1>
+        </header>
 
-          <div className="mt-10 grid gap-6 lg:grid-cols-[1.05fr,0.9fr,1.05fr] lg:items-center">
-            <aside className="space-y-4">
-              <article className="rounded-2xl border border-slate-200/80 bg-white/75 p-5 shadow-[0_18px_40px_rgba(15,23,42,0.1)] backdrop-blur dark:border-white/10 dark:bg-slate-950/35 dark:shadow-[0_18px_40px_rgba(0,0,0,0.24)]">
-                <p className="text-xs uppercase tracking-[0.22em] text-slate-500 dark:text-white/50">
-                  Huella de proyectos
-                </p>
-                <ul className="mt-4 space-y-3 text-sm leading-6 text-slate-700 dark:text-white/72">
-                  {projectThemes.map((theme) => (
-                    <li key={theme} className="flex gap-3">
-                      <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-cyan-400" />
-                      <span>{theme}</span>
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            </aside>
-
-            <div className="relative mx-auto flex w-full max-w-md justify-center">
-              <div className="absolute inset-x-8 top-10 h-40 rounded-full bg-cyan-400/18 blur-3xl" />
-              <div className="absolute inset-x-10 bottom-6 h-32 rounded-full bg-fuchsia-400/12 blur-3xl" />
-              <div className="relative h-[26rem] w-full overflow-hidden rounded-[2.8rem] border border-white/10 shadow-[0_0_60px_rgba(56,189,248,0.12)] sm:h-[32rem]">
-                <Image
-                  src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExanpiNTBiMzJmNTBnZnMxenJzNXpyNGR6ZGM5Z21iNXV6aTUyNW1scSZlcD12MV9naWZzX3JlbGF0ZWQmY3Q9Zw/TFPdmm3rdzeZ0kP3zG/giphy.gif"
-                  alt="Developer animation"
-                  fill
-                  unoptimized
-                  className="object-cover"
-                />
-              </div>
+        <div className="mt-4 grid gap-4 sm:mt-6 sm:gap-5 lg:mt-8 lg:grid-cols-[0.95fr,0.95fr,0.85fr] lg:items-center">
+          <aside className="order-3 space-y-4 lg:order-1">
+            <div>
+              <p className="text-xs uppercase tracking-[0.22em] text-slate-500 dark:text-white/50">
+                Estudios realizados
+              </p>
+              <ul className="mt-3 space-y-2.5 text-sm leading-6 text-slate-700 dark:text-white/72">
+                {STUDIES.map((study) => (
+                  <li key={study} className="flex gap-3">
+                    <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-cyan-400" />
+                    <span>{study}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
+          </aside>
 
-            <aside className="space-y-5">
-              {STATS.map((stat) => (
-                <StatTile key={stat.label} {...stat} />
-              ))}
-            </aside>
+          <div className="order-2 relative mx-auto flex w-full max-w-sm justify-center lg:order-2 lg:max-w-md">
+            <div className="absolute inset-x-8 top-10 h-40 rounded-full bg-cyan-400/18 blur-3xl" />
+            <div className="absolute inset-x-10 bottom-6 h-32 rounded-full bg-fuchsia-400/12 blur-3xl" />
+            <div className="relative h-[17rem] w-full overflow-hidden rounded-[2rem] border border-white/10 shadow-[0_0_60px_rgba(56,189,248,0.12)] sm:h-[22rem] lg:h-[30rem]">
+              <Image
+                src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExanpiNTBiMzJmNTBnZnMxenJzNXpyNGR6ZGM5Z21iNXV6aTUyNW1scSZlcD12MV9naWZzX3JlbGF0ZWQmY3Q9Zw/TFPdmm3rdzeZ0kP3zG/giphy.gif"
+                alt="Developer animation"
+                fill
+                unoptimized
+                className="object-cover"
+              />
+            </div>
           </div>
 
+          <aside className="order-1 space-y-3 lg:order-3 lg:space-y-5">
+            {STATS.map((stat) => (
+              <StatTile key={stat.label} {...stat} />
+            ))}
+          </aside>
         </div>
       </div>
     </section>

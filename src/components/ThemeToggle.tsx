@@ -54,7 +54,7 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggle}
-      className="fixed right-4 top-4 z-50 rounded-full border border-slate-200/80 bg-white/85 px-3 py-2 text-sm text-slate-800 shadow-[0_10px_30px_rgba(15,23,42,0.12)] backdrop-blur transition hover:bg-white dark:border-white/15 dark:bg-slate-950/65 dark:text-slate-100 dark:shadow-[0_10px_30px_rgba(2,6,23,0.45)]"
+      className="fixed right-3 top-3 z-50 rounded-full border border-slate-200/80 bg-white/85 px-2.5 py-1.5 text-xs text-slate-800 shadow-[0_10px_30px_rgba(15,23,42,0.12)] backdrop-blur transition hover:bg-white dark:border-white/15 dark:bg-slate-950/65 dark:text-slate-100 dark:shadow-[0_10px_30px_rgba(2,6,23,0.45)] sm:right-4 sm:top-4 sm:px-3 sm:py-2 sm:text-sm"
       aria-label={isDark ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'}
       title={isDark ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'}
     >

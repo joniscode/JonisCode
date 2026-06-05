@@ -25,7 +25,7 @@ function getRingLayout(viewportWidth: number, itemCount: number): Layout {
 
     return {
       radius,
-      sceneHeight: Math.min(430, Math.max(360, Math.round(radius * 1.95))),
+      sceneHeight: Math.min(390, Math.max(320, Math.round(radius * 1.72))),
       tileSize,
     }
   }
@@ -37,7 +37,7 @@ function getRingLayout(viewportWidth: number, itemCount: number): Layout {
 
     return {
       radius,
-      sceneHeight: Math.min(500, Math.max(420, Math.round(radius * 1.8))),
+      sceneHeight: Math.min(460, Math.max(380, Math.round(radius * 1.62))),
       tileSize,
     }
   }
@@ -162,8 +162,8 @@ export default function TechRing({ items, tiltDeg = 12, autoSpeed = 0.18 }: Prop
   }, [])
 
   return (
-    <div className="relative mx-auto w-full max-w-6xl pt-6 sm:pt-4">
-      <div className="mb-8 text-center sm:mb-10">
+    <div className="relative mx-auto w-full max-w-6xl pt-2 sm:pt-3">
+      <div className="mb-6 text-center sm:mb-8">
         <h2 className="text-3xl font-extrabold sm:text-4xl">
           <span className="text-gradient-gpt">Technologies &amp; Tools</span> 🛠️
         </h2>
@@ -173,7 +173,7 @@ export default function TechRing({ items, tiltDeg = 12, autoSpeed = 0.18 }: Prop
         </p>
       </div>
 
-      <div className="relative px-4 py-8 sm:px-6 sm:py-10">
+      <div className="relative px-2 py-4 sm:px-4 sm:py-6">
         <div
           className="relative mx-auto [perspective:1600px]"
           style={{ height: `${sceneHeight}px` }}

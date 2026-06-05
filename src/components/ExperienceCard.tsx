@@ -34,7 +34,7 @@ export default function ExperienceCard({
   return (
     <article
       className={cn(
-        'mx-auto flex h-full max-w-[820px] flex-col rounded-2xl border border-slate-200/80 bg-white/80 p-6 text-slate-800 shadow-[0_18px_48px_rgba(15,23,42,0.12)] backdrop-blur dark:border-white/10 dark:bg-slate-950/35 dark:text-slate-100 dark:shadow-[0_18px_48px_rgba(0,0,0,0.24)]',
+        'mx-auto flex max-w-[820px] flex-col rounded-2xl border border-slate-200/80 bg-white/80 p-5 text-slate-800 shadow-[0_18px_48px_rgba(15,23,42,0.12)] backdrop-blur dark:border-white/10 dark:bg-slate-950/35 dark:text-slate-100 dark:shadow-[0_18px_48px_rgba(0,0,0,0.24)] sm:p-6',
         className,
       )}
     >

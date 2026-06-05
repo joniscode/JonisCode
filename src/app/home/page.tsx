@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useState } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import TechCard from '@/components/TechCard'
 import ConstellationBackground from '@/components/ConstellationBackground'
@@ -38,6 +38,39 @@ export default function PortfolioPage() {
   const prefersReducedMotion = useReducedMotion()
   const [revealState, setRevealState] = useState<RevealState>({ mode: 'off' })
 
+  useLayoutEffect(() => {
+    const previousRestoration = window.history.scrollRestoration
+    window.history.scrollRestoration = 'manual'
+
+    const resetScroll = () => {
+      window.scrollTo(0, 0)
+      document.documentElement.scrollTop = 0
+      document.body.scrollTop = 0
+    }
+
+    resetScroll()
+    const frameA = requestAnimationFrame(resetScroll)
+    const frameB = requestAnimationFrame(() => requestAnimationFrame(resetScroll))
+    const timer = window.setTimeout(resetScroll, 60)
+    let resizeFrame = 0
+
+    const onResize = () => {
+      cancelAnimationFrame(resizeFrame)
+      resizeFrame = requestAnimationFrame(resetScroll)
+    }
+
+    window.addEventListener('resize', onResize)
+
+    return () => {
+      cancelAnimationFrame(frameA)
+      cancelAnimationFrame(frameB)
+      cancelAnimationFrame(resizeFrame)
+      window.clearTimeout(timer)
+      window.removeEventListener('resize', onResize)
+      window.history.scrollRestoration = previousRestoration
+    }
+  }, [])
+
   useEffect(() => {
     if (prefersReducedMotion) {
       window.sessionStorage.removeItem(HOME_REVEAL_KEY)
@@ -67,9 +100,9 @@ export default function PortfolioPage() {
   }, [prefersReducedMotion])
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-slate-50 text-slate-900 dark:bg-[#040914] dark:text-slate-100">
+    <div className="relative min-h-[100dvh] overflow-x-hidden bg-slate-50 text-slate-900 dark:bg-[#040914] dark:text-slate-100">
       <motion.main
-        className="relative min-h-screen"
+        className="relative"
         initial={false}
         animate={
           revealState.mode === 'reveal'
@@ -115,7 +148,7 @@ export default function PortfolioPage() {
 
         <SectionDivider duration={5200} delay={1800} />
 
-        <section id="hero" className="relative z-10 container mx-auto px-4 py-20">
+        <section id="hero" className="relative z-10 container mx-auto px-4 py-12 sm:py-16 lg:py-20">
           <header className="mx-auto max-w-3xl space-y-4 text-center">
             <h1 className="text-4xl font-bold">
               <span className="text-gradient-gpt">Tecnologias</span> 🖥️
