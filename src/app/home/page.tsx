@@ -7,6 +7,7 @@ import ConstellationBackground from '@/components/ConstellationBackground'
 import TechRing from '@/components/TechRing'
 import SectionDivider from '@/components/SectionDivider'
 import ExperienceSection from '@/components/ExperienceSection'
+import CareerOverviewSection from '@/components/CareerOverviewSection'
 import { EXPERIENCES } from '@/data/experience'
 
 const stacksGrid: string[] = ['css', 'javascript', 'sass', 'angular', 'react', 'vue']
@@ -102,9 +103,17 @@ export default function PortfolioPage() {
           <ConstellationBackground />
         </div>
 
-        <ExperienceSection items={EXPERIENCES} />
+        <CareerOverviewSection />
 
         <SectionDivider duration={5200} />
+
+        <section id="tech-ring" className="relative z-10">
+          <div className="container mx-auto px-4">
+            <TechRing items={ringItems} />
+          </div>
+        </section>
+
+        <SectionDivider duration={5200} delay={1800} />
 
         <section id="hero" className="relative z-10 container mx-auto px-4 py-20">
           <header className="mx-auto max-w-3xl space-y-4 text-center">
@@ -130,11 +139,7 @@ export default function PortfolioPage() {
 
         <SectionDivider duration={5200} delay={2500} />
 
-        <section id="tech-ring" className="relative z-10">
-          <div className="container mx-auto px-4">
-            <TechRing items={ringItems} />
-          </div>
-        </section>
+        <ExperienceSection items={EXPERIENCES} />
       </motion.main>
 
       <AnimatePresence>

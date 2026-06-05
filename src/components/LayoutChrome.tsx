@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import PUBLIC_ENV from '@/config/publicEnv'
 
 const ROOT_PATH = '/'
@@ -13,13 +14,42 @@ export default function LayoutChrome({ children }: { children: React.ReactNode }
   const pathname = usePathname() ?? ROOT_PATH
   const isLanding = pathname === ROOT_PATH
   const isHome = pathname === HOME_PATH
+  const [showBackToTop, setShowBackToTop] = useState(false)
   const phone = PUBLIC_ENV.WHATSAPP_PHONE?.replace(/\D/g, '')
   const whatsappHref = phone
     ? `https://wa.me/${phone}?text=${encodeURIComponent(PUBLIC_ENV.WHATSAPP_DEFAULT_MSG)}`
     : null
 
+  useEffect(() => {
+    const onScroll = () => {
+      setShowBackToTop(window.scrollY > 280)
+    }
+
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
   return (
     <>
+      {!isLanding ? (
+        <button
+          type="button"
+          aria-label="Volver arriba"
+          title="Volver arriba"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className={[
+            'fixed right-4 z-[9999] hidden h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-slate-950/78 text-2xl text-white shadow-[0_18px_40px_rgba(2,6,23,0.45)] backdrop-blur transition md:flex',
+            whatsappHref ? 'bottom-24' : 'bottom-4',
+            showBackToTop
+              ? 'pointer-events-auto translate-y-0 opacity-100 animate-vertical-bounce'
+              : 'pointer-events-none translate-y-3 opacity-0',
+          ].join(' ')}
+        >
+          <span aria-hidden>↑</span>
+        </button>
+      ) : null}
+
       {!isLanding && whatsappHref ? (
         <a
           href={whatsappHref}

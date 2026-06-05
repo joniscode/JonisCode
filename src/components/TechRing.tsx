@@ -20,8 +20,8 @@ type Layout = {
 function getRingLayout(viewportWidth: number, itemCount: number): Layout {
   if (viewportWidth < 640) {
     const tileSize = itemCount >= 13 ? 'compact' : 'cozy'
-    const minArc = itemCount >= 13 ? 76 : 84
-    const radius = Math.min(235, Math.max(185, Math.round((itemCount * minArc) / (2 * Math.PI))))
+    const minArc = itemCount >= 13 ? 84 : 92
+    const radius = Math.min(255, Math.max(200, Math.round((itemCount * minArc) / (2 * Math.PI))))
 
     return {
       radius,
@@ -32,8 +32,8 @@ function getRingLayout(viewportWidth: number, itemCount: number): Layout {
 
   if (viewportWidth < 1024) {
     const tileSize = itemCount >= 13 ? 'cozy' : 'regular'
-    const minArc = itemCount >= 13 ? 94 : 104
-    const radius = Math.min(300, Math.max(220, Math.round((itemCount * minArc) / (2 * Math.PI))))
+    const minArc = itemCount >= 13 ? 102 : 114
+    const radius = Math.min(325, Math.max(240, Math.round((itemCount * minArc) / (2 * Math.PI))))
 
     return {
       radius,
@@ -43,8 +43,8 @@ function getRingLayout(viewportWidth: number, itemCount: number): Layout {
   }
 
   const tileSize = itemCount >= 13 ? 'cozy' : 'regular'
-  const minArc = itemCount >= 13 ? 110 : 122
-  const radius = Math.min(380, Math.max(270, Math.round((itemCount * minArc) / (2 * Math.PI))))
+  const minArc = itemCount >= 13 ? 120 : 134
+  const radius = Math.min(410, Math.max(295, Math.round((itemCount * minArc) / (2 * Math.PI))))
 
   return {
     radius,

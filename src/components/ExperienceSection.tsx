@@ -93,7 +93,7 @@ export default function ExperienceSection({ items }: { items: ExperienceItem[] }
       if (delta === 0) return
 
       event.preventDefault()
-      track.scrollBy({ left: delta, behavior: 'smooth' })
+      track.scrollBy({ left: delta, behavior: 'auto' })
     }
 
     const onKeyDown = (event: KeyboardEvent) => {
@@ -136,7 +136,7 @@ export default function ExperienceSection({ items }: { items: ExperienceItem[] }
   const highlightedYear = isAtStart && years.includes(currentYear) ? currentYear : activeYear
 
   return (
-    <section id="experience" className="relative z-10 py-16">
+    <section id="experience" className="relative z-10 pt-16 pb-12">
       <div className="container mx-auto px-4">
         <header className="mx-auto mb-10 max-w-3xl space-y-4 text-center">
           <h2 className="text-4xl font-bold">
@@ -146,7 +146,7 @@ export default function ExperienceSection({ items }: { items: ExperienceItem[] }
         </header>
 
         <div className="grid gap-6 lg:grid-cols-[160px,1fr] lg:items-start">
-          <aside className="hidden lg:block lg:sticky lg:top-24">
+          <aside className="hidden lg:block">
             <div className="relative mx-auto flex min-h-[440px] w-24 flex-col items-center justify-between py-4">
               {years.map((year) => {
                 const isActive = year === highlightedYear
@@ -170,6 +170,14 @@ export default function ExperienceSection({ items }: { items: ExperienceItem[] }
           </aside>
 
           <div className="relative overflow-hidden">
+            {isAtStart ? (
+              <div className="pointer-events-none absolute right-5 top-1/2 z-10 -translate-y-1/2 lg:hidden">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-slate-950/70 text-2xl text-white/90 shadow-[0_14px_36px_rgba(2,6,23,0.45)] backdrop-blur-md animate-horizontal-nudge">
+                  <span aria-hidden>→</span>
+                </div>
+              </div>
+            ) : null}
+
             <div
               ref={trackRef}
               tabIndex={0}

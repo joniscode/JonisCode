@@ -68,6 +68,24 @@
     animation: beam-sweep 5s ease-in-out infinite alternate;
   }
 
+  @keyframes vertical-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  @keyframes horizontal-nudge {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(8px); }
+  }
+
+  .animate-vertical-bounce {
+    animation: vertical-bounce 1.6s ease-in-out infinite;
+  }
+
+  .animate-horizontal-nudge {
+    animation: horizontal-nudge 1.35s ease-in-out infinite;
+  }
+
   /* máscara para desvanecer en bordes (10% por defecto) */
   .mask-edge-fade {
     --edge: 10%;
