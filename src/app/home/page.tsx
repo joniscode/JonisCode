@@ -112,14 +112,15 @@ export default function PortfolioPage() {
                 scale: 1,
               }
             : {
-                clipPath: 'circle(150vmax at 50% 50%)',
                 opacity: 1,
                 scale: 1,
               }
         }
         style={
           revealState.mode === 'reveal'
-            ? { clipPath: `circle(28px at ${revealState.x}px ${revealState.y}px)` }
+            ? {
+                clipPath: `circle(${revealState.radius}px at ${revealState.x}px ${revealState.y}px)`,
+              }
             : undefined
         }
         transition={{
