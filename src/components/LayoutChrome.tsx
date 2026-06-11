@@ -8,7 +8,7 @@ import PUBLIC_ENV from '@/config/publicEnv'
 
 const ROOT_PATH = '/'
 const HOME_PATH = '/home'
-const WA_ICON = '/icons/whatsapp.png'
+const WA_ICON = '/icons/WhatsApp.png'
 
 export default function LayoutChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() ?? ROOT_PATH
