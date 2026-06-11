@@ -2,12 +2,9 @@
 
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
+import { calculateStudyHours, calculateWorkHours } from '@/lib/hourCounters'
 
-const STATS = [
-  { label: 'Horas de estudio', value: 3200, suffix: '+' },
-  { label: 'Horas de trabajo', value: 6800, suffix: '+' },
-  { label: 'Proyectos culminados', value: 14, suffix: '+' }
-]
+const PROJECTS_COMPLETED = 14
 
 const STUDIES = [
   'Especialización en Transformación Digital - En curso',
@@ -47,14 +44,53 @@ function useAnimatedValue(target: number, durationMs = 1400) {
   return value
 }
 
-function StatTile({ label, value, suffix }: { label: string; value: number; suffix: string }) {
+function useLiveCareerHours() {
+  const [hours, setHours] = useState(() => ({
+    study: calculateStudyHours().hours,
+    work: calculateWorkHours().hours,
+  }))
+
+  useEffect(() => {
+    const updateHours = () => {
+      setHours({
+        study: calculateStudyHours().hours,
+        work: calculateWorkHours().hours,
+      })
+    }
+
+    updateHours()
+    const interval = window.setInterval(updateHours, 1000)
+
+    return () => window.clearInterval(interval)
+  }, [])
+
+  return hours
+}
+
+function StatTile({
+  label,
+  value,
+  suffix,
+  precision = 0,
+  animated = true,
+}: {
+  label: string
+  value: number
+  suffix: string
+  precision?: number
+  animated?: boolean
+}) {
   const animatedValue = useAnimatedValue(value)
+  const displayValue = animated ? animatedValue : value
 
   return (
     <article className="border-b border-slate-200/70 pb-5 text-slate-900 dark:border-white/10 dark:text-slate-100">
       <p className="text-xs uppercase tracking-[0.22em] text-slate-500 dark:text-white/50">{label}</p>
       <p className="mt-3 text-3xl font-black sm:text-4xl">
-        {animatedValue}
+        {displayValue.toLocaleString('es-CO', {
+          maximumFractionDigits: precision,
+          minimumFractionDigits: precision,
+        })}
         {suffix}
       </p>
     </article>
@@ -62,6 +98,14 @@ function StatTile({ label, value, suffix }: { label: string; value: number; suff
 }
 
 export default function CareerOverviewSection() {
+  const careerHours = useLiveCareerHours()
+
+  const stats = [
+    { label: 'Horas de estudio', value: careerHours.study, suffix: '+', precision: 0, animated: false },
+    { label: 'Horas de trabajo', value: careerHours.work, suffix: '+', precision: 0, animated: false },
+    { label: 'Proyectos culminados', value: PROJECTS_COMPLETED, suffix: '+', precision: 0, animated: true },
+  ]
+
   return (
     <section id="career-overview" className="relative z-10 container mx-auto px-4 pt-4 pb-10 sm:pt-8 sm:pb-12 lg:pt-12 lg:pb-16">
       <div
@@ -116,7 +160,7 @@ export default function CareerOverviewSection() {
           </div>
 
           <aside className="order-1 space-y-3 lg:order-3 lg:space-y-5">
-            {STATS.map((stat) => (
+            {stats.map((stat) => (
               <StatTile key={stat.label} {...stat} />
             ))}
           </aside>
