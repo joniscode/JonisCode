@@ -39,14 +39,13 @@ export default function TechCard({ slug, icon, label: labelProp }: Props) {
         />
 
         <div className="relative z-10 flex h-full flex-col items-center justify-center p-4 sm:p-6">
-          <div className="flex h-12 items-center justify-center transition-transform duration-300 group-hover:scale-110 sm:h-20">
+          <div className="relative h-12 w-12 transition-transform duration-300 group-hover:scale-110 sm:h-20 sm:w-20">
             <Image
               src={src}
               alt={label}
-              width={72}
-              height={72}
-              className="max-h-full w-auto object-contain opacity-90"
-              style={{ width: 'auto', height: 'auto' }}
+              fill
+              sizes="80px"
+              className="object-contain opacity-90"
             />
           </div>
 

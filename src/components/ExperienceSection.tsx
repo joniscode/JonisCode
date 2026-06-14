@@ -32,7 +32,6 @@ export default function ExperienceSection({ items }: { items: ExperienceItem[] }
   )
   const [activeIndex, setActiveIndex] = useState(0)
   const [isAtStart, setIsAtStart] = useState(true)
-  const [activeCardHeight, setActiveCardHeight] = useState<number | null>(null)
   const trackRef = useRef<HTMLDivElement>(null)
   const cardRefs = useRef<Array<HTMLElement | null>>([])
   const activeIndexRef = useRef(0)
@@ -133,21 +132,6 @@ export default function ExperienceSection({ items }: { items: ExperienceItem[] }
     }
   }, [sorted.length])
 
-  useEffect(() => {
-    const updateActiveHeight = () => {
-      const activeCard = cardRefs.current[activeIndex]
-      if (!activeCard) return
-
-      const verticalPadding = 48
-      const nextHeight = Math.ceil(activeCard.offsetHeight + verticalPadding)
-      setActiveCardHeight((prev) => (prev === nextHeight ? prev : nextHeight))
-    }
-
-    updateActiveHeight()
-    window.addEventListener('resize', updateActiveHeight)
-    return () => window.removeEventListener('resize', updateActiveHeight)
-  }, [activeIndex, sorted.length])
-
   const activeYear = sorted[activeIndex]?.year
   const highlightedYear = isAtStart && years.includes(currentYear) ? currentYear : activeYear
 
@@ -185,10 +169,7 @@ export default function ExperienceSection({ items }: { items: ExperienceItem[] }
             </div>
           </aside>
 
-          <div
-            className="relative overflow-hidden transition-[height] duration-300 ease-out"
-            style={activeCardHeight ? { height: `${activeCardHeight}px` } : undefined}
-          >
+          <div className="relative overflow-hidden">
             {isAtStart ? (
               <div className="pointer-events-none absolute right-5 top-1/2 z-10 -translate-y-1/2 lg:hidden">
                 <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-slate-950/70 text-2xl text-white/90 shadow-[0_14px_36px_rgba(2,6,23,0.45)] backdrop-blur-md animate-horizontal-nudge">

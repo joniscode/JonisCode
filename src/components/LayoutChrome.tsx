@@ -8,7 +8,7 @@ import PUBLIC_ENV from '@/config/publicEnv'
 
 const ROOT_PATH = '/'
 const HOME_PATH = '/home'
-const WA_ICON = '/icons/WhatsApp.png'
+const WA_ICON = '/icons/whatsapp.png'
 
 export default function LayoutChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() ?? ROOT_PATH
@@ -22,7 +22,8 @@ export default function LayoutChrome({ children }: { children: React.ReactNode }
 
   useEffect(() => {
     const onScroll = () => {
-      setShowBackToTop(window.scrollY > 280)
+      const shouldShow = window.scrollY > 280
+      setShowBackToTop((current) => (current === shouldShow ? current : shouldShow))
     }
 
     onScroll()

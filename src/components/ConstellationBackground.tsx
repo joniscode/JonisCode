@@ -84,9 +84,12 @@ export default function ConstellationBackground({
     let influence = 0
     let isDark = root.classList.contains('dark')
     let isRunning = false
+    let resizeFrame = 0
+    let lastFrameTime = 0
 
     const isMobile = matchMedia('(max-width: 640px)').matches || (navigator.maxTouchPoints ?? 0) > 0
     const densityScale = reducedMotion ? 0.7 : 1
+    const targetFrameMs = reducedMotion ? 1000 / 18 : quality === 'lite' ? 1000 / 28 : 1000 / 36
     const baseDensity = Math.floor((w * h) / settings.densityDivisor)
     const density = Math.min(
       settings.maxDots,
@@ -136,7 +139,8 @@ export default function ConstellationBackground({
     const onResize = () => {
       w = window.innerWidth
       h = window.innerHeight
-      applyCanvasSize()
+      cancelAnimationFrame(resizeFrame)
+      resizeFrame = requestAnimationFrame(applyCanvasSize)
     }
 
     const onMove = (e: PointerEvent) => {
@@ -197,12 +201,18 @@ export default function ConstellationBackground({
 
     document.addEventListener('visibilitychange', onVisibilityChange)
 
-    const tick = () => {
+    const tick = (now: number) => {
       if (document.visibilityState !== 'visible') {
         stop()
         return
       }
 
+      if (now - lastFrameTime < targetFrameMs) {
+        rafRef.current = requestAnimationFrame(tick)
+        return
+      }
+
+      lastFrameTime = now
       ctx.clearRect(0, 0, w, h)
 
       const dotColor = isDark ? 'rgba(173,186,207,0.65)' : 'rgba(31,41,55,0.55)'
@@ -211,7 +221,6 @@ export default function ConstellationBackground({
 
       const dots = dotsRef.current
       const m = mouseRef.current
-      const now = performance.now()
 
       if (now - m.lastMove > 120) {
         m.strength *= 0.92
@@ -363,6 +372,7 @@ export default function ConstellationBackground({
     return () => {
       stop()
       themeObserver.disconnect()
+      cancelAnimationFrame(resizeFrame)
       window.removeEventListener('resize', onResize)
       if (interactive) {
         window.removeEventListener('pointermove', onMove)

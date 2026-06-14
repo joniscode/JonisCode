@@ -55,7 +55,7 @@ export default async function TechDetail({ params }: { params: Promise<{ slug: s
         <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-2">
           {entry.projects.map((project) => (
             <TechShowcaseCard
-              key={project.name}
+              key={`${project.tech}:${project.href}`}
               name={project.name}
               image={project.image}
               href={project.href}

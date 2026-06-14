@@ -65,12 +65,15 @@ function setRingTransform(
 }
 
 export default function TechRing({ items, tiltDeg = 12, autoSpeed = 0.18 }: Props) {
+  const sceneRef = useRef<HTMLDivElement | null>(null)
   const ringRef = useRef<HTMLDivElement | null>(null)
   const frameRef = useRef<number | null>(null)
+  const resizeFrameRef = useRef<number | null>(null)
   const dragRef = useRef<{ dragging: boolean; lastX: number } | null>(null)
   const velocityRef = useRef(0)
   const angleRef = useRef(0)
   const [layout, setLayout] = useState<Layout>({ radius: 260, sceneHeight: 500, tileSize: 'regular' })
+  const [isVisible, setIsVisible] = useState(true)
 
   const data = useMemo(
     () =>
@@ -91,9 +94,21 @@ export default function TechRing({ items, tiltDeg = 12, autoSpeed = 0.18 }: Prop
       setLayout(getRingLayout(window.innerWidth, data.length))
     }
 
+    const scheduleLayout = () => {
+      if (resizeFrameRef.current !== null) return
+
+      resizeFrameRef.current = requestAnimationFrame(() => {
+        resizeFrameRef.current = null
+        updateLayout()
+      })
+    }
+
     updateLayout()
-    window.addEventListener('resize', updateLayout)
-    return () => window.removeEventListener('resize', updateLayout)
+    window.addEventListener('resize', scheduleLayout)
+    return () => {
+      if (resizeFrameRef.current !== null) cancelAnimationFrame(resizeFrameRef.current)
+      window.removeEventListener('resize', scheduleLayout)
+    }
   }, [data.length])
 
   useEffect(() => {
@@ -101,13 +116,43 @@ export default function TechRing({ items, tiltDeg = 12, autoSpeed = 0.18 }: Prop
   }, [lift, tiltDeg])
 
   useEffect(() => {
-    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const scene = sceneRef.current
+    if (!scene) return
 
-    const tick = () => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting)
+      },
+      { threshold: 0.2 }
+    )
+
+    observer.observe(scene)
+
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const targetFrameMs = motionQuery.matches ? 1000 / 18 : 1000 / 30
+    let lastFrameTime = 0
+
+    if (motionQuery.matches || !isVisible) {
+      setRingTransform(ringRef.current, lift, tiltDeg, angleRef.current)
+      return
+    }
+
+    const tick = (now: number) => {
       if (document.visibilityState !== 'visible') {
         frameRef.current = requestAnimationFrame(tick)
         return
       }
+
+      if (now - lastFrameTime < targetFrameMs) {
+        frameRef.current = requestAnimationFrame(tick)
+        return
+      }
+
+      lastFrameTime = now
 
       if (!dragRef.current?.dragging && !motionQuery.matches) {
         velocityRef.current *= 0.96
@@ -124,7 +169,7 @@ export default function TechRing({ items, tiltDeg = 12, autoSpeed = 0.18 }: Prop
     return () => {
       if (frameRef.current) cancelAnimationFrame(frameRef.current)
     }
-  }, [autoSpeed, lift, tiltDeg])
+  }, [autoSpeed, isVisible, lift, tiltDeg])
 
   useEffect(() => {
     const el = ringRef.current
@@ -141,11 +186,16 @@ export default function TechRing({ items, tiltDeg = 12, autoSpeed = 0.18 }: Prop
 
       const delta = event.clientX - state.lastX
       state.lastX = event.clientX
-      velocityRef.current = delta * 0.12
+      angleRef.current += delta * 0.35
+      velocityRef.current = delta * 0.08
+      setRingTransform(ringRef.current, lift, tiltDeg, angleRef.current)
     }
 
     const onUp = (event: PointerEvent) => {
       dragRef.current = { dragging: false, lastX: event.clientX }
+      if (el.hasPointerCapture(event.pointerId)) {
+        el.releasePointerCapture(event.pointerId)
+      }
     }
 
     el.addEventListener('pointerdown', onDown)
@@ -159,7 +209,7 @@ export default function TechRing({ items, tiltDeg = 12, autoSpeed = 0.18 }: Prop
       el.removeEventListener('pointerup', onUp)
       el.removeEventListener('pointercancel', onUp)
     }
-  }, [])
+  }, [lift, tiltDeg])
 
   return (
     <div className="relative mx-auto w-full max-w-6xl pt-2 sm:pt-3">
@@ -175,6 +225,7 @@ export default function TechRing({ items, tiltDeg = 12, autoSpeed = 0.18 }: Prop
 
       <div className="relative px-2 py-4 sm:px-4 sm:py-6">
         <div
+          ref={sceneRef}
           className="relative mx-auto [perspective:1600px]"
           style={{ height: `${sceneHeight}px` }}
         >

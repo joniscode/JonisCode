@@ -23,6 +23,7 @@ export default function TechShowcaseCard({ name, image, href, label }: Props) {
               src={image}
               alt={name}
               fill
+              sizes="(min-width: 1280px) 544px, (min-width: 768px) 44vw, 100vw"
               className="object-cover transition-transform duration-500 group-hover:scale-105"
             />
           </div>

@@ -14,10 +14,22 @@ const STUDIES = [
   'Bootcamp de Inteligencia Artificial Básico - 2025',
 ]
 
-function useAnimatedValue(target: number, durationMs = 1400) {
-  const [value, setValue] = useState(0)
+function getCareerHoursSnapshot() {
+  return {
+    study: Math.floor(calculateStudyHours().hours),
+    work: Math.floor(calculateWorkHours().hours),
+  }
+}
+
+function useAnimatedValue(target: number, durationMs = 1400, enabled = true) {
+  const [value, setValue] = useState(() => (enabled ? 0 : target))
 
   useEffect(() => {
+    if (!enabled) {
+      setValue(target)
+      return
+    }
+
     const media = window.matchMedia('(prefers-reduced-motion: reduce)')
     if (media.matches) {
       setValue(target)
@@ -39,27 +51,21 @@ function useAnimatedValue(target: number, durationMs = 1400) {
 
     frame = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(frame)
-  }, [durationMs, target])
+  }, [durationMs, enabled, target])
 
   return value
 }
 
 function useLiveCareerHours() {
-  const [hours, setHours] = useState(() => ({
-    study: calculateStudyHours().hours,
-    work: calculateWorkHours().hours,
-  }))
+  const [hours, setHours] = useState(getCareerHoursSnapshot)
 
   useEffect(() => {
     const updateHours = () => {
-      setHours({
-        study: calculateStudyHours().hours,
-        work: calculateWorkHours().hours,
-      })
+      setHours(getCareerHoursSnapshot())
     }
 
     updateHours()
-    const interval = window.setInterval(updateHours, 1000)
+    const interval = window.setInterval(updateHours, 60000)
 
     return () => window.clearInterval(interval)
   }, [])
@@ -80,7 +86,7 @@ function StatTile({
   precision?: number
   animated?: boolean
 }) {
-  const animatedValue = useAnimatedValue(value)
+  const animatedValue = useAnimatedValue(value, 1400, animated)
   const displayValue = animated ? animatedValue : value
 
   return (

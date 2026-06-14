@@ -74,8 +74,8 @@ export default function ExperienceCard({
         <div className="mt-4">
           <p className="font-semibold">Logros personales:</p>
           <ul className="mt-2 list-disc space-y-1 pl-5">
-            {achievements.map((achievement, index) => (
-              <li key={index}>{achievement}</li>
+            {achievements.map((achievement) => (
+              <li key={achievement}>{achievement}</li>
             ))}
           </ul>
         </div>

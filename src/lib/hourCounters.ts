@@ -29,6 +29,8 @@ const WORKDAY_HOURS = 8
 const ANNUAL_VACATION_DAYS = 20
 const VACATION_START_MONTH = 11
 const VACATION_START_DAY = 20
+const HOLIDAY_CACHE = new Map<number, Set<string>>()
+const VACATION_RANGE_CACHE = new Map<number, { start: Date; end: Date }>()
 
 export const DEFAULT_STUDY_COUNTER_CONFIG: StudyCounterConfig = {
   baselineHours: 3200,
@@ -99,6 +101,9 @@ function getEasterDate(year: number) {
 }
 
 function getColombianHolidaySet(year: number) {
+  const cached = HOLIDAY_CACHE.get(year)
+  if (cached) return cached
+
   const easter = getEasterDate(year)
   const fixedDates = [
     new Date(year, 0, 1),
@@ -129,7 +134,12 @@ function getColombianHolidaySet(year: number) {
 
   const recentHolidays = year >= 2026 ? [nextMonday(new Date(year, 6, 9))] : []
 
-  return new Set([...fixedDates, ...movedToMonday, ...easterBased, ...recentHolidays].map(toLocalDateString))
+  const holidays = new Set(
+    [...fixedDates, ...movedToMonday, ...easterBased, ...recentHolidays].map(toLocalDateString)
+  )
+
+  HOLIDAY_CACHE.set(year, holidays)
+  return holidays
 }
 
 function isColombianHoliday(date: Date) {
@@ -146,6 +156,9 @@ function isBusinessDay(date: Date) {
 }
 
 function getVacationRangeForYear(year: number) {
+  const cached = VACATION_RANGE_CACHE.get(year)
+  if (cached) return cached
+
   const start = new Date(year, VACATION_START_MONTH, VACATION_START_DAY)
   let end = startOfDay(start)
   let usedBusinessDays = 0
@@ -160,7 +173,10 @@ function getVacationRangeForYear(year: number) {
     }
   }
 
-  return { start: startOfDay(start), end: startOfDay(end) }
+  const range = { start: startOfDay(start), end: startOfDay(end) }
+  VACATION_RANGE_CACHE.set(year, range)
+
+  return range
 }
 
 function isWorkVacationDay(date: Date) {

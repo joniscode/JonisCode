@@ -3,10 +3,9 @@
 import Image from 'next/image'
 import type { RefObject } from 'react'
 import { useEffect, useRef, useState, startTransition } from 'react'
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import BrandLoader from '@/components/BrandLoader'
-import ConstellationBackground from '@/components/ConstellationBackground'
+import usePrefersReducedMotion from '@/lib/usePrefersReducedMotion'
 
 const HOME_REVEAL_KEY = 'joniscode-home-reveal'
 const HOME_REVEAL_ORIGIN_KEY = 'joniscode-home-reveal-origin'
@@ -39,7 +38,10 @@ function CoverScreen({
           onClick={onEnter}
           disabled={disabled}
           aria-busy={disabled}
-          className="group inline-flex items-center gap-3 rounded-2xl border border-white/55 bg-slate-950/30 px-8 py-4 text-white shadow-[0_20px_50px_rgba(5,8,20,0.35)] backdrop-blur-xl transition hover:bg-white/18 hover:shadow-[0_24px_60px_rgba(5,8,20,0.45)] focus:outline-none focus:ring-2 focus:ring-cyan-300/70 disabled:cursor-wait disabled:opacity-80"
+          className={[
+            'group inline-flex items-center gap-3 rounded-2xl border border-white/55 bg-slate-950/30 px-8 py-4 text-white shadow-[0_20px_50px_rgba(5,8,20,0.35)] backdrop-blur-xl transition hover:bg-white/18 hover:shadow-[0_24px_60px_rgba(5,8,20,0.45)] focus:outline-none focus:ring-2 focus:ring-cyan-300/70 disabled:cursor-wait',
+            disabled ? 'pointer-events-none opacity-0' : 'opacity-100',
+          ].join(' ')}
         >
           <span className="text-lg font-semibold uppercase tracking-wider">Entrar</span>
           <svg
@@ -69,15 +71,13 @@ function CoverScreen({
 export default function Page() {
   const [isNavigating, setIsNavigating] = useState(false)
   const buttonRef = useRef<HTMLButtonElement | null>(null)
-  const navigateTimeoutRef = useRef<number | null>(null)
   const fallbackTimeoutRef = useRef<number | null>(null)
   const router = useRouter()
-  const prefersReducedMotion = useReducedMotion()
+  const prefersReducedMotion = usePrefersReducedMotion()
 
   useEffect(() => {
     router.prefetch('/home')
     return () => {
-      if (navigateTimeoutRef.current !== null) window.clearTimeout(navigateTimeoutRef.current)
       if (fallbackTimeoutRef.current !== null) window.clearTimeout(fallbackTimeoutRef.current)
     }
   }, [router])
@@ -97,79 +97,42 @@ export default function Page() {
     if (isNavigating) return
 
     storeRevealOrigin()
-
-    if (prefersReducedMotion) {
-      startTransition(() => {
-        router.replace('/home')
-      })
-
-      fallbackTimeoutRef.current = window.setTimeout(() => {
-        if (window.location.pathname !== '/home') {
-          window.location.assign('/home')
-        }
-      }, 350)
-
-      return
-    }
-
     setIsNavigating(true)
 
-    navigateTimeoutRef.current = window.setTimeout(() => {
-      startTransition(() => {
-        router.replace('/home')
-      })
+    startTransition(() => {
+      router.replace('/home', { scroll: true })
+    })
 
-      fallbackTimeoutRef.current = window.setTimeout(() => {
-        if (window.location.pathname !== '/home') {
-          window.location.assign('/home')
-        }
-      }, 500)
-    }, 140)
+    fallbackTimeoutRef.current = window.setTimeout(() => {
+      if (window.location.pathname !== '/home') {
+        window.location.assign('/home')
+      }
+    }, prefersReducedMotion ? 350 : 1200)
   }
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-slate-100 dark:bg-[#060812]">
-      <motion.div
-        initial={false}
-        animate={
-          isNavigating
-            ? { opacity: 0.18, scale: 1.02, filter: 'blur(5px) brightness(0.78)' }
-            : { opacity: 1, scale: 1, filter: 'blur(0px) brightness(1)' }
-        }
-        transition={{ duration: 0.42, ease: [0.2, 0.8, 0.2, 1] }}
+      <div
+        style={{
+          opacity: isNavigating ? 0.5 : 1,
+          transform: isNavigating ? 'scale(1.01)' : 'scale(1)',
+          filter: isNavigating ? 'blur(2px) brightness(0.92)' : 'blur(0px) brightness(1)',
+          transition: 'opacity 180ms cubic-bezier(0.2, 0.8, 0.2, 1), transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1), filter 180ms cubic-bezier(0.2, 0.8, 0.2, 1)',
+        }}
       >
         <CoverScreen buttonRef={buttonRef} onEnter={handleEnter} disabled={isNavigating} />
-      </motion.div>
+      </div>
 
-      <AnimatePresence>
-        {isNavigating && (
-          <motion.div
-            className="pointer-events-none absolute inset-0 z-20 overflow-hidden"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.32, ease: 'easeOut' }}
-          >
-            <div aria-hidden className="absolute inset-0">
-              <ConstellationBackground interactive={false} quality="lite" />
-            </div>
+      {isNavigating ? (
+        <div className="pointer-events-none absolute inset-0 z-20 overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(19,176,245,0.14)_0%,rgba(10,18,35,0.78)_34%,rgba(4,9,20,0.94)_68%,rgba(4,9,20,1)_100%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,9,20,0.3)_0%,rgba(4,9,20,0.08)_28%,rgba(4,9,20,0.2)_65%,rgba(4,9,20,0.62)_100%)]" />
 
-            <div
-              className="absolute inset-0"
-              style={{
-                background:
-                  'radial-gradient(circle at center, rgba(19,176,245,0.16) 0%, rgba(10,18,35,0.82) 34%, rgba(4,9,20,0.94) 68%, rgba(4,9,20,1) 100%)',
-              }}
-            />
-
-            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,9,20,0.34)_0%,rgba(4,9,20,0.08)_28%,rgba(4,9,20,0.22)_65%,rgba(4,9,20,0.68)_100%)]" />
-
-            <div className="relative z-10 flex min-h-screen items-center justify-center">
-              <BrandLoader label="Abriendo vista" size={140} />
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          <div className="relative z-10 flex min-h-screen items-center justify-center">
+            <BrandLoader size={140} />
+          </div>
+        </div>
+      ) : null}
     </div>
   )
 }
