@@ -24,12 +24,14 @@ export type ExperienceItem = {
 const markerStyles = [
   'bg-gradient-to-br from-cyan-300 to-blue-500 text-slate-950 shadow-cyan-400/25',
   'bg-gradient-to-br from-blue-400 to-cyan-300 text-slate-950 shadow-blue-400/25',
+  'bg-gradient-to-br from-emerald-200 to-emerald-400 text-slate-950 shadow-emerald-300/25',
   'bg-gradient-to-br from-orange-300 to-orange-500 text-slate-950 shadow-orange-300/25',
 ]
 
 const periodStyles = [
   'bg-gradient-to-r from-cyan-300 to-blue-500',
   'bg-gradient-to-r from-blue-400 to-cyan-300',
+  'bg-gradient-to-r from-emerald-200 to-emerald-400',
   'bg-gradient-to-r from-orange-300 to-orange-500',
 ]
 

@@ -72,7 +72,7 @@ export default function PortfolioPage() {
 
         <SectionDivider duration={5200} />
 
-        <section id="tools" className="relative z-10">
+        <section id="tools" className="relative z-10 min-h-[92dvh] py-14 sm:py-16 lg:py-20">
           <div className="container mx-auto px-4">
             <TechRing items={RING_TECHNOLOGIES} />
           </div>
@@ -90,11 +90,11 @@ export default function PortfolioPage() {
             </p>
           </header>
 
-          <ul className="mt-10 flex flex-wrap justify-center gap-4 sm:gap-6">
+          <ul className="mx-auto mt-10 grid grid-cols-1 justify-center gap-5 min-[420px]:grid-cols-[repeat(2,minmax(0,280px))] sm:gap-6 lg:grid-cols-[repeat(4,minmax(0,260px))]">
             {HOME_TECHNOLOGIES.map((technology) => (
               <li
                 key={technology.slug}
-                className="flex min-w-0 basis-[calc(50%-0.5rem)] max-[380px]:basis-full sm:basis-[calc(50%-0.75rem)] lg:basis-[calc(25%-1.125rem)]"
+                className="min-w-0 max-[419px]:w-full"
               >
                 <TechCard
                   slug={technology.slug}

@@ -96,25 +96,25 @@
     {
       "slug": "python",
       "label": "Python",
-      "icon": "/icons/python.svg",
+      "icon": "/icons/python.png",
       "showInRing": true
     },
     {
       "slug": "java",
       "label": "Java",
-      "icon": "/icons/java.svg",
+      "icon": "/icons/java.png",
       "showInRing": true
     },
     {
       "slug": "aws",
       "label": "AWS",
-      "icon": "/icons/aws.svg",
+      "icon": "/icons/aws.png",
       "showInRing": true
     },
     {
       "slug": "linux",
       "label": "Linux",
-      "icon": "/icons/linux.svg",
+      "icon": "/icons/linux.png",
       "showInRing": true
     }
   ],

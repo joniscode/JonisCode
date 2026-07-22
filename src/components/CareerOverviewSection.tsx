@@ -23,11 +23,11 @@ const COPY = {
       'I am Jonathan Arevalo, a Front-End Developer from Colombia. I build clean, reusable and scalable web experiences with React, Next.js, Angular, TypeScript and Tailwind CSS.',
     detail:
       'My focus is frontend architecture, microfrontends, ecommerce, automation and integrations that turn ideas into maintainable digital products.',
-    years: '+2 years of experience',
+    years: '+5 years of experience',
     location: 'Bogotá - Colombia',
     contact: 'Contact me',
     studiesTitle: 'Studies',
-    learningTitle: 'Currently learning',
+    learningTitle: 'Current studies',
     learningCopy:
       'I am strengthening my backend and cloud profile with Python, Java and AWS, while keeping Linux as part of my daily technical workflow.',
     studies: [
@@ -51,11 +51,11 @@ const COPY = {
       'Soy Jonathan Arevalo, desarrollador Front-End de Colombia. Construyo experiencias web limpias, reutilizables y escalables con React, Next.js, Angular, TypeScript y Tailwind CSS.',
     detail:
       'Me enfoco en arquitectura frontend, microfrontends, ecommerce, automatización e integraciones que convierten ideas en productos digitales mantenibles.',
-    years: '+2 años de experiencia',
+    years: '+5 años de experiencia',
     location: 'Bogotá - Colombia',
     contact: 'Contáctame',
     studiesTitle: 'Estudios',
-    learningTitle: 'Actualmente estudio',
+    learningTitle: 'Estudios actuales',
     learningCopy:
       'Estoy fortaleciendo mi perfil backend y cloud con Python, Java y AWS, manteniendo Linux como parte de mi flujo técnico diario.',
     studies: [
@@ -69,10 +69,10 @@ const COPY = {
 } as const
 
 const LEARNING = [
-  { label: 'Python', icon: '/icons/python.svg' },
-  { label: 'Java', icon: '/icons/java.svg' },
-  { label: 'AWS', icon: '/icons/aws.svg' },
-  { label: 'Linux', icon: '/icons/linux.svg' },
+  { label: 'Python', icon: '/icons/python.png' },
+  { label: 'Java', icon: '/icons/java.png' },
+  { label: 'AWS', icon: '/icons/aws.png' },
+  { label: 'Linux', icon: '/icons/linux.png' },
 ]
 
 function WhatsAppIcon() {
@@ -130,13 +130,11 @@ function StudiesMarquee({ studies }: { studies: readonly (readonly [string, stri
         {marqueeStudies.map(([title, detail], index) => (
           <li
             key={`${title}-${index}`}
-            className="flex w-[280px] shrink-0 items-center gap-3 rounded-sm border border-cyan-500/25 bg-white/88 p-3 text-slate-950 shadow-[0_12px_30px_rgba(15,23,42,0.08)] dark:bg-slate-950/50 dark:text-white"
+            className="flex min-h-[76px] w-[280px] shrink-0 items-center gap-3 rounded-sm border border-cyan-500/25 bg-white/88 p-3 text-slate-950 shadow-[0_12px_30px_rgba(15,23,42,0.08)] dark:bg-slate-950/50 dark:text-white"
           >
-            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-gradient-to-br from-cyan-300 to-blue-500 text-xs font-black text-slate-950">
-              {(index % studies.length) + 1}
-            </span>
-            <span className="min-w-0">
-              <span className="block truncate text-sm font-bold">{title}</span>
+            <span aria-hidden className="h-8 w-8 shrink-0 rounded-full border border-cyan-500/25 bg-cyan-300/20" />
+            <span className="min-w-0 flex-1">
+              <span className="block text-sm font-bold leading-5">{title}</span>
               <span className="block text-xs text-slate-600 dark:text-cyan-100/75">{detail}</span>
             </span>
           </li>
@@ -168,23 +166,24 @@ export default function CareerOverviewSection() {
         }}
       />
 
-      <div className="relative mx-auto flex min-h-[100dvh] max-w-7xl flex-col px-4 py-5 sm:px-6 lg:px-8">
-        <header className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+      <header className="fixed left-0 right-0 top-0 z-50 border-b border-slate-200/70 bg-white/86 backdrop-blur-xl dark:border-white/10 dark:bg-[#040914]/82">
+        <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-3 px-4 py-3 pr-28 sm:flex-row sm:items-center sm:px-6 sm:pr-32 lg:px-8 lg:pr-36">
           <a href="#home" className="inline-flex items-center gap-2 text-2xl font-black">
             <Image src="/images/Logo.png" alt="" width={34} height={34} className="h-8 w-8 object-contain" />
             <span>JonisCode</span>
           </a>
 
-          <nav aria-label="Main sections" className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-medium">
+          <nav aria-label="Main sections" className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm font-medium sm:gap-x-5">
             <a className="hover:text-cyan-500" href="#home">{t.nav.home}</a>
-            <a className="hover:text-cyan-500" href="#studies">{t.nav.studies}</a>
             <a className="hover:text-cyan-500" href="#portfolio">{t.nav.portfolio}</a>
             <a className="hover:text-cyan-500" href="#tools">{t.nav.tools}</a>
             <a className="hover:text-cyan-500" href="#experience">{t.nav.experience}</a>
           </nav>
-        </header>
+        </div>
+      </header>
 
-        <div className="grid flex-1 items-center gap-8 py-10 lg:grid-cols-[0.9fr,1.1fr] lg:gap-12 lg:py-14">
+      <div className="relative mx-auto flex min-h-[100dvh] max-w-7xl flex-col px-4 pb-5 pt-28 sm:px-6 sm:pt-24 lg:min-h-[calc(100dvh-56px)] lg:px-8 lg:pt-16">
+        <div className="grid flex-1 items-center gap-8 py-10 lg:flex-none lg:grid-cols-[0.9fr,1.1fr] lg:gap-12 lg:py-8">
           <div className="space-y-8">
             <div className="relative w-fit">
               <div className="relative h-28 w-28 overflow-hidden rounded-full border-2 border-slate-950 bg-white shadow-[5px_5px_0_rgba(15,23,42,0.95)] sm:h-32 sm:w-32">
@@ -202,12 +201,9 @@ export default function CareerOverviewSection() {
               <div className="mt-2 h-4 w-64 max-w-full bg-gradient-to-r from-cyan-300 via-blue-500 to-orange-400 sm:w-80" />
             </div>
 
-            <p className="max-w-md text-xl font-medium text-slate-800 dark:text-slate-200">
-              {t.years}
-            </p>
           </div>
 
-          <div className="space-y-8 lg:pt-24">
+          <div className="space-y-6 lg:pt-8">
             <div className="max-w-2xl space-y-4 text-lg leading-8 text-slate-800 dark:text-slate-200 sm:text-xl">
               <p>{t.summary}</p>
               <p className="text-base leading-7 opacity-80">{t.detail}</p>
@@ -236,18 +232,13 @@ export default function CareerOverviewSection() {
           </div>
         </div>
 
-        <div id="studies" className="pb-8">
+        <div className="pb-8 lg:-mt-2">
           <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <p className="text-xl font-medium text-slate-950 dark:text-white">{t.years}</p>
-            <div className="flex items-center gap-5">
-              <svg aria-hidden="true" viewBox="0 0 120 70" className="h-16 w-28 text-slate-950 dark:text-white">
-                <path d="M96 12c-20 6-36 16-46 33-7 13 11 15 17 3 4-8-5-18-17-9-12 9-22 14-36 16" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
-                <path d="M18 46 9 56l13 5" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              <div className="rotate-[7deg] bg-cyan-300 px-4 py-2 text-4xl font-black italic text-slate-950 sm:text-5xl">
-                {t.studiesTitle}
-              </div>
-            </div>
+            <svg aria-hidden="true" viewBox="0 0 120 70" className="hidden h-16 w-28 -translate-x-16 text-slate-950 dark:text-white lg:block">
+              <path d="M96 12c-20 6-36 16-46 33-7 13 11 15 17 3 4-8-5-18-17-9-12 9-22 14-36 16" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+              <path d="M18 46 9 56l13 5" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
           </div>
           <StudiesMarquee studies={t.studies} />
         </div>
