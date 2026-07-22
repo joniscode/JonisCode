@@ -2,6 +2,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import LayoutChrome from '@/components/LayoutChrome'
+import { LanguageProvider } from '@/components/LanguageProvider'
 import ThemeToggle from '@/components/ThemeToggle'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -33,7 +34,7 @@ export const metadata: Metadata = {
     template: '%s',
   },
   description:
-    'Portafolio de JonisCode con experiencia destacada, tecnologias y proyectos de desarrollo frontend.',
+    'JonisCode portfolio with highlighted experience, technologies and frontend development projects.',
   applicationName: 'JonisCode',
   manifest: '/manifest.webmanifest',
   icons: {
@@ -44,23 +45,23 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'JonisCode',
     description:
-      'Portafolio de JonisCode con experiencia destacada, tecnologias y proyectos de desarrollo frontend.',
+      'JonisCode portfolio with highlighted experience, technologies and frontend development projects.',
     images: ['/images/cover.jpg'],
     type: 'website',
-    locale: 'es_CO',
+    locale: 'en_US',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'JonisCode',
     description:
-      'Portafolio de JonisCode con experiencia destacada, tecnologias y proyectos de desarrollo frontend.',
+      'JonisCode portfolio with highlighted experience, technologies and frontend development projects.',
     images: ['/images/cover.jpg'],
   },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -85,8 +86,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dark:bg-[#0b1220] dark:text-slate-100
         `}
       >
-        <ThemeToggle />
-        <LayoutChrome>{children}</LayoutChrome>
+        <LanguageProvider>
+          <ThemeToggle />
+          <LayoutChrome>{children}</LayoutChrome>
+        </LanguageProvider>
       </body>
     </html>
   )

@@ -1,24 +1,17 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import PUBLIC_ENV from '@/config/publicEnv'
 
 const ROOT_PATH = '/'
 const HOME_PATH = '/home'
-const WA_ICON = '/icons/whatsapp.png'
 
 export default function LayoutChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() ?? ROOT_PATH
   const isLanding = pathname === ROOT_PATH
   const isHome = pathname === HOME_PATH
   const [showBackToTop, setShowBackToTop] = useState(false)
-  const phone = PUBLIC_ENV.WHATSAPP_PHONE?.replace(/\D/g, '')
-  const whatsappHref = phone
-    ? `https://wa.me/${phone}?text=${encodeURIComponent(PUBLIC_ENV.WHATSAPP_DEFAULT_MSG)}`
-    : null
 
   useEffect(() => {
     const onScroll = () => {
@@ -41,7 +34,7 @@ export default function LayoutChrome({ children }: { children: React.ReactNode }
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           className={[
             'fixed right-4 z-[9999] hidden h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-slate-950/78 text-2xl text-white shadow-[0_18px_40px_rgba(2,6,23,0.45)] backdrop-blur transition md:flex',
-            whatsappHref ? 'bottom-24' : 'bottom-4',
+            'bottom-4',
             showBackToTop
               ? 'pointer-events-auto translate-y-0 opacity-100 animate-vertical-bounce'
               : 'pointer-events-none translate-y-3 opacity-0',
@@ -49,19 +42,6 @@ export default function LayoutChrome({ children }: { children: React.ReactNode }
         >
           <span aria-hidden>↑</span>
         </button>
-      ) : null}
-
-      {!isLanding && whatsappHref ? (
-        <a
-          href={whatsappHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Escribeme por WhatsApp"
-          title="Escribeme por WhatsApp"
-          className="fixed bottom-4 right-4 z-[9999] rounded-full bg-green-500 p-3 text-white shadow-lg shadow-green-500/30 transition hover:scale-105 active:scale-95 md:p-4"
-        >
-          <Image src={WA_ICON} alt="WhatsApp" width={28} height={28} priority={false} />
-        </a>
       ) : null}
 
       <div

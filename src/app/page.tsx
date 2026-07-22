@@ -23,7 +23,7 @@ function CoverScreen({
     <div className="relative min-h-screen w-full overflow-hidden bg-[#050814]">
       <Image
         src="/images/cover.jpg"
-        alt="Portada de ingreso al portafolio JonisCode"
+        alt="JonisCode portfolio cover"
         fill
         priority
         sizes="100vw"
@@ -43,7 +43,7 @@ function CoverScreen({
             disabled ? 'pointer-events-none opacity-0' : 'opacity-100',
           ].join(' ')}
         >
-          <span className="text-lg font-semibold uppercase tracking-wider">Entrar</span>
+          <span className="text-lg font-semibold uppercase tracking-wider">Enter</span>
           <svg
             className="h-5 w-5 transition-transform group-hover:translate-x-1"
             viewBox="0 0 24 24"
@@ -62,7 +62,7 @@ function CoverScreen({
       </div>
 
       <div className="absolute bottom-4 left-0 right-0 mx-auto max-w-7xl px-4 text-center text-white/80">
-        <p className="text-sm">© {new Date().getFullYear()} JonisCode • Portafolio</p>
+        <p className="text-sm">© {new Date().getFullYear()} JonisCode • Portfolio</p>
       </div>
     </div>
   )

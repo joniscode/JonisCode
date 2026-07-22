@@ -57,6 +57,11 @@
     }
   }
 
+  @keyframes study-marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
   .animate-vertical-bounce {
     animation: vertical-bounce 1.6s ease-in-out infinite;
   }
@@ -81,6 +86,10 @@
     stroke-dasharray: 50 250;
     stroke-dashoffset: 0;
     animation: brand-loader-stroke 1.85s linear infinite;
+  }
+
+  .animate-study-marquee {
+    animation: study-marquee 28s linear infinite;
   }
 
   /* máscara para desvanecer en bordes (10% por defecto) */
@@ -110,12 +119,13 @@
     .animate-reveal-bloom-out { animation: none !important; opacity: 0 !important; }
     .animate-brand-loader-pulse { animation: none !important; opacity: 1 !important; }
     .animate-brand-loader-stroke { animation: none !important; }
+    .animate-study-marquee { animation: none !important; }
   }
 }
 
 @layer utilities {
   .text-gradient-gpt {
-    background-image: linear-gradient(89.97deg, #AE67FA 1.84%, #F49867 102.67%);
+    background-image: linear-gradient(89.97deg, #00D9D2 1.84%, #0B74E5 72%, #FF7754 102.67%);
     -webkit-background-clip: text;
             background-clip: text;
     color: transparent;

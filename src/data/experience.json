@@ -3,104 +3,36 @@
     "id": "vass-company",
     "year": 2025,
     "sortOrder": 202510,
-    "icon": "/icons/react.png",
     "title": "Desarrollador Front-End",
+    "titleEn": "Front-End Developer",
     "roleLine": "VASS Company",
-    "companyLine": "Desarrollo y mantenimiento de microfrontends para autoadmision y agenda medica.",
-    "tags": [
-      "React",
-      "Angular",
-      "TypeScript",
-      "Vite",
-      "Tailwind CSS",
-      "RxJS",
-      "NgRx",
-      "GraphQL",
-      "REST APIs",
-      "Git",
-      "Scrum"
-    ],
-    "description": "Implementacion de interfaces modulares con enfoque en escalabilidad, reutilizacion y calidad de entrega dentro de equipos agiles.",
-    "achievements": [
-      "Desarrollo de microfrontends para flujos de autoadmision y agenda medica.",
-      "Integracion con APIs REST y GraphQL usando Apollo Client.",
-      "Optimizacion de rendimiento, reduccion de deuda tecnica y revision de Pull Requests.",
-      "Colaboracion en despliegues y pipelines CI/CD bajo metodologia Scrum."
-    ],
-    "period": "Oct 2025 - Presente"
+    "description": "Desarrollo y mantenimiento de microfrontends para flujos de autoadmisión y agenda médica, integrando APIs REST y GraphQL con enfoque en rendimiento, escalabilidad y calidad de entrega.",
+    "descriptionEn": "Development and maintenance of microfrontends for self-admission and medical scheduling flows, integrating REST and GraphQL APIs with a focus on performance, scalability and delivery quality.",
+    "period": "Oct 2025 - Presente",
+    "periodEn": "Oct 2025 - Present"
   },
   {
     "id": "prilso",
     "year": 2025,
     "sortOrder": 202501,
-    "icon": "/icons/react.png",
     "title": "Desarrollador Front-End",
+    "titleEn": "Front-End Developer",
     "roleLine": "Prilso S.A.S.",
-    "companyLine": "Migracion de plataforma web hacia Next.js con arquitectura modular.",
-    "tags": [
-      "Next.js",
-      "React",
-      "TypeScript",
-      "Tailwind CSS",
-      "REST APIs",
-      "Git",
-      "Scrum"
-    ],
-    "description": "Construccion de componentes reutilizables y fortalecimiento de la plataforma con despliegues automatizados y control de acceso.",
-    "achievements": [
-      "Migracion de la plataforma web hacia Next.js.",
-      "Creacion de componentes reutilizables en React y Next.js.",
-      "Implementacion de autenticacion JWT y control de acceso.",
-      "Gestion de despliegues automaticos mediante GitHub Actions y Vercel."
-    ],
-    "period": "Ene 2025 - Sep 2025"
+    "description": "Migración de plataforma web hacia Next.js, construcción de componentes reutilizables, autenticación JWT, control de acceso y despliegues automáticos con GitHub Actions y Vercel.",
+    "descriptionEn": "Migration of a web platform to Next.js, building reusable components, JWT authentication, access control and automated deployments with GitHub Actions and Vercel.",
+    "period": "Ene 2025 - Sep 2025",
+    "periodEn": "Jan 2025 - Sep 2025"
   },
   {
     "id": "indra-colombia",
     "year": 2024,
     "sortOrder": 202210,
-    "icon": "/icons/angular.png",
     "title": "Desarrollador Liferay DXP Front-End",
+    "titleEn": "Liferay DXP Front-End Developer",
     "roleLine": "Indra Colombia",
-    "companyLine": "Desarrollo de modulos escalables y microfrontends sobre Liferay DXP.",
-    "tags": [
-      "Liferay DXP",
-      "Angular",
-      "React",
-      "TypeScript",
-      "Tailwind CSS",
-      "Jest",
-      "Git"
-    ],
-    "description": "Participacion en soluciones empresariales de alto trafico con foco en reutilizacion, buenas practicas y rendimiento.",
-    "achievements": [
-      "Creacion de librerias reutilizables con Angular, React y TypeScript.",
-      "Optimizacion de rendimiento en portales con mas de 3M de usuarios mensuales.",
-      "Participacion en revisiones de codigo y adopcion de buenas practicas de desarrollo."
-    ],
-    "period": "Oct 2022 - Dic 2024"
-  },
-  {
-    "id": "cantaleta",
-    "year": 2022,
-    "sortOrder": 202102,
-    "icon": "/icons/javascript.png",
-    "title": "Desarrollador Front-End Magento 2 CE",
-    "roleLine": "Cantaleta.co",
-    "companyLine": "Desarrollo y personalizacion de tiendas e-commerce.",
-    "tags": [
-      "Magento 2 CE",
-      "HTML5",
-      "CSS3",
-      "jQuery",
-      "REST APIs",
-      "Git"
-    ],
-    "description": "Trabajo orientado a comercio electronico, integraciones y mejora continua de la experiencia de usuario.",
-    "achievements": [
-      "Integracion con ERP y facturacion electronica.",
-      "Optimizacion UX/UI y soporte tecnico a clientes."
-    ],
-    "period": "Feb 2021 - Oct 2022"
+    "description": "Desarrollo de módulos escalables y microfrontends sobre Liferay DXP usando Angular, React y TypeScript, con optimización de rendimiento y buenas prácticas de código.",
+    "descriptionEn": "Development of scalable modules and microfrontends on Liferay DXP using Angular, React and TypeScript, with performance optimization and clean code practices.",
+    "period": "Oct 2022 - Dic 2024",
+    "periodEn": "Oct 2022 - Dec 2024"
   }
 ]

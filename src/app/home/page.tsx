@@ -7,6 +7,7 @@ import TechRing from '@/components/TechRing'
 import SectionDivider from '@/components/SectionDivider'
 import ExperienceSection from '@/components/ExperienceSection'
 import CareerOverviewSection from '@/components/CareerOverviewSection'
+import { useLanguage } from '@/components/LanguageProvider'
 import { EXPERIENCES } from '@/data/experience'
 import { HOME_TECHNOLOGIES, RING_TECHNOLOGIES } from '@/data/techProjects'
 import usePrefersReducedMotion from '@/lib/usePrefersReducedMotion'
@@ -14,11 +15,24 @@ import usePrefersReducedMotion from '@/lib/usePrefersReducedMotion'
 const HOME_REVEAL_KEY = 'joniscode-home-reveal'
 const HOME_REVEAL_ORIGIN_KEY = 'joniscode-home-reveal-origin'
 
+const COPY = {
+  en: {
+    portfolioTitle: 'Portfolio',
+    portfolioCopy: 'Open a card to explore study projects and practical work by technology.',
+  },
+  es: {
+    portfolioTitle: 'Portafolio',
+    portfolioCopy: 'Abre una tarjeta para explorar proyectos de estudio y trabajos prácticos por tecnología.',
+  },
+} as const
+
 type RevealState =
   | { mode: 'off' }
   | { mode: 'reveal'; x: number; y: number }
 
 export default function PortfolioPage() {
+  const { language } = useLanguage()
+  const t = COPY[language]
   const prefersReducedMotion = usePrefersReducedMotion()
   const [revealState, setRevealState] = useState<RevealState>({ mode: 'off' })
 
@@ -58,7 +72,7 @@ export default function PortfolioPage() {
 
         <SectionDivider duration={5200} />
 
-        <section id="tech-ring" className="relative z-10">
+        <section id="tools" className="relative z-10">
           <div className="container mx-auto px-4">
             <TechRing items={RING_TECHNOLOGIES} />
           </div>
@@ -66,13 +80,13 @@ export default function PortfolioPage() {
 
         <SectionDivider duration={5200} delay={1800} />
 
-        <section id="hero" className="relative z-10 container mx-auto px-4 py-12 sm:py-16 lg:py-20">
+        <section id="portfolio" className="relative z-10 container mx-auto px-4 py-12 sm:py-16 lg:py-20">
           <header className="mx-auto max-w-3xl space-y-4 text-center">
             <h1 className="text-4xl font-bold">
-              <span className="text-gradient-gpt">Tecnologias</span> 🖥️
+              <span className="text-gradient-gpt">{t.portfolioTitle}</span>
             </h1>
             <p className="text-lg opacity-80">
-              Pincha en una card y descubre proyectos de estudio segun cada tecnologia.
+              {t.portfolioCopy}
             </p>
           </header>
 

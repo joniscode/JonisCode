@@ -8,7 +8,7 @@ type Props = {
 
 export default function BrandLoader({
   className = '',
-  label = 'Abriendo vista',
+  label = 'Opening view',
   size = 150,
 }: Props) {
   return (
@@ -25,7 +25,7 @@ export default function BrandLoader({
           <linearGradient id="joniscode-loader-gradient" x1="12" y1="14" x2="148" y2="58">
             <stop offset="0%" stopColor="#13B0F5" />
             <stop offset="55%" stopColor="#2F80ED" />
-            <stop offset="100%" stopColor="#F49867" />
+            <stop offset="100%" stopColor="#FF7754" />
           </linearGradient>
         </defs>
 

@@ -16,6 +16,10 @@ const LABELS: Record<string, string> = {
   mysql: 'MySQL',
   tailwind: 'Tailwind',
   vite: 'Vite',
+  python: 'Python',
+  java: 'Java',
+  aws: 'AWS',
+  linux: 'Linux',
 }
 
 type Props = { slug: string; icon?: string; label?: string }

@@ -1,7 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
-import ExperienceCard from './ExperienceCard'
+import { useLanguage } from './LanguageProvider'
 
 export type ExperienceItem = {
   id: string
@@ -9,211 +8,127 @@ export type ExperienceItem = {
   sortOrder?: number
   icon?: string
   title: string
+  titleEn?: string
   roleLine: string
   companyLine?: string
   tags?: string[]
   description?: string
+  descriptionEn?: string
   achievements?: string[]
   period?: string
+  periodEn?: string
   linkHref?: string
   linkLabel?: string
 }
 
-const START_YEAR = 2023
+const markerStyles = [
+  'bg-gradient-to-br from-cyan-300 to-blue-500 text-slate-950 shadow-cyan-400/25',
+  'bg-gradient-to-br from-blue-400 to-cyan-300 text-slate-950 shadow-blue-400/25',
+  'bg-gradient-to-br from-orange-300 to-orange-500 text-slate-950 shadow-orange-300/25',
+]
+
+const periodStyles = [
+  'bg-gradient-to-r from-cyan-300 to-blue-500',
+  'bg-gradient-to-r from-blue-400 to-cyan-300',
+  'bg-gradient-to-r from-orange-300 to-orange-500',
+]
+
+const COPY = {
+  en: {
+    title: 'Experience',
+    description: 'Professional path in frontend development.',
+    companyConnector: 'at',
+    cv: 'View full CV',
+  },
+  es: {
+    title: 'Experiencia',
+    description: 'Trayectoria profesional en desarrollo frontend.',
+    companyConnector: 'en',
+    cv: 'Ver CV completo',
+  },
+} as const
 
 export default function ExperienceSection({ items }: { items: ExperienceItem[] }) {
-  const currentYear = new Date().getFullYear()
-  const sorted = useMemo(
-    () =>
-      [...items].sort(
-        (a, b) => (b.sortOrder ?? b.year) - (a.sortOrder ?? a.year) || b.year - a.year
-      ),
-    [items]
+  const { language } = useLanguage()
+  const t = COPY[language]
+  const sorted = [...items].sort(
+    (a, b) => (b.sortOrder ?? b.year) - (a.sortOrder ?? a.year) || b.year - a.year
   )
-  const [activeIndex, setActiveIndex] = useState(0)
-  const [isAtStart, setIsAtStart] = useState(true)
-  const trackRef = useRef<HTMLDivElement>(null)
-  const cardRefs = useRef<Array<HTMLElement | null>>([])
-  const activeIndexRef = useRef(0)
-  const syncFrameRef = useRef<number | null>(null)
-
-  const years = useMemo(() => {
-    const latest = Math.max(sorted[0]?.year ?? START_YEAR, currentYear, START_YEAR)
-    const earliest = Math.min(sorted[sorted.length - 1]?.year ?? START_YEAR, START_YEAR)
-    const result: number[] = []
-
-    for (let year = latest; year >= earliest; year -= 1) {
-      result.push(year)
-    }
-
-    return result
-  }, [currentYear, sorted])
-
-  useEffect(() => {
-    const track = trackRef.current
-    if (!track) return
-
-    const scrollByViewport = (direction: 1 | -1) => {
-      track.scrollBy({
-        left: track.clientWidth * 0.82 * direction,
-        behavior: 'smooth',
-      })
-    }
-
-    const syncActiveCard = () => {
-      const center = track.scrollLeft + track.clientWidth / 2
-      let nextIndex = 0
-      let closestDistance = Number.POSITIVE_INFINITY
-
-      cardRefs.current.forEach((card, index) => {
-        if (!card) return
-
-        const cardCenter = card.offsetLeft + card.offsetWidth / 2
-        const distance = Math.abs(cardCenter - center)
-
-        if (distance < closestDistance) {
-          closestDistance = distance
-          nextIndex = index
-        }
-      })
-
-      if (activeIndexRef.current !== nextIndex) {
-        activeIndexRef.current = nextIndex
-        setActiveIndex(nextIndex)
-      }
-
-      const nextIsAtStart = track.scrollLeft <= 8
-      setIsAtStart((prev) => (prev === nextIsAtStart ? prev : nextIsAtStart))
-    }
-
-    const onWheel = (event: WheelEvent) => {
-      if (track.scrollWidth <= track.clientWidth) return
-
-      const delta = Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX
-      if (delta === 0) return
-
-      event.preventDefault()
-      track.scrollBy({ left: delta, behavior: 'auto' })
-    }
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'ArrowRight') {
-        event.preventDefault()
-        scrollByViewport(1)
-      }
-
-      if (event.key === 'ArrowLeft') {
-        event.preventDefault()
-        scrollByViewport(-1)
-      }
-    }
-
-    const scheduleSync = () => {
-      if (syncFrameRef.current !== null) return
-
-      syncFrameRef.current = requestAnimationFrame(() => {
-        syncFrameRef.current = null
-        syncActiveCard()
-      })
-    }
-
-    syncActiveCard()
-    track.addEventListener('wheel', onWheel, { passive: false })
-    track.addEventListener('keydown', onKeyDown)
-    track.addEventListener('scroll', scheduleSync, { passive: true })
-    window.addEventListener('resize', scheduleSync)
-
-    return () => {
-      if (syncFrameRef.current !== null) cancelAnimationFrame(syncFrameRef.current)
-      track.removeEventListener('wheel', onWheel)
-      track.removeEventListener('keydown', onKeyDown)
-      track.removeEventListener('scroll', scheduleSync)
-      window.removeEventListener('resize', scheduleSync)
-    }
-  }, [sorted.length])
-
-  const activeYear = sorted[activeIndex]?.year
-  const highlightedYear = isAtStart && years.includes(currentYear) ? currentYear : activeYear
 
   return (
-    <section id="experience" className="relative z-10 pt-10 pb-10 sm:pt-12 sm:pb-12 lg:pt-16">
+    <section id="experience" className="relative z-10 pt-10 pb-12 sm:pt-12 sm:pb-14 lg:pt-16">
       <div className="container mx-auto px-4">
         <header className="mx-auto mb-8 max-w-3xl space-y-3 text-center sm:mb-10">
           <h2 className="text-4xl font-bold">
-            <span className="text-gradient-gpt">Experiencia destacada</span>
+            <span className="text-gradient-gpt">{t.title}</span>
           </h2>
-          <p className="text-lg opacity-80">Trayectoria profesional en desarrollo frontend.</p>
+          <p className="text-lg opacity-80">{t.description}</p>
         </header>
 
-        <div className="grid gap-6 lg:grid-cols-[160px,1fr] lg:items-start">
-          <aside className="hidden lg:block">
-              <div className="relative mx-auto flex min-h-[400px] w-24 flex-col items-center justify-between py-4">
-              {years.map((year) => {
-                const isActive = year === highlightedYear
-
-                return (
-                  <div key={year} className="relative z-10 flex flex-col items-center">
-                    <div
+        <div className="relative mx-auto max-w-5xl px-0 pb-7 pt-2 md:px-10 lg:px-20">
+          <div className="relative rounded-[18px] border-2 border-slate-900/90 bg-white/82 shadow-[0_22px_60px_rgba(15,23,42,0.12)] backdrop-blur dark:border-white/80 dark:bg-slate-950/42 dark:shadow-[0_22px_60px_rgba(0,0,0,0.3)]">
+            {sorted.map((item, index) => (
+              <article
+                key={item.id}
+                className={[
+                  'relative grid gap-4 px-5 py-7 sm:px-7 md:grid-cols-[150px,1fr,48px] md:items-center md:gap-6 lg:grid-cols-[1fr,48px] lg:pl-28',
+                  index > 0 ? 'border-t-2 border-slate-900/90 dark:border-white/80' : '',
+                ].join(' ')}
+              >
+                {(language === 'en' ? item.periodEn ?? item.period : item.period) ? (
+                  <div className="md:col-span-1 lg:absolute lg:left-0 lg:top-1/2 lg:-translate-x-[70%] lg:-translate-y-1/2">
+                    <span
                       className={[
-                        'grid h-12 w-12 place-items-center rounded-full border text-[11px] font-semibold tracking-[0.12em] transition-all duration-300',
-                        isActive
-                          ? 'border-cyan-300/70 bg-cyan-400 text-slate-950 shadow-[0_0_28px_rgba(34,211,238,0.45)]'
-                          : 'border-slate-300/90 bg-white/85 text-slate-600 dark:border-white/15 dark:bg-slate-900/90 dark:text-white/75',
+                        'inline-flex min-h-12 items-center rounded-sm border-2 border-slate-900 px-4 py-2 text-sm font-semibold text-slate-950 shadow-[3px_3px_0_rgba(15,23,42,0.95)] dark:border-white/80',
+                        periodStyles[index % periodStyles.length],
                       ].join(' ')}
                     >
-                      {year}
-                    </div>
+                      {language === 'en' ? item.periodEn ?? item.period : item.period}
+                    </span>
                   </div>
-                )
-              })}
-            </div>
-          </aside>
+                ) : null}
 
-          <div className="relative overflow-hidden">
-            {isAtStart ? (
-              <div className="pointer-events-none absolute right-5 top-1/2 z-10 -translate-y-1/2 lg:hidden">
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-slate-950/70 text-2xl text-white/90 shadow-[0_14px_36px_rgba(2,6,23,0.45)] backdrop-blur-md animate-horizontal-nudge">
-                  <span aria-hidden>→</span>
+                <div className="min-w-0 md:col-span-1 lg:col-span-1">
+                  <h3 className="text-balance text-lg font-semibold leading-snug text-slate-950 dark:text-white">
+                    {language === 'en' ? item.titleEn ?? item.title : item.title}
+                    {item.roleLine ? (
+                      <>
+                        {' '}
+                        {t.companyConnector} <span className="font-bold">{item.roleLine}</span>
+                      </>
+                    ) : null}
+                  </h3>
+
+                  {(language === 'en' ? item.descriptionEn ?? item.description : item.description) ? (
+                    <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600 dark:text-slate-300">
+                      {language === 'en' ? item.descriptionEn ?? item.description : item.description}
+                    </p>
+                  ) : null}
                 </div>
-              </div>
-            ) : null}
 
-            <div
-              ref={trackRef}
-              tabIndex={0}
-              role="region"
-              aria-label="Carrusel horizontal de experiencia destacada"
-              className="scrollbar-gutter-stable overflow-x-auto overflow-y-hidden px-4 py-6 no-scrollbar snap-x snap-mandatory overscroll-x-contain scroll-smooth touch-pan-x focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/50 md:px-6"
-            >
-              <div className="flex min-w-max items-start gap-4 md:gap-5">
-                {sorted.map((exp, index) => (
-                  <article
-                    key={exp.id}
-                    ref={(node) => {
-                      cardRefs.current[index] = node
-                    }}
-                    className="w-[min(88vw,860px)] shrink-0 snap-center sm:w-[min(84vw,860px)] md:w-[min(76vw,860px)]"
+                <div className="flex md:justify-end">
+                  <span
+                    className={[
+                      'grid h-10 w-10 shrink-0 place-items-center rounded-full text-sm font-bold shadow-lg',
+                      markerStyles[index % markerStyles.length],
+                    ].join(' ')}
+                    aria-label={`Experiencia ${index + 1}`}
                   >
-                    <div className="mb-3 flex items-center gap-3 lg:hidden">
-                      <div
-                        className={[
-                          'grid h-10 w-10 place-items-center rounded-full border text-[10px] font-semibold tracking-[0.12em] transition-all duration-300',
-                          exp.year === activeYear
-                            ? 'border-cyan-300/70 bg-cyan-400 text-slate-950 shadow-[0_0_24px_rgba(34,211,238,0.4)]'
-                            : 'border-slate-300/90 bg-white/85 text-slate-600 dark:border-white/15 dark:bg-slate-900/90 dark:text-white/80',
-                        ].join(' ')}
-                      >
-                        {exp.year}
-                      </div>
-                      <span className="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-white/55">
-                        Experiencia
-                      </span>
-                    </div>
+                    {index + 1}
+                  </span>
+                </div>
+              </article>
+            ))}
 
-                    <ExperienceCard className="mx-auto max-w-none" {...exp} />
-                  </article>
-                ))}
-              </div>
+            <div className="absolute bottom-0 left-1/2 translate-y-1/2 -translate-x-1/2">
+              <a
+                href="/pdf/cv.pdf"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex min-h-11 items-center justify-center rounded-sm border-2 border-slate-900 bg-gradient-to-r from-cyan-300 via-blue-500 to-orange-400 px-6 py-2 text-sm font-bold text-slate-950 shadow-[4px_4px_0_rgba(15,23,42,0.95)] transition hover:-translate-y-0.5 hover:shadow-[6px_6px_0_rgba(15,23,42,0.95)] focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-950"
+              >
+                {t.cv}
+              </a>
             </div>
           </div>
         </div>

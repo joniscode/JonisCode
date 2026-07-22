@@ -18,14 +18,12 @@
       "slug": "sass",
       "label": "Sass",
       "icon": "/icons/sass.png",
-      "showInGrid": true,
       "showInRing": true
     },
     {
       "slug": "angular",
       "label": "Angular",
       "icon": "/icons/angular.png",
-      "showInGrid": true,
       "showInRing": true
     },
     {
@@ -39,7 +37,6 @@
       "slug": "vue",
       "label": "Vue",
       "icon": "/icons/vue.png",
-      "showInGrid": true,
       "showInRing": true
     },
     {
@@ -94,6 +91,30 @@
       "slug": "liferay",
       "label": "Liferay",
       "icon": "/icons/Liferay.png",
+      "showInRing": true
+    },
+    {
+      "slug": "python",
+      "label": "Python",
+      "icon": "/icons/python.svg",
+      "showInRing": true
+    },
+    {
+      "slug": "java",
+      "label": "Java",
+      "icon": "/icons/java.svg",
+      "showInRing": true
+    },
+    {
+      "slug": "aws",
+      "label": "AWS",
+      "icon": "/icons/aws.svg",
+      "showInRing": true
+    },
+    {
+      "slug": "linux",
+      "label": "Linux",
+      "icon": "/icons/linux.svg",
       "showInRing": true
     }
   ],

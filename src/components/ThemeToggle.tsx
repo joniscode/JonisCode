@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useLanguage } from './LanguageProvider'
 
 type ThemeMode = 'light' | 'dark'
 
@@ -18,6 +19,7 @@ function applyTheme(theme: ThemeMode) {
 export default function ThemeToggle() {
   const [mounted, setMounted] = useState(false)
   const [theme, setTheme] = useState<ThemeMode>('light')
+  const { language, toggleLanguage } = useLanguage()
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
@@ -50,15 +52,32 @@ export default function ThemeToggle() {
   if (!mounted) return null
 
   const isDark = theme === 'dark'
+  const themeLabel = isDark
+    ? language === 'en'
+      ? 'Light'
+      : 'Claro'
+    : language === 'en'
+      ? 'Dark'
+      : 'Oscuro'
 
   return (
-    <button
-      onClick={toggle}
-      className="fixed right-3 top-3 z-50 rounded-full border border-slate-200/80 bg-white/85 px-2.5 py-1.5 text-xs text-slate-800 shadow-[0_10px_30px_rgba(15,23,42,0.12)] backdrop-blur transition hover:bg-white dark:border-white/15 dark:bg-slate-950/65 dark:text-slate-100 dark:shadow-[0_10px_30px_rgba(2,6,23,0.45)] sm:right-4 sm:top-4 sm:px-3 sm:py-2 sm:text-sm"
-      aria-label={isDark ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'}
-      title={isDark ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'}
-    >
-      {isDark ? '☀ Claro' : '🌙 Oscuro'}
-    </button>
+    <div className="fixed right-3 top-3 z-50 flex overflow-hidden rounded-full border border-cyan-400/30 bg-white/88 text-xs text-slate-800 shadow-[0_10px_30px_rgba(15,23,42,0.12)] backdrop-blur dark:border-cyan-300/25 dark:bg-slate-950/72 dark:text-slate-100 dark:shadow-[0_10px_30px_rgba(2,6,23,0.45)] sm:right-4 sm:top-4 sm:text-sm">
+      <button
+        onClick={toggle}
+        className="px-2.5 py-1.5 transition hover:bg-cyan-100/80 dark:hover:bg-cyan-300/10 sm:px-3 sm:py-2"
+        aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+        title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+      >
+        {themeLabel}
+      </button>
+      <button
+        onClick={toggleLanguage}
+        className="border-l border-cyan-400/25 px-2.5 py-1.5 font-bold transition hover:bg-cyan-100/80 dark:border-cyan-300/20 dark:hover:bg-cyan-300/10 sm:px-3 sm:py-2"
+        aria-label={language === 'en' ? 'Cambiar a español' : 'Switch to English'}
+        title={language === 'en' ? 'Cambiar a español' : 'Switch to English'}
+      >
+        {language === 'en' ? 'ES' : 'EN'}
+      </button>
+    </div>
   )
 }

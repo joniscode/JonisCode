@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import TechTile from './TechTile'
+import { useLanguage } from './LanguageProvider'
 
 type Item = string | { slug: string; label?: string; icon?: string }
 
@@ -20,8 +21,8 @@ type Layout = {
 function getRingLayout(viewportWidth: number, itemCount: number): Layout {
   if (viewportWidth < 640) {
     const tileSize = itemCount >= 13 ? 'compact' : 'cozy'
-    const minArc = itemCount >= 13 ? 84 : 92
-    const radius = Math.min(255, Math.max(200, Math.round((itemCount * minArc) / (2 * Math.PI))))
+    const minArc = itemCount >= 13 ? 92 : 100
+    const radius = Math.min(285, Math.max(215, Math.round((itemCount * minArc) / (2 * Math.PI))))
 
     return {
       radius,
@@ -32,8 +33,8 @@ function getRingLayout(viewportWidth: number, itemCount: number): Layout {
 
   if (viewportWidth < 1024) {
     const tileSize = itemCount >= 13 ? 'cozy' : 'regular'
-    const minArc = itemCount >= 13 ? 102 : 114
-    const radius = Math.min(325, Math.max(240, Math.round((itemCount * minArc) / (2 * Math.PI))))
+    const minArc = itemCount >= 13 ? 114 : 124
+    const radius = Math.min(365, Math.max(260, Math.round((itemCount * minArc) / (2 * Math.PI))))
 
     return {
       radius,
@@ -43,8 +44,8 @@ function getRingLayout(viewportWidth: number, itemCount: number): Layout {
   }
 
   const tileSize = itemCount >= 13 ? 'cozy' : 'regular'
-  const minArc = itemCount >= 13 ? 120 : 134
-  const radius = Math.min(410, Math.max(295, Math.round((itemCount * minArc) / (2 * Math.PI))))
+  const minArc = itemCount >= 13 ? 134 : 146
+  const radius = Math.min(470, Math.max(320, Math.round((itemCount * minArc) / (2 * Math.PI))))
 
   return {
     radius,
@@ -64,7 +65,22 @@ function setRingTransform(
   element.style.transform = `translateY(-${lift}px) rotateX(${tiltDeg}deg) rotateY(${angle}deg)`
 }
 
-export default function TechRing({ items, tiltDeg = 12, autoSpeed = 0.18 }: Props) {
+const COPY = {
+  en: {
+    title: 'Tools',
+    description:
+      'Technologies and tools I use to build scalable, maintainable and high-performance web applications.',
+  },
+  es: {
+    title: 'Herramientas',
+    description:
+      'Tecnologías y herramientas que uso para crear aplicaciones web escalables, mantenibles y de alto rendimiento.',
+  },
+} as const
+
+export default function TechRing({ items, tiltDeg = 12, autoSpeed = 0.1 }: Props) {
+  const { language } = useLanguage()
+  const t = COPY[language]
   const sceneRef = useRef<HTMLDivElement | null>(null)
   const ringRef = useRef<HTMLDivElement | null>(null)
   const frameRef = useRef<number | null>(null)
@@ -133,7 +149,6 @@ export default function TechRing({ items, tiltDeg = 12, autoSpeed = 0.18 }: Prop
 
   useEffect(() => {
     const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const targetFrameMs = motionQuery.matches ? 1000 / 18 : 1000 / 30
     let lastFrameTime = 0
 
     if (motionQuery.matches || !isVisible) {
@@ -147,16 +162,12 @@ export default function TechRing({ items, tiltDeg = 12, autoSpeed = 0.18 }: Prop
         return
       }
 
-      if (now - lastFrameTime < targetFrameMs) {
-        frameRef.current = requestAnimationFrame(tick)
-        return
-      }
-
+      const elapsed = lastFrameTime ? Math.min((now - lastFrameTime) / 16.67, 2) : 1
       lastFrameTime = now
 
       if (!dragRef.current?.dragging && !motionQuery.matches) {
-        velocityRef.current *= 0.96
-        angleRef.current += autoSpeed + velocityRef.current
+        velocityRef.current *= 0.985
+        angleRef.current += autoSpeed * elapsed + velocityRef.current
       } else {
         angleRef.current += velocityRef.current
       }
@@ -215,11 +226,10 @@ export default function TechRing({ items, tiltDeg = 12, autoSpeed = 0.18 }: Prop
     <div className="relative mx-auto w-full max-w-6xl pt-2 sm:pt-3">
       <div className="mb-6 text-center sm:mb-8">
         <h2 className="text-3xl font-extrabold sm:text-4xl">
-          <span className="text-gradient-gpt">Technologies &amp; Tools</span> 🛠️
+          <span className="text-gradient-gpt">{t.title}</span>
         </h2>
         <p className="mx-auto mt-3 max-w-3xl text-sm opacity-80 sm:text-base">
-          Estas son las tecnologias y herramientas con las que he trabajado para crear aplicaciones web
-          escalables y de alto rendimiento.
+          {t.description}
         </p>
       </div>
 
