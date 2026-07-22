@@ -16,6 +16,28 @@ function applyTheme(theme: ThemeMode) {
   document.documentElement.classList.toggle('dark', theme === 'dark')
 }
 
+function SunIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4" fill="none">
+      <circle cx="12" cy="12" r="4" fill="currentColor" />
+      <path
+        d="M12 2v3m0 14v3M4.93 4.93l2.12 2.12m9.9 9.9 2.12 2.12M2 12h3m14 0h3M4.93 19.07l2.12-2.12m9.9-9.9 2.12-2.12"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeWidth="2"
+      />
+    </svg>
+  )
+}
+
+function MoonIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor">
+      <path d="M20.2 14.6A7.8 7.8 0 0 1 9.4 3.8 8.8 8.8 0 1 0 20.2 14.6Z" />
+    </svg>
+  )
+}
+
 export default function ThemeToggle() {
   const [mounted, setMounted] = useState(false)
   const [theme, setTheme] = useState<ThemeMode>('light')
@@ -52,21 +74,20 @@ export default function ThemeToggle() {
   if (!mounted) return null
 
   const isDark = theme === 'dark'
+
   return (
-    <div className="fixed right-3 top-3 z-[60] flex overflow-hidden rounded-full border border-cyan-400/30 bg-white/88 text-xs text-slate-800 shadow-[0_10px_30px_rgba(15,23,42,0.12)] backdrop-blur dark:border-cyan-300/25 dark:bg-slate-950/72 dark:text-slate-100 dark:shadow-[0_10px_30px_rgba(2,6,23,0.45)] sm:right-4 sm:top-4 sm:text-sm">
+    <div className="fixed right-3 top-2 z-[10001] flex overflow-hidden rounded-full bg-white/72 text-xs text-slate-800 shadow-[0_10px_30px_rgba(15,23,42,0.12)] backdrop-blur dark:bg-slate-950/62 dark:text-slate-100 dark:shadow-[0_10px_30px_rgba(2,6,23,0.35)] sm:right-4 sm:text-sm">
       <button
         onClick={toggle}
-        className="grid h-9 w-10 place-items-center transition hover:bg-cyan-100/80 dark:hover:bg-cyan-300/10 sm:h-10 sm:w-11"
+        className="grid h-9 w-10 place-items-center transition hover:bg-cyan-100/70 dark:hover:bg-cyan-300/10 sm:h-10 sm:w-11"
         aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
         title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
       >
-        <span aria-hidden className="text-base leading-none sm:text-lg">
-          {isDark ? '☀' : '☾'}
-        </span>
+        {isDark ? <SunIcon /> : <MoonIcon />}
       </button>
       <button
         onClick={toggleLanguage}
-        className="h-9 min-w-10 border-l border-cyan-400/25 px-2.5 font-bold transition hover:bg-cyan-100/80 dark:border-cyan-300/20 dark:hover:bg-cyan-300/10 sm:h-10 sm:min-w-11 sm:px-3"
+        className="h-9 min-w-10 px-2.5 font-bold transition hover:bg-cyan-100/70 dark:hover:bg-cyan-300/10 sm:h-10 sm:min-w-11 sm:px-3"
         aria-label={language === 'en' ? 'Cambiar a español' : 'Switch to English'}
         title={language === 'en' ? 'Cambiar a español' : 'Switch to English'}
       >

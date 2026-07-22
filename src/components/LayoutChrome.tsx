@@ -33,14 +33,16 @@ export default function LayoutChrome({ children }: { children: React.ReactNode }
           title="Volver arriba"
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           className={[
-            'fixed right-4 z-[9999] hidden h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-slate-950/78 text-2xl text-white shadow-[0_18px_40px_rgba(2,6,23,0.45)] backdrop-blur transition md:flex',
+            'fixed right-4 z-[10002] hidden h-14 w-14 items-center justify-center rounded-2xl border border-cyan-500/35 bg-white/92 text-slate-950 shadow-[0_18px_40px_rgba(15,23,42,0.24)] backdrop-blur transition dark:border-white/10 dark:bg-slate-950/78 dark:text-white dark:shadow-[0_18px_40px_rgba(2,6,23,0.45)] md:flex',
             'bottom-4',
             showBackToTop
               ? 'pointer-events-auto translate-y-0 opacity-100 animate-vertical-bounce'
               : 'pointer-events-none translate-y-3 opacity-0',
           ].join(' ')}
         >
-          <span aria-hidden>↑</span>
+          <svg aria-hidden="true" viewBox="0 0 24 24" className="h-6 w-6" fill="none">
+            <path d="M12 19V5m0 0-6 6m6-6 6 6" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.4" />
+          </svg>
         </button>
       ) : null}
 

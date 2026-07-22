@@ -52,15 +52,16 @@ export default async function TechDetail({ params }: { params: Promise<{ slug: s
           </p>
         </header>
 
-        <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-2">
+        <div className="mx-auto flex max-w-6xl flex-wrap justify-center gap-8">
           {entry.projects.map((project) => (
-            <TechShowcaseCard
-              key={`${project.tech}:${project.href}`}
-              name={project.name}
-              image={project.image}
-              href={project.href}
-              label={entry.label}
-            />
+            <div key={`${project.tech}:${project.href}`} className="w-full max-w-[520px] md:basis-[calc(50%-1rem)]">
+              <TechShowcaseCard
+                name={project.name}
+                image={project.image}
+                href={project.href}
+                label={entry.label}
+              />
+            </div>
           ))}
         </div>
       </section>

@@ -1,0 +1,48 @@
+{
+  "en": {
+    "nav": {
+      "home": "Home",
+      "portfolio": "Portfolio",
+      "tools": "Tools",
+      "experience": "Experience"
+    },
+    "headline": "Frontend Developer",
+    "summary": "I am Jonathan Arevalo, a Front-End Developer from Colombia. I build clean, reusable and scalable web experiences with React, Next.js, Angular, TypeScript and Tailwind CSS.",
+    "detail": "My focus is frontend architecture, microfrontends, ecommerce, automation and integrations that turn ideas into maintainable digital products.",
+    "years": "+5 years of experience",
+    "location": "Bogotá - Colombia",
+    "contact": "Contact me",
+    "learningTitle": "Current studies",
+    "learningCopy": "I am strengthening my backend and cloud profile with Python, Java and AWS, while keeping Linux as part of my daily technical workflow.",
+    "studies": [
+      ["Specialization in Artificial Intelligence", "In progress"],
+      ["Systems Engineering", "2025"],
+      ["Technologist in Analysis and Development of Information Systems", "2023"],
+      ["Full Stack Junior Java Bootcamp", "In progress"],
+      ["Basic Artificial Intelligence Bootcamp", "2025"]
+    ]
+  },
+  "es": {
+    "nav": {
+      "home": "Inicio",
+      "portfolio": "Portafolio",
+      "tools": "Herramientas",
+      "experience": "Experiencia"
+    },
+    "headline": "Desarrollador Frontend",
+    "summary": "Soy Jonathan Arevalo, desarrollador Front-End de Colombia. Construyo experiencias web limpias, reutilizables y escalables con React, Next.js, Angular, TypeScript y Tailwind CSS.",
+    "detail": "Me enfoco en arquitectura frontend, microfrontends, ecommerce, automatización e integraciones que convierten ideas en productos digitales mantenibles.",
+    "years": "+5 años de experiencia",
+    "location": "Bogotá - Colombia",
+    "contact": "Contáctame",
+    "learningTitle": "Estudios actuales",
+    "learningCopy": "Estoy fortaleciendo mi perfil backend y cloud con Python, Java y AWS, manteniendo Linux como parte de mi flujo técnico diario.",
+    "studies": [
+      ["Especialización en Inteligencia Artificial", "En curso"],
+      ["Ingeniería de Sistemas", "2025"],
+      ["Tecnólogo en Análisis y Desarrollo de Sistemas de Información", "2023"],
+      ["Bootcamp Full Stack Junior Java", "En curso"],
+      ["Bootcamp de Inteligencia Artificial Básico", "2025"]
+    ]
+  }
+}

@@ -26,7 +26,7 @@ function getRingLayout(viewportWidth: number, itemCount: number): Layout {
 
     return {
       radius,
-      sceneHeight: Math.min(430, Math.max(360, Math.round(radius * 1.9))),
+      sceneHeight: Math.min(330, Math.max(280, Math.round(radius * 1.3))),
       tileSize,
     }
   }
@@ -38,7 +38,7 @@ function getRingLayout(viewportWidth: number, itemCount: number): Layout {
 
     return {
       radius,
-      sceneHeight: Math.min(520, Math.max(430, Math.round(radius * 1.84))),
+      sceneHeight: Math.min(360, Math.max(290, Math.round(radius * 1.12))),
       tileSize,
     }
   }
@@ -49,7 +49,7 @@ function getRingLayout(viewportWidth: number, itemCount: number): Layout {
 
   return {
     radius,
-    sceneHeight: Math.min(700, Math.max(580, Math.round(radius * 1.84))),
+    sceneHeight: Math.min(400, Math.max(330, Math.round(radius * 0.96))),
     tileSize,
   }
 }
@@ -223,8 +223,8 @@ export default function TechRing({ items, tiltDeg = 12, autoSpeed = 0.1 }: Props
   }, [lift, tiltDeg])
 
   return (
-    <div className="relative mx-auto w-full max-w-6xl pt-6 sm:pt-8 lg:pt-10">
-      <div className="mb-8 text-center sm:mb-10 lg:mb-12">
+    <div className="relative z-0 mx-auto w-full max-w-6xl pt-6 sm:pt-8 lg:pt-10">
+      <div className="mb-6 text-center sm:mb-8 lg:mb-9">
         <h2 className="text-3xl font-extrabold sm:text-4xl">
           <span className="text-gradient-gpt">{t.title}</span>
         </h2>
@@ -233,7 +233,7 @@ export default function TechRing({ items, tiltDeg = 12, autoSpeed = 0.1 }: Props
         </p>
       </div>
 
-      <div className="relative px-2 pb-8 pt-6 sm:px-4 sm:pb-10 sm:pt-8">
+      <div className="relative px-2 pb-0 pt-3 sm:px-4 sm:pt-4">
         <div
           ref={sceneRef}
           className="relative mx-auto [perspective:1600px]"

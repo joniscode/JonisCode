@@ -1,8 +1,8 @@
 // src/config/publicEnv.ts
 const PUBLIC_ENV = {
-  WHATSAPP_PHONE: process.env.NEXT_PUBLIC_WHATSAPP ?? '',
+  WHATSAPP_PHONE: process.env.NEXT_PUBLIC_WHATSAPP ?? '+57 322 885 0811',
   WHATSAPP_DEFAULT_MSG:
     process.env.NEXT_PUBLIC_WHATSAPP_MSG ?? '¡Hola Jonathan! Te escribo desde tu portafolio.',
-} as const;
+} as const
 
-export default PUBLIC_ENV;
+export default PUBLIC_ENV
