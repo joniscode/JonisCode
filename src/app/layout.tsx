@@ -46,7 +46,6 @@ export const metadata: Metadata = {
     title: 'JonisCode',
     description:
       'JonisCode portfolio with highlighted experience, technologies and frontend development projects.',
-    images: ['/images/cover.jpg'],
     type: 'website',
     locale: 'en_US',
   },
@@ -55,7 +54,6 @@ export const metadata: Metadata = {
     title: 'JonisCode',
     description:
       'JonisCode portfolio with highlighted experience, technologies and frontend development projects.',
-    images: ['/images/cover.jpg'],
   },
 }
 

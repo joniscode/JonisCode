@@ -121,33 +121,33 @@
   "projects": [
     {
       "tech": "css",
-      "name": "Landing CSS",
-      "image": "/images/cover.jpg",
-      "href": "https://example.com/css-landing"
+      "name": "EcoStore Sass",
+      "image": "https://image.thum.io/get/width/1200/crop/900/https://ecostoresass.netlify.app/",
+      "href": "https://ecostoresass.netlify.app/"
     },
     {
       "tech": "css",
-      "name": "UI Components CSS",
-      "image": "/images/cover.jpg",
-      "href": "https://example.com/css-ui"
+      "name": "Tienda Muebles Bootstrap 5",
+      "image": "https://image.thum.io/get/width/1200/crop/900/https://tiendamueblesboostrap5.netlify.app/",
+      "href": "https://tiendamueblesboostrap5.netlify.app/"
     },
     {
       "tech": "javascript",
-      "name": "Dashboard JavaScript",
-      "image": "/images/cover.jpg",
-      "href": "https://example.com/js-dashboard"
+      "name": "JavaScript Flash Course",
+      "image": "https://image.thum.io/get/width/1200/crop/900/https://javascriptflashcourse.netlify.app/",
+      "href": "https://javascriptflashcourse.netlify.app/"
     },
     {
       "tech": "javascript",
-      "name": "Catalogo JavaScript",
-      "image": "/images/cover.jpg",
-      "href": "https://example.com/js-catalogo"
+      "name": "Task Manager Simple Time",
+      "image": "https://image.thum.io/get/width/1200/crop/900/https://taskmanagersimpletime.netlify.app/",
+      "href": "https://taskmanagersimpletime.netlify.app/"
     },
     {
       "tech": "javascript",
-      "name": "PrilsoTech",
-      "image": "/images/cover.jpg",
-      "href": "https://www.prilsotech.com"
+      "name": "Play Triqui",
+      "image": "https://image.thum.io/get/width/1200/crop/900/https://playtriqui.netlify.app/",
+      "href": "https://playtriqui.netlify.app/"
     },
     {
       "tech": "sass",
