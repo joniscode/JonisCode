@@ -15,11 +15,62 @@
     "learningTitle": "Current studies",
     "learningCopy": "I am strengthening my backend and cloud profile with Python, Java and AWS, while keeping Linux as part of my daily technical workflow.",
     "studies": [
-      ["Specialization in Artificial Intelligence", "In progress"],
-      ["Systems Engineering", "2025"],
-      ["Technologist in Analysis and Development of Information Systems", "2023"],
-      ["Full Stack Junior Java Bootcamp", "In progress"],
-      ["Basic Artificial Intelligence Bootcamp", "2025"]
+      {
+        "title": "Specialization in Artificial Intelligence",
+        "detail": "In progress: July 2026 - July 2027",
+        "logo": "/logos/Cun.png",
+        "logoAlt": "CUN",
+        "href": "https://cun.edu.co/especializacion-inteligencia-artificial/"
+      },
+      {
+        "title": "Specialization in Digital Transformation",
+        "detail": "In progress: January 2026 - December 2026",
+        "logo": "/logos/Cun.png",
+        "logoAlt": "CUN",
+        "href": "https://cun.edu.co/especializacion-transformacion-digital/"
+      },
+      {
+        "title": "Systems Engineering",
+        "detail": "Completed: September 2025",
+        "logo": "/logos/Cun.png",
+        "logoAlt": "CUN",
+        "href": "https://cun.edu.co/programa-ingenieria-de-sistemas/"
+      },
+      {
+        "title": "Technologist in Information Systems Analysis and Development",
+        "detail": "Completed: September 2023",
+        "logo": "/logos/Sena.png",
+        "logoAlt": "SENA",
+        "href": "https://betowa.sena.edu.co/oferta/analisis-y-desarrollo-de-software?programId=136456"
+      },
+      {
+        "title": "Junior Java Full Stack Bootcamp",
+        "detail": "In progress: May 2026 - August 2026",
+        "logo": "/logos/Generation.png",
+        "logoAlt": "Generation",
+        "href": "https://colombia.generation.org/desarrolladora-junior-full-stack-java/?_gl=1*1id1zgx*_up*MQ..*_gs*MQ..&gclid=CjwKCAjwmozTBhAeEiwAkEGZzuXbZbHdggIPOQxcJDFvqdj2vgT_f900flhzFR62deVQHLgdNb-tcRoC8gAQAvD_BwE&gbraid=0AAAAA93BdNGG1aCfmbz1tAI65CSfAXBxj"
+      },
+      {
+        "title": "Basic Artificial Intelligence Bootcamp",
+        "detail": "Completed: August 2025 - October 2025",
+        "logo": "/logos/TalentoTech.png",
+        "logoAlt": "Talento Tech",
+        "href": "https://talentotech.utinnova.co/"
+      },
+      {
+        "title": "Platzi",
+        "detail": "Continuous learning",
+        "logo": "/logos/Platzi.png",
+        "logoAlt": "Platzi",
+        "href": "https://platzi.com/"
+      },
+      {
+        "title": "Udemy",
+        "detail": "Continuous learning",
+        "logo": "/logos/Udemy.png",
+        "logoAlt": "Udemy",
+        "href": "https://www.udemy.com/?im_ref=zo4wFdUG1xyZRjLTvCxtWwwcUkuXs0yo00000w0&sharedid=14955&irpid=2436725&utm_medium=affiliate&utm_source=impact&utm_audience=mx&utm_tactic=%22Content%22%2C%22ROW%22&utm_content=3193860&utm_campaign=2436725&irgwc=1&afsrc=1&gad_source=1"
+      }
     ]
   },
   "es": {
@@ -32,17 +83,68 @@
     "headline": "Desarrollador Frontend",
     "summary": "Soy Jonathan Arevalo, desarrollador Front-End de Colombia. Construyo experiencias web limpias, reutilizables y escalables con React, Next.js, Angular, TypeScript y Tailwind CSS.",
     "detail": "Me enfoco en arquitectura frontend, microfrontends, ecommerce, automatización e integraciones que convierten ideas en productos digitales mantenibles.",
-    "years": "+5 años de experiencia",
+    "years": "+4 años de experiencia",
     "location": "Bogotá - Colombia",
     "contact": "Contáctame",
     "learningTitle": "Estudios actuales",
     "learningCopy": "Estoy fortaleciendo mi perfil backend y cloud con Python, Java y AWS, manteniendo Linux como parte de mi flujo técnico diario.",
     "studies": [
-      ["Especialización en Inteligencia Artificial", "En curso"],
-      ["Ingeniería de Sistemas", "2025"],
-      ["Tecnólogo en Análisis y Desarrollo de Sistemas de Información", "2023"],
-      ["Bootcamp Full Stack Junior Java", "En curso"],
-      ["Bootcamp de Inteligencia Artificial Básico", "2025"]
+      {
+        "title": "Especialización en Inteligencia Artificial",
+        "detail": "Actualmente Julio-2026 a Julio-2027",
+        "logo": "/logos/Cun.png",
+        "logoAlt": "CUN",
+        "href": "https://cun.edu.co/especializacion-inteligencia-artificial/"
+      },
+      {
+        "title": "Especialización en transformación digital",
+        "detail": "Actualmente Enero-2026 a Diciembre-2026",
+        "logo": "/logos/Cun.png",
+        "logoAlt": "CUN",
+        "href": "https://cun.edu.co/especializacion-transformacion-digital/"
+      },
+      {
+        "title": "Ingeniería de Sistemas",
+        "detail": "Culminado Septiembre-2025",
+        "logo": "/logos/Cun.png",
+        "logoAlt": "CUN",
+        "href": "https://cun.edu.co/programa-ingenieria-de-sistemas/"
+      },
+      {
+        "title": "Tecnólogo en Análisis y Desarrollo de Sistemas de Información",
+        "detail": "Culminado Septiembre-2023",
+        "logo": "/logos/Sena.png",
+        "logoAlt": "SENA",
+        "href": "https://betowa.sena.edu.co/oferta/analisis-y-desarrollo-de-software?programId=136456"
+      },
+      {
+        "title": "Bootcamp Full Stack Junior Java",
+        "detail": "Actualmente Mayo-2026 a Agosto-2026",
+        "logo": "/logos/Generation.png",
+        "logoAlt": "Generation",
+        "href": "https://colombia.generation.org/desarrolladora-junior-full-stack-java/?_gl=1*1id1zgx*_up*MQ..*_gs*MQ..&gclid=CjwKCAjwmozTBhAeEiwAkEGZzuXbZbHdggIPOQxcJDFvqdj2vgT_f900flhzFR62deVQHLgdNb-tcRoC8gAQAvD_BwE&gbraid=0AAAAA93BdNGG1aCfmbz1tAI65CSfAXBxj"
+      },
+      {
+        "title": "Bootcamp de Inteligencia Artificial Básico",
+        "detail": "Culminado Agosto-2025 a Octubre-2025",
+        "logo": "/logos/TalentoTech.png",
+        "logoAlt": "Talento Tech",
+        "href": "https://talentotech.utinnova.co/"
+      },
+      {
+        "title": "Platzi",
+        "detail": "Actualización constante",
+        "logo": "/logos/Platzi.png",
+        "logoAlt": "Platzi",
+        "href": "https://platzi.com/"
+      },
+      {
+        "title": "Udemy",
+        "detail": "Actualización constante",
+        "logo": "/logos/Udemy.png",
+        "logoAlt": "Udemy",
+        "href": "https://www.udemy.com/?im_ref=zo4wFdUG1xyZRjLTvCxtWwwcUkuXs0yo00000w0&sharedid=14955&irpid=2436725&utm_medium=affiliate&utm_source=impact&utm_audience=mx&utm_tactic=%22Content%22%2C%22ROW%22&utm_content=3193860&utm_campaign=2436725&irgwc=1&afsrc=1&gad_source=1"
+      }
     ]
   }
 }

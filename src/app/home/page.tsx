@@ -26,7 +26,7 @@ export default function PortfolioPage() {
   const t = COPY[language]
 
   return (
-    <div className="relative min-h-[100dvh] overflow-x-hidden bg-slate-50 text-slate-900 dark:bg-[#040914] dark:text-slate-100">
+    <div className="light-dot-grid relative min-h-[100dvh] overflow-x-hidden text-slate-900 dark:text-slate-100">
       <main className="relative">
         <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
           <ConstellationBackground quality="lite" />

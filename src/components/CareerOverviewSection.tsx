@@ -66,28 +66,43 @@ function SocialButton({
   )
 }
 
-function StudiesMarquee({ studies }: { studies: readonly string[][] }) {
+type StudyItem = {
+  title: string
+  detail: string
+  logo: string
+  logoAlt: string
+  href: string
+}
+
+function StudiesMarquee({ studies }: { studies: readonly StudyItem[] }) {
   const marqueeStudies = [...studies, ...studies]
 
   return (
     <div className="mt-8 overflow-hidden border-y border-cyan-500/25 py-4 [mask-image:linear-gradient(to_right,transparent,#000_8%,#000_92%,transparent)]">
       <ol className="flex w-max animate-study-marquee gap-4">
-        {marqueeStudies.map(([title, detail], index) => (
-          <li
-            key={`${title}-${index}`}
-            className="flex min-h-[76px] w-[280px] shrink-0 items-center rounded-sm border border-cyan-500/25 bg-white/88 p-3 text-slate-950 shadow-[0_12px_30px_rgba(15,23,42,0.08)] dark:bg-slate-950/50 dark:text-white"
-          >
-            <span className="min-w-0 flex-1">
-              <span className="block text-sm font-bold leading-5">{title}</span>
-              <span className="block text-xs text-slate-600 dark:text-cyan-100/75">{detail}</span>
-            </span>
+        {marqueeStudies.map((study, index) => (
+          <li key={study.title + '-' + index} className="h-24 w-[320px] shrink-0">
+            <a
+              href={study.href}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={study.title + ' - ' + study.logoAlt}
+              className="flex h-full items-center gap-4 rounded-sm border border-cyan-500/25 bg-white/88 p-3 text-slate-950 shadow-[0_12px_30px_rgba(15,23,42,0.08)] transition hover:-translate-y-0.5 hover:border-cyan-400/70 hover:bg-white hover:shadow-[0_16px_36px_rgba(14,165,233,0.16)] focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:bg-slate-950/50 dark:text-white dark:hover:border-cyan-300/60 dark:hover:bg-slate-900/72 dark:focus-visible:ring-offset-slate-950"
+            >
+              <span className="min-w-0 flex-1">
+                <span className="line-clamp-2 block text-sm font-bold leading-5">{study.title}</span>
+                <span className="mt-1 block text-xs font-semibold text-slate-600 dark:text-cyan-100/75">{study.detail}</span>
+              </span>
+              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-sm border border-slate-200 bg-white p-1.5 shadow-sm dark:border-white/10 dark:bg-white/95">
+                <Image src={study.logo} alt={study.logoAlt} width={40} height={40} className="max-h-9 w-auto object-contain" />
+              </span>
+            </a>
           </li>
         ))}
       </ol>
     </div>
   )
 }
-
 export default function CareerOverviewSection() {
   const { language } = useLanguage()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -100,17 +115,8 @@ export default function CareerOverviewSection() {
   return (
     <section
       id="home"
-      className="relative min-h-[calc(100dvh-1px)] overflow-hidden bg-white text-slate-950 dark:bg-[#040914] dark:text-slate-100"
+      className="relative min-h-[calc(100dvh-1px)] overflow-hidden bg-transparent text-slate-950 dark:bg-[#040914] dark:text-slate-100"
     >
-      <div
-        aria-hidden
-        className="absolute inset-0 opacity-65 dark:opacity-20"
-        style={{
-          backgroundImage: 'radial-gradient(circle, rgba(14,165,233,0.28) 1px, transparent 1px)',
-          backgroundSize: '18px 18px',
-        }}
-      />
-
       <header className="fixed left-0 right-0 top-0 z-[10000] border-b border-slate-200/70 bg-white/86 backdrop-blur-xl dark:border-white/10 dark:bg-[#040914]/82">
         <div className="relative mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 pr-28 sm:px-6 sm:pr-32 lg:px-8 lg:pr-36">
           <a href="#home" className="inline-flex items-center gap-2 text-2xl font-black">
