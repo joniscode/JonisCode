@@ -60,6 +60,8 @@ export default async function TechDetail({ params }: { params: Promise<{ slug: s
                 image={project.image}
                 href={project.href}
                 label={entry.label}
+                description={project.description}
+                download={project.download}
               />
             </div>
           ))}

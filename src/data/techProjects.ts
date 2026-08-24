@@ -5,6 +5,8 @@ export type TechProjectLink = {
   name: string
   image: string
   href: string
+  description?: string
+  download?: boolean
 }
 
 export type TechDefinition = {

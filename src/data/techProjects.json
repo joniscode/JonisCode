@@ -97,7 +97,8 @@
       "slug": "python",
       "label": "Python",
       "icon": "/icons/python.png",
-      "showInRing": true
+      "showInRing": true,
+      "showInGrid": true
     },
     {
       "slug": "java",
@@ -244,6 +245,14 @@
       "name": "Deploy GitHub",
       "image": "/images/cover.jpg",
       "href": "https://example.com/github-deploy"
+    },
+    {
+      "tech": "python",
+      "name": "Pos Siigo",
+      "image": "/project-img/prilsotech-pos-siigo.png",
+      "href": "https://github.com/joniscode/PosPrilsoTech/releases/download/v1.0.0/PrilsoPOS-Setup.exe",
+      "download": true,
+      "description": "Programa con funcionamiento POS para pequeños negocios con conexion a SIIGO para facturar desde alli sin necesidad de estar directamente en SIIGO"
     }
   ]
 }
