@@ -176,9 +176,9 @@
     },
     {
       "tech": "react",
-      "name": "Experiencia React",
-      "image": "/images/cover.jpg",
-      "href": "https://example.com/react-experiencia"
+      "name": "Juego Ahorcado",
+      "image": "https://image.thum.io/get/width/1200/crop/900/https://juegaahorcado.netlify.app/",
+      "href": "https://juegaahorcado.netlify.app/"
     },
     {
       "tech": "react",
