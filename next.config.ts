@@ -1,17 +1,11 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'media.giphy.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'image.thum.io',
-      },
-    ],
+  async redirects() {
+    return [
+      { source: '/home', destination: '/', permanent: false },
+      { source: '/tech/:slug', destination: '/#lab', permanent: false },
+    ]
   },
 }
 

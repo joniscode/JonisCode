@@ -17,7 +17,10 @@ function readInitialLanguage(): Language {
   if (typeof window === 'undefined') return 'en'
 
   const saved = window.localStorage.getItem('language')
-  return saved === 'es' || saved === 'en' ? saved : 'en'
+  if (saved === 'es' || saved === 'en') return saved
+
+  // Sin preferencia guardada: español si el navegador está en español, inglés en el resto.
+  return window.navigator.language.toLowerCase().startsWith('es') ? 'es' : 'en'
 }
 
 function applyDocumentLanguage(language: Language) {

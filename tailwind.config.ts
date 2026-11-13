@@ -1,33 +1,24 @@
-/** @type {import('tailwindcss').Config} */
-const config = {
-  darkMode: 'class',
-  content: [
-    'src/app/**/*.{js,ts,jsx,tsx}',
-    'src/components/**/*.{js,ts,jsx,tsx}',
-  ],
+import type { Config } from 'tailwindcss'
+
+const config: Config = {
+  content: ['src/app/**/*.{js,ts,jsx,tsx}', 'src/components/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       colors: {
-        primary: {
-          900: '#040D21',
-          800: '#061833',
-          700: '#0B2A5A',
-          500: '#5A688E',
-        },
-        accent: {
-          400: '#13B0F5',
-          500: '#2F80ED',
-        },
-        'text-secondary': '#94A3B8',
-        callout: '#FF7754',
+        bg: 'rgb(var(--bg) / <alpha-value>)',
+        surface: 'rgb(var(--surface) / <alpha-value>)',
+        ink: 'rgb(var(--ink) / <alpha-value>)',
+        muted: 'rgb(var(--muted) / <alpha-value>)',
+        accent: 'rgb(var(--accent) / <alpha-value>)',
+        warn: 'rgb(var(--warn) / <alpha-value>)',
       },
-      backgroundImage: {
-        'hero-gradient':
-          'linear-gradient(135deg, #13B0F5 0%, #2F80ED 100%)',
+      fontFamily: {
+        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+        mono: ['var(--font-mono)', 'ui-monospace', 'monospace'],
       },
     },
   },
   plugins: [],
-};
+}
 
-export default config;
+export default config

@@ -1,0 +1,631 @@
+{
+  "profile": {
+    "name": "Jonathan Arevalo",
+    "nameLines": [
+      "Jonathan",
+      "Arevalo"
+    ],
+    "brand": "JonisCode",
+    "location": "Bogotá, Colombia"
+  },
+  "meta": {
+    "title": "Jonathan Arevalo — Frontend Developer",
+    "description": "Frontend Developer from Bogotá, Colombia. 4+ years building microfrontends and web platforms with React, Next.js and Angular. Open to remote roles.",
+    "ogLabel": "FRONTEND DEVELOPER · BOGOTÁ, COLOMBIA",
+    "ogStack": "React · Next.js · Angular · Microfrontends · AI"
+  },
+  "links": {
+    "github": "https://github.com/joniscode",
+    "linkedin": "https://www.linkedin.com/in/jonathan--arevalo/",
+    "cv": "/pdf/cv.pdf"
+  },
+  "ui": {
+    "es": {
+      "sections": "Secciones",
+      "switchLanguage": "Switch to English",
+      "switchTo": "EN",
+      "cv": "CV"
+    },
+    "en": {
+      "sections": "Sections",
+      "switchLanguage": "Cambiar a español",
+      "switchTo": "ES",
+      "cv": "CV"
+    }
+  },
+  "nav": {
+    "es": [
+      {
+        "href": "#work",
+        "label": "Trabajo"
+      },
+      {
+        "href": "#stack",
+        "label": "Stack"
+      },
+      {
+        "href": "#education",
+        "label": "Formación"
+      },
+      {
+        "href": "#lab",
+        "label": "Lab"
+      },
+      {
+        "href": "#contact",
+        "label": "Contacto"
+      }
+    ],
+    "en": [
+      {
+        "href": "#work",
+        "label": "Work"
+      },
+      {
+        "href": "#stack",
+        "label": "Stack"
+      },
+      {
+        "href": "#education",
+        "label": "Education"
+      },
+      {
+        "href": "#lab",
+        "label": "Lab"
+      },
+      {
+        "href": "#contact",
+        "label": "Contact"
+      }
+    ]
+  },
+  "hero": {
+    "es": {
+      "label": "Frontend Developer · Bogotá, Colombia · Remoto",
+      "pitch": "Construyo microfrontends y plataformas web con React, Next.js y Angular. Ahora sumo IA y automatización a ese trabajo.",
+      "ctaWork": "Ver trabajo",
+      "ctaCv": "Descargar CV",
+      "scroll": "Desliza",
+      "statement": "Interfaces que cargan rápido, se mantienen fácil y crecen sin reescribirse.",
+      "facts": [
+        {
+          "value": "4+",
+          "label": "años en frontend"
+        },
+        {
+          "value": "3",
+          "label": "empresas: VASS, Prilso, Indra"
+        },
+        {
+          "value": "IA",
+          "label": "especialización en curso"
+        }
+      ]
+    },
+    "en": {
+      "label": "Frontend Developer · Bogotá, Colombia · Remote",
+      "pitch": "I build microfrontends and web platforms with React, Next.js and Angular. Now adding AI and automation to that work.",
+      "ctaWork": "See work",
+      "ctaCv": "Download CV",
+      "scroll": "Scroll",
+      "statement": "Interfaces that load fast, stay maintainable and grow without rewrites.",
+      "facts": [
+        {
+          "value": "4+",
+          "label": "years in frontend"
+        },
+        {
+          "value": "3",
+          "label": "companies: VASS, Prilso, Indra"
+        },
+        {
+          "value": "AI",
+          "label": "specialization in progress"
+        }
+      ]
+    }
+  },
+  "casesCopy": {
+    "es": {
+      "word": "Trabajo",
+      "eyebrow": "Trabajo seleccionado",
+      "title": "Dónde he construido",
+      "intro": "Son proyectos bajo confidencialidad: en lugar de capturas, muestro la arquitectura y mi aporte.",
+      "challenge": "Reto",
+      "work": "Mi aporte",
+      "example": "Ejemplo · reemplazar"
+    },
+    "en": {
+      "word": "Work",
+      "eyebrow": "Selected work",
+      "title": "Where I have built",
+      "intro": "These projects are under NDA: instead of screenshots, I show the architecture and my contribution.",
+      "challenge": "Challenge",
+      "work": "My contribution",
+      "example": "Example · replace"
+    }
+  },
+  "cases": [
+    {
+      "id": "vass",
+      "company": "VASS Company",
+      "diagram": "microfrontends",
+      "stack": [
+        "Microfrontends",
+        "REST",
+        "GraphQL",
+        "Performance"
+      ],
+      "period": {
+        "es": "Oct 2025 — Presente",
+        "en": "Oct 2025 — Present"
+      },
+      "sector": {
+        "es": "Salud",
+        "en": "Healthcare"
+      },
+      "role": {
+        "es": "Desarrollador Front-End",
+        "en": "Front-End Developer"
+      },
+      "title": {
+        "es": "Microfrontends para autoadmisión y agenda médica",
+        "en": "Microfrontends for self-admission and medical scheduling"
+      },
+      "challenge": {
+        "es": "Flujos que usan pacientes a diario y que deben evolucionar por separado sin romper el resto de la plataforma.",
+        "en": "Flows patients use every day that must evolve independently without breaking the rest of the platform."
+      },
+      "work": {
+        "es": "Desarrollo y mantengo los microfrontends de ambos flujos, integrando APIs REST y GraphQL con foco en rendimiento y calidad de entrega.",
+        "en": "I build and maintain the microfrontends for both flows, integrating REST and GraphQL APIs with a focus on performance and delivery quality."
+      },
+      "metrics": [
+        {
+          "value": "−35%",
+          "label": {
+            "es": "tiempo de carga inicial",
+            "en": "initial load time"
+          },
+          "example": true
+        },
+        {
+          "value": "6",
+          "label": {
+            "es": "microfrontends en producción",
+            "en": "microfrontends in production"
+          },
+          "example": true
+        }
+      ]
+    },
+    {
+      "id": "prilso",
+      "company": "Prilso S.A.S.",
+      "diagram": "migration",
+      "stack": [
+        "Next.js",
+        "React",
+        "JWT",
+        "GitHub Actions",
+        "Vercel"
+      ],
+      "period": {
+        "es": "Ene 2025 — Sep 2025",
+        "en": "Jan 2025 — Sep 2025"
+      },
+      "sector": {
+        "es": "Producto digital",
+        "en": "Digital product"
+      },
+      "role": {
+        "es": "Desarrollador Front-End",
+        "en": "Front-End Developer"
+      },
+      "title": {
+        "es": "Migración de la plataforma web a Next.js",
+        "en": "Migrating the web platform to Next.js"
+      },
+      "challenge": {
+        "es": "Una plataforma que necesitaba una base moderna, acceso controlado por roles y despliegues que no dependieran de pasos manuales.",
+        "en": "A platform that needed a modern foundation, role-based access and deployments that did not depend on manual steps."
+      },
+      "work": {
+        "es": "Migré la plataforma a Next.js con componentes reutilizables, autenticación JWT y control de acceso, y automaticé los despliegues con GitHub Actions y Vercel.",
+        "en": "I migrated the platform to Next.js with reusable components, JWT authentication and access control, and automated deployments with GitHub Actions and Vercel."
+      },
+      "metrics": [
+        {
+          "value": "100%",
+          "label": {
+            "es": "de la plataforma migrada",
+            "en": "of the platform migrated"
+          },
+          "example": true
+        },
+        {
+          "value": "<10 min",
+          "label": {
+            "es": "de commit a producción",
+            "en": "from commit to production"
+          },
+          "example": true
+        }
+      ]
+    },
+    {
+      "id": "indra",
+      "company": "Indra Colombia",
+      "diagram": "portal",
+      "stack": [
+        "Liferay DXP",
+        "Angular",
+        "React",
+        "TypeScript"
+      ],
+      "period": {
+        "es": "Oct 2022 — Dic 2024",
+        "en": "Oct 2022 — Dec 2024"
+      },
+      "sector": {
+        "es": "Portales corporativos",
+        "en": "Enterprise portals"
+      },
+      "role": {
+        "es": "Desarrollador Liferay DXP Front-End",
+        "en": "Liferay DXP Front-End Developer"
+      },
+      "title": {
+        "es": "Módulos y microfrontends sobre Liferay DXP",
+        "en": "Modules and microfrontends on Liferay DXP"
+      },
+      "challenge": {
+        "es": "Portales corporativos donde conviven módulos de distintos equipos y tecnologías dentro de una misma plataforma.",
+        "en": "Enterprise portals where modules from different teams and technologies live inside one platform."
+      },
+      "work": {
+        "es": "Desarrollé módulos escalables y microfrontends con Angular, React y TypeScript, optimizando rendimiento y aplicando buenas prácticas de código.",
+        "en": "I built scalable modules and microfrontends with Angular, React and TypeScript, optimizing performance and applying clean code practices."
+      },
+      "metrics": [
+        {
+          "value": "20+",
+          "label": {
+            "es": "módulos entregados",
+            "en": "modules delivered"
+          },
+          "example": true
+        },
+        {
+          "value": "2+",
+          "label": {
+            "es": "años en el mismo producto",
+            "en": "years on the same product"
+          },
+          "example": true
+        }
+      ]
+    }
+  ],
+  "diagrams": {
+    "es": {
+      "shell": "App Shell",
+      "selfAdmission": "Autoadmisión",
+      "scheduling": "Agenda médica",
+      "sharedUi": "UI compartida",
+      "previous": "Plataforma anterior",
+      "migration": "migración",
+      "auth": "JWT · roles",
+      "deploy": "deploy",
+      "portal": "Liferay DXP",
+      "angularModule": "Módulo Angular",
+      "reactModule": "Módulo React",
+      "shared": "Componentes compartidos · TypeScript"
+    },
+    "en": {
+      "shell": "App Shell",
+      "selfAdmission": "Self-admission",
+      "scheduling": "Scheduling",
+      "sharedUi": "Shared UI",
+      "previous": "Previous platform",
+      "migration": "migration",
+      "auth": "JWT · roles",
+      "deploy": "deploy",
+      "portal": "Liferay DXP",
+      "angularModule": "Angular module",
+      "reactModule": "React module",
+      "shared": "Shared components · TypeScript"
+    }
+  },
+  "stackCopy": {
+    "es": {
+      "eyebrow": "Stack",
+      "title": "Con qué trabajo"
+    },
+    "en": {
+      "eyebrow": "Stack",
+      "title": "What I work with"
+    }
+  },
+  "stack": [
+    {
+      "group": {
+        "es": "Frontend",
+        "en": "Frontend"
+      },
+      "items": [
+        "React",
+        "Next.js",
+        "Angular",
+        "Vue",
+        "TypeScript",
+        "JavaScript",
+        "Tailwind CSS",
+        "Sass",
+        "Bootstrap"
+      ]
+    },
+    {
+      "group": {
+        "es": "Arquitectura",
+        "en": "Architecture"
+      },
+      "items": [
+        "Microfrontends",
+        "REST",
+        "GraphQL",
+        "JWT"
+      ]
+    },
+    {
+      "group": {
+        "es": "Plataformas",
+        "en": "Platforms"
+      },
+      "items": [
+        "Liferay DXP",
+        "Magento"
+      ]
+    },
+    {
+      "group": {
+        "es": "Herramientas",
+        "en": "Tooling"
+      },
+      "items": [
+        "Git · GitHub",
+        "GitHub Actions",
+        "Vercel",
+        "Postman",
+        "Linux",
+        "Docker"
+      ]
+    },
+    {
+      "group": {
+        "es": "IA y automatización",
+        "en": "AI & automation"
+      },
+      "items": [
+        "n8n",
+        "Zapier"
+      ]
+    },
+    {
+      "group": {
+        "es": "En formación",
+        "en": "Learning"
+      },
+      "items": [
+        "Python",
+        "Java",
+        "AWS"
+      ]
+    }
+  ],
+  "educationCopy": {
+    "es": {
+      "eyebrow": "Formación",
+      "title": "De sistemas a inteligencia artificial",
+      "inProgress": "En curso",
+      "completed": "Finalizado",
+      "footnote": "Aprendizaje continuo en Platzi y Udemy."
+    },
+    "en": {
+      "eyebrow": "Education",
+      "title": "From systems to artificial intelligence",
+      "inProgress": "In progress",
+      "completed": "Completed",
+      "footnote": "Continuous learning on Platzi and Udemy."
+    }
+  },
+  "education": [
+    {
+      "title": {
+        "es": "Especialización en Inteligencia Artificial",
+        "en": "Specialization in Artificial Intelligence"
+      },
+      "school": "CUN",
+      "period": {
+        "es": "Jul 2026 — Jul 2027",
+        "en": "Jul 2026 — Jul 2027"
+      },
+      "done": false,
+      "href": "https://cun.edu.co/especializacion-inteligencia-artificial/"
+    },
+    {
+      "title": {
+        "es": "Especialización en Transformación Digital",
+        "en": "Specialization in Digital Transformation"
+      },
+      "school": "CUN",
+      "period": {
+        "es": "Ene 2026 — Dic 2026",
+        "en": "Jan 2026 — Dec 2026"
+      },
+      "done": false,
+      "href": "https://cun.edu.co/especializacion-transformacion-digital/"
+    },
+    {
+      "title": {
+        "es": "Bootcamp Java Full Stack Junior",
+        "en": "Junior Java Full Stack Bootcamp"
+      },
+      "school": "Generation",
+      "period": {
+        "es": "May 2026 — Ago 2026",
+        "en": "May 2026 — Aug 2026"
+      },
+      "done": true,
+      "href": "https://colombia.generation.org/desarrolladora-junior-full-stack-java/"
+    },
+    {
+      "title": {
+        "es": "Ingeniería de Sistemas",
+        "en": "Systems Engineering"
+      },
+      "school": "CUN",
+      "period": {
+        "es": "Sep 2025",
+        "en": "Sep 2025"
+      },
+      "done": true,
+      "href": "https://cun.edu.co/programa-ingenieria-de-sistemas/"
+    },
+    {
+      "title": {
+        "es": "Bootcamp de Inteligencia Artificial (básico)",
+        "en": "Artificial Intelligence Bootcamp (basic)"
+      },
+      "school": "Talento Tech",
+      "period": {
+        "es": "Ago 2025 — Oct 2025",
+        "en": "Aug 2025 — Oct 2025"
+      },
+      "done": true,
+      "href": "https://talentotech.utinnova.co/"
+    },
+    {
+      "title": {
+        "es": "Tecnólogo en Análisis y Desarrollo de Sistemas de Información",
+        "en": "Technologist in Information Systems Analysis and Development"
+      },
+      "school": "SENA",
+      "period": {
+        "es": "Sep 2023",
+        "en": "Sep 2023"
+      },
+      "done": true,
+      "href": "https://betowa.sena.edu.co/oferta/analisis-y-desarrollo-de-software?programId=136456"
+    }
+  ],
+  "labCopy": {
+    "es": {
+      "eyebrow": "Lab",
+      "title": "Proyectos propios y de práctica",
+      "intro": "Lo que sí puedo mostrar: producto propio y ejercicios con los que he aprendido.",
+      "download": "Descargar"
+    },
+    "en": {
+      "eyebrow": "Lab",
+      "title": "Own and practice projects",
+      "intro": "What I can show: my own product and the exercises I have learned with.",
+      "download": "Download"
+    }
+  },
+  "lab": [
+    {
+      "name": "POS Siigo",
+      "tech": "Python",
+      "href": "https://github.com/joniscode/posdescargable/raw/main/PrilsoPOS-Setup.exe",
+      "download": true,
+      "description": {
+        "es": "POS de escritorio para pequeños negocios, conectado a Siigo para facturar sin entrar a Siigo.",
+        "en": "Desktop POS for small businesses, connected to Siigo to invoice without opening Siigo."
+      }
+    },
+    {
+      "name": "PrilsoTech",
+      "tech": "Web",
+      "href": "https://www.prilsotech.com",
+      "description": {
+        "es": "Sitio de soluciones digitales para negocios.",
+        "en": "Website for digital solutions for businesses."
+      }
+    },
+    {
+      "name": "Juego Ahorcado",
+      "tech": "React",
+      "href": "https://juegaahorcado.netlify.app/",
+      "description": {
+        "es": "Juego del ahorcado en el navegador.",
+        "en": "Hangman game in the browser."
+      }
+    },
+    {
+      "name": "Task Manager Simple Time",
+      "tech": "JavaScript",
+      "href": "https://taskmanagersimpletime.netlify.app/",
+      "description": {
+        "es": "Gestor de tareas con control de tiempo.",
+        "en": "Task manager with time tracking."
+      }
+    },
+    {
+      "name": "JavaScript Flash Course",
+      "tech": "JavaScript",
+      "href": "https://javascriptflashcourse.netlify.app/",
+      "description": {
+        "es": "Curso rápido de JavaScript.",
+        "en": "JavaScript crash course."
+      }
+    },
+    {
+      "name": "Play Triqui",
+      "tech": "JavaScript",
+      "href": "https://playtriqui.netlify.app/",
+      "description": {
+        "es": "Triqui (tres en línea) para dos jugadores.",
+        "en": "Tic-tac-toe for two players."
+      }
+    },
+    {
+      "name": "EcoStore",
+      "tech": "Sass",
+      "href": "https://ecostoresass.netlify.app/",
+      "description": {
+        "es": "Tienda maquetada con arquitectura Sass.",
+        "en": "Storefront built with a Sass architecture."
+      }
+    },
+    {
+      "name": "Tienda Muebles",
+      "tech": "Bootstrap 5",
+      "href": "https://tiendamueblesboostrap5.netlify.app/",
+      "description": {
+        "es": "Tienda de muebles con Bootstrap 5.",
+        "en": "Furniture store with Bootstrap 5."
+      }
+    }
+  ],
+  "contact": {
+    "es": {
+      "eyebrow": "Contacto",
+      "title": "Hablemos.",
+      "copy": "Disponible para roles frontend remotos, en Colombia o en equipos internacionales.",
+      "email": "Escríbeme",
+      "whatsapp": "WhatsApp",
+      "cv": "Descargar CV",
+      "portraitAlt": "Ilustración de Jonathan Arevalo"
+    },
+    "en": {
+      "eyebrow": "Contact",
+      "title": "Let's talk.",
+      "copy": "Available for remote frontend roles, in Colombia or with international teams.",
+      "email": "Email me",
+      "whatsapp": "WhatsApp",
+      "cv": "Download CV",
+      "portraitAlt": "Illustration of Jonathan Arevalo"
+    }
+  }
+}

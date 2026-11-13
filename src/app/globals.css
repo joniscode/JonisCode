@@ -2,119 +2,55 @@
 @tailwind components;
 @tailwind utilities;
 
-:root { --bg: #ffffff; --text: #0f172a; }
-.dark { --bg: #0b1220; --text: #e5e7eb; }
+:root {
+  --bg: 6 9 15;
+  --surface: 11 17 26;
+  --ink: 233 237 242;
+  --muted: 138 148 166;
+  --accent: 25 224 208;
 
-@layer utilities {
-
-  @keyframes vertical-bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-  }
-
-  @keyframes horizontal-nudge {
-    0%, 100% { transform: translateX(0); }
-    50% { transform: translateX(8px); }
-  }
-
-  @keyframes brand-loader-pulse {
-    0%, 100% { opacity: 0.72; }
-    50% { opacity: 1; }
-  }
-
-  @keyframes brand-loader-stroke {
-    0% {
-      stroke-dasharray: 50 250;
-      stroke-dashoffset: 0;
-    }
-    50% {
-      stroke-dasharray: 105 250;
-      stroke-dashoffset: -110;
-    }
-    100% {
-      stroke-dasharray: 50 250;
-      stroke-dashoffset: -220;
-    }
-  }
-
-  @keyframes study-marquee {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
-
-  @keyframes profile-float {
-    0%, 100% { transform: translateY(0) rotate(-1deg); }
-    50% { transform: translateY(-8px) rotate(1.5deg); }
-  }
-
-  @keyframes profile-shine {
-    0% { transform: translateX(-135%) rotate(18deg); opacity: 0; }
-    18% { opacity: 0.45; }
-    42%, 100% { transform: translateX(135%) rotate(18deg); opacity: 0; }
-  }
-
-  .animate-vertical-bounce {
-    animation: vertical-bounce 1.6s ease-in-out infinite;
-  }
-
-  .animate-horizontal-nudge {
-    animation: horizontal-nudge 1.35s ease-in-out infinite;
-  }
-
-  .animate-brand-loader-pulse {
-    animation: brand-loader-pulse 2.4s ease-in-out infinite;
-  }
-
-  .animate-brand-loader-stroke {
-    stroke-dasharray: 50 250;
-    stroke-dashoffset: 0;
-    animation: brand-loader-stroke 1.85s linear infinite;
-  }
-
-  .animate-study-marquee {
-    animation: study-marquee 35s linear infinite;
-  }
-
-  .animate-profile-float {
-    animation: profile-float 5.8s ease-in-out infinite;
-  }
-
-  .animate-profile-shine {
-    animation: profile-shine 4.8s ease-in-out infinite;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .animate-vertical-bounce { animation: none !important; }
-    .animate-horizontal-nudge { animation: none !important; }
-    .animate-brand-loader-pulse { animation: none !important; opacity: 1 !important; }
-    .animate-brand-loader-stroke { animation: none !important; }
-    .animate-study-marquee { animation: none !important; }
-    .animate-profile-float { animation: none !important; }
-    .animate-profile-shine { animation: none !important; }
-  }
+  /* Degradado de la red neuronal (colores del logo) */
+  --net-from: #19e0d0;
+  --net-via: #1667e8;
+  --net-to: #ff7a45;
+  --net-line: rgb(255 255 255 / 0.3);
+  --net-node: #ffffff;
+  --warn: 253 186 116;
+  color-scheme: dark;
 }
 
-@layer utilities {
-  .text-gradient-gpt {
-    background-image: linear-gradient(89.97deg, #00D9D2 1.84%, #0B74E5 72%, #FF7754 102.67%);
-    -webkit-background-clip: text;
-            background-clip: text;
-    color: transparent;
-    -webkit-text-fill-color: transparent; /* Safari */
+html {
+  background: rgb(var(--bg));
+  scroll-behavior: smooth;
+}
+
+body {
+  background: rgb(var(--bg));
+  color: rgb(var(--ink));
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: rgb(var(--accent));
+  color: rgb(var(--bg));
+}
+
+:focus-visible {
+  outline: 2px solid rgb(var(--accent));
+  outline-offset: 3px;
+}
+
+/* Diagramas de arquitectura (estáticos) */
+.dg-line {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.25;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
-  .scrollbar-gutter-stable { scrollbar-gutter: stable both-edges; }
-}
-
-.no-scrollbar::-webkit-scrollbar { display: none; }
-.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-.light-dot-grid {
-  background-color: #f8fafc;
-  background-image: radial-gradient(circle, rgba(14, 165, 233, 0.28) 1px, transparent 1px);
-  background-size: 18px 18px;
-}
-
-.dark .light-dot-grid {
-  background-color: #040914;
-  background-image: none;
 }
